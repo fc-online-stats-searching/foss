@@ -16,7 +16,7 @@
         android:theme="@style/Theme.TeamProject"
         tools:targetApi="31">
         <activity
-            android:name=".feature.statsearching.StatsActivity"
+            android:name="com.foss.foss.feature.statsearching.StatsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

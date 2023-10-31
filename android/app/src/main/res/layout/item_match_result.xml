@@ -7,7 +7,7 @@
 
         <variable
             name="matchResult"
-            type="com.example.teamproject.model.MatchResultUiModel" />
+            type="com.foss.foss.model.MatchResultUiModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
