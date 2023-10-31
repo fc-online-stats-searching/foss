@@ -25,6 +25,9 @@ jobs:
         echo "server.url=\"secret\"" >> local.properties
         echo "server.authorization=\"secret\"" >> local.properties
 
+    - name: Make gradlew executable
+      run: chmod +x ./gradlew
+
     - name: Run test
       working-directory: ./android
       run: ./gradlew test
