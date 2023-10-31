@@ -1,4 +1,4 @@
-import com.searchingstats.model.User
+import com.foss.foss.model.User
 
 object UserFixture {
 

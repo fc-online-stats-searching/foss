@@ -1,13 +1,13 @@
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.teamproject.feature.statsearching.StatsEvent
-import com.example.teamproject.feature.statsearching.StatsUiState
-import com.example.teamproject.feature.statsearching.StatsViewModel
-import com.example.teamproject.model.mapper.MatchMapper.toUiModel
-import com.searchingstats.model.MatchType
-import com.searchingstats.model.MatchesResult
-import com.searchingstats.repository.MatchRepository
-import com.searchingstats.repository.UserRepository
+import com.foss.foss.feature.statsearching.StatsEvent
+import com.foss.foss.feature.statsearching.StatsUiState
+import com.foss.foss.feature.statsearching.StatsViewModel
+import com.foss.foss.model.MatchType
+import com.foss.foss.model.MatchesResult
+import com.foss.foss.model.mapper.MatchMapper.toUiModel
+import com.foss.foss.repository.MatchRepository
+import com.foss.foss.repository.UserRepository
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers

@@ -1,6 +1,7 @@
-import com.searchingstats.model.MatchResult
-import com.searchingstats.model.MatchType
-import com.searchingstats.model.WinDrawLose
+import com.foss.foss.model.MatchResult
+import com.foss.foss.model.MatchType
+import com.foss.foss.model.Score
+import com.foss.foss.model.WinDrawLose
 
 object MatchFixture {
 
@@ -9,6 +10,10 @@ object MatchFixture {
     fun createMatchResult() = MatchResult(
         matchType = MatchType.OFFICIAL,
         otherSideNickname = "Lillie Cherry",
-        winDrawLose = WinDrawLose.WIN
+        winDrawLose = WinDrawLose.WIN,
+        score = Score(
+            point = 2,
+            otherPoint = 0
+        )
     )
 }
