@@ -3,8 +3,8 @@ package com.foss.foss.feature.statsearching
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.teamproject.R
-import com.example.teamproject.databinding.ItemMatchResultBinding
+import com.foss.foss.R
+import com.foss.foss.databinding.ItemMatchResultBinding
 import com.foss.foss.model.MatchResultUiModel
 
 class MatchResultViewHolder(

@@ -1,6 +1,6 @@
 package com.foss.foss.di
 
-import com.example.teamproject.BuildConfig
+import com.foss.foss.BuildConfig
 import com.foss.foss.data.datasource.MatchRemoteDataSource
 import com.foss.foss.data.datasource.UserRemoteDataSource
 import com.foss.foss.data.service.MatchService

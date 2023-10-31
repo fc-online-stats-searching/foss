@@ -5,8 +5,8 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.example.teamproject.R
-import com.example.teamproject.databinding.ActivityStatsBinding
+import com.foss.foss.R
+import com.foss.foss.databinding.ActivityStatsBinding
 import com.foss.foss.di.ViewModelFactoryProvider
 
 class StatsActivity : AppCompatActivity() {

@@ -12,6 +12,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "teamProject"
+rootProject.name = "foss"
 include ':app'
 include ':domain'
