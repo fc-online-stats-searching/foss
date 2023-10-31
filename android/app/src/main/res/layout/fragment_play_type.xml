@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".feature.PlayTypeFragment"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/nickName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="47dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:height="70dp"
+                    android:background="@color/cream"
+                    android:backgroundTint="@color/cream"
+                    android:gravity="center"
+                    android:lineHeight="70sp"
+                    android:text="TextView"
+                    android:textSize="24dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"
+                android:layout_marginVertical="3dp"
+                android:background="@color/gray_blue"
+                android:backgroundTint="@color/gray_blue"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="5dp"
+                android:background="@color/cream"
+                android:backgroundTint="@color/cream"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="89dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="역대 최고 등급 :"
+                    android:textAlignment="center"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="1dp"
+                    android:layout_height="130dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    tools:src="@drawable/eight" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:orientation="horizontal"
+                android:background="@color/cream"
+                android:backgroundTint="@color/cream">
+
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:padding="3dp"
+                    android:text="평균 슛팅 수:"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/avgShoot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:padding="3dp"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:orientation="horizontal"
+                android:background="@color/cream"
+                android:backgroundTint="@color/cream">
+
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:padding="3dp"
+                    android:text="중거리 슛 횟수:"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/longShoot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:padding="3dp"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="5dp"
+                android:orientation="horizontal"
+                android:background="@color/cream"
+                android:backgroundTint="@color/cream">
+
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:padding="3dp"
+                    android:text="박스 안 슈팅 횟수:"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/boxShoot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:padding="3dp"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:orientation="horizontal"
+                android:background="@color/cream"
+                android:backgroundTint="@color/cream">
+
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:padding="3dp"
+                    android:text="짧은 패스 횟수:"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/shortPass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:padding="3dp"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:orientation="horizontal"
+                android:background="@color/cream"
+                android:backgroundTint="@color/cream">
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:padding="3dp"
+                    android:text="긴 패스 횟수:"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/longPass"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:padding="3dp"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:orientation="horizontal"
+                android:background="@color/cream"
+                android:backgroundTint="@color/cream">
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:padding="3dp"
+                    android:text="스루 패스 횟수:"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/through_pass"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:padding="3dp"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</ScrollView>
