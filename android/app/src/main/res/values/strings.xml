@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">teamProject</string>
+    <string name="app_name">foss</string>
     <string name="title_activity_opp_row">opp_row</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace "com.example.teamproject"
+    namespace "com.foss.foss"
     compileSdk 33
 
     buildFeatures{
@@ -13,7 +13,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.teamproject"
+        applicationId "com.foss.foss"
         minSdk 30
         targetSdk 33
         versionCode 1

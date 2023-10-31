@@ -6,7 +6,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.statsearching.StatsActivity">
+        tools:context="com.foss.foss.feature.statsearching.StatsActivity">
 
         <EditText
             android:id="@+id/stats_et_nickname"
