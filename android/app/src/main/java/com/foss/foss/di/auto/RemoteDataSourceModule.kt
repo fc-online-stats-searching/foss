@@ -1,8 +1,9 @@
-package com.foss.foss
+package com.foss.foss.di.auto
 
 import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Provides
 import com.boogiwoogi.woogidi.pure.Singleton
+import com.foss.foss.BuildConfig
 import com.foss.foss.data.service.MatchService
 import com.foss.foss.data.service.UserService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory

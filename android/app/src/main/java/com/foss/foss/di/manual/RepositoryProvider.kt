@@ -1,4 +1,4 @@
-package com.foss.foss.di
+package com.foss.foss.di.manual
 
 import com.foss.foss.data.repository.DefaultMatchRepository
 import com.foss.foss.data.repository.DefaultUserRepository
