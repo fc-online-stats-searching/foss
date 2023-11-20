@@ -70,8 +70,8 @@ class StatsViewModel(
                 .fetchMatchResult(
                     userAccessId = accessId,
                     matchId = matchId
-                ).onSuccess {
-                    results.add(it)
+                ).onSuccess { matchResult ->
+                    results.add(matchResult)
                 }
         }
         updateMatchesResult(results)

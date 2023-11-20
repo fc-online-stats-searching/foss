@@ -2,23 +2,23 @@ package com.foss.foss.feature.statsearching
 
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.boogiwoogi.woogidi.activity.DiActivity
+import com.boogiwoogi.woogidi.pure.DefaultModule
+import com.boogiwoogi.woogidi.pure.Module
+import com.di.woogidi.viewmodel.diViewModels
 import com.foss.foss.R
 import com.foss.foss.databinding.ActivityStatsBinding
-import com.foss.foss.di.ViewModelFactoryProvider
 
-class StatsActivity : AppCompatActivity() {
+class StatsActivity : DiActivity() {
 
     private lateinit var binding: ActivityStatsBinding
 
-    private val adapter: StatsAdapter by lazy {
-        StatsAdapter()
-    }
-    private val viewModel: StatsViewModel by viewModels {
-        ViewModelFactoryProvider.statsViewModelFactory
-    }
+    override val module: Module by lazy { DefaultModule() }
+
+    private val adapter: StatsAdapter by lazy { StatsAdapter() }
+
+    private val viewModel: StatsViewModel by diViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

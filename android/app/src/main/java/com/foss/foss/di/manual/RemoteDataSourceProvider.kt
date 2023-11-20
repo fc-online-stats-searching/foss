@@ -1,4 +1,4 @@
-package com.foss.foss.di
+package com.foss.foss.di.manual
 
 import com.foss.foss.BuildConfig
 import com.foss.foss.data.datasource.MatchRemoteDataSource
