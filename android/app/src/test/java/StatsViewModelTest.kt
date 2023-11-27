@@ -1,8 +1,8 @@
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.foss.foss.feature.statsearching.StatsEvent
-import com.foss.foss.feature.statsearching.StatsUiState
-import com.foss.foss.feature.statsearching.StatsViewModel
+import com.foss.foss.feature.statsearching.legacy.StatsEvent
+import com.foss.foss.feature.statsearching.legacy.StatsUiState
+import com.foss.foss.feature.statsearching.legacy.StatsViewModel
 import com.foss.foss.model.MatchType
 import com.foss.foss.model.MatchesResult
 import com.foss.foss.model.mapper.MatchMapper.toUiModel

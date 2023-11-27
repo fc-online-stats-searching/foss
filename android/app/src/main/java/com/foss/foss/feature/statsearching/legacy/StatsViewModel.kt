@@ -1,4 +1,4 @@
-package com.foss.foss.feature.statsearching
+package com.foss.foss.feature.statsearching.legacy
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

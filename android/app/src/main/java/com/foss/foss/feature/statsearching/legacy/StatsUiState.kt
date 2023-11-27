@@ -1,4 +1,4 @@
-package com.foss.foss.feature.statsearching
+package com.foss.foss.feature.statsearching.legacy
 
 import com.foss.foss.model.MatchResultUiModel
 

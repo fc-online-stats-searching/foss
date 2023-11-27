@@ -1,4 +1,4 @@
-package com.foss.foss.feature.statsearching
+package com.foss.foss.feature.statsearching.legacy
 
 import android.os.Bundle
 import android.widget.Toast

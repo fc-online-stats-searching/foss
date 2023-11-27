@@ -81,10 +81,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    // bottom navigation
-    implementation 'androidx.navigation:navigation-fragment:2.7.5'
-    implementation 'androidx.navigation:navigation-ui:2.7.5'
-
     // woogi-di
     implementation 'com.github.boogi-woogi:woogi-di:1.0.3'
 }

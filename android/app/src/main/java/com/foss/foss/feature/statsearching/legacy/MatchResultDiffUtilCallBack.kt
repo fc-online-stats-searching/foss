@@ -1,4 +1,4 @@
-package com.foss.foss.feature.statsearching
+package com.foss.foss.feature.statsearching.legacy
 
 import androidx.recyclerview.widget.DiffUtil
 import com.foss.foss.model.MatchResultUiModel
