@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.foss.foss.R
 import com.foss.foss.databinding.ItemMatchResultBinding
-import com.foss.foss.model.MatchResultUiModel
+import com.foss.foss.model.leagacy.mapper.MatchResultUiModel
 
 class MatchResultViewHolder(
     private val binding: ItemMatchResultBinding

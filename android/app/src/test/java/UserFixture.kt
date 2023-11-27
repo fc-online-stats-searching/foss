@@ -1,4 +1,4 @@
-import com.foss.foss.model.User
+import com.foss.foss.model.legacy.User
 
 object UserFixture {
 

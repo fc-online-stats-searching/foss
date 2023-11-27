@@ -2,7 +2,7 @@ package com.foss.foss.feature.statsearching.legacy
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.foss.foss.model.MatchResultUiModel
+import com.foss.foss.model.leagacy.mapper.MatchResultUiModel
 
 class StatsAdapter :
     ListAdapter<MatchResultUiModel, MatchResultViewHolder>(MatchResultDiffUtilCallBack()) {

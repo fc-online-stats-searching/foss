@@ -1,7 +1,7 @@
 package com.foss.foss.feature.statsearching.legacy
 
 import androidx.recyclerview.widget.DiffUtil
-import com.foss.foss.model.MatchResultUiModel
+import com.foss.foss.model.leagacy.mapper.MatchResultUiModel
 
 class MatchResultDiffUtilCallBack : DiffUtil.ItemCallback<MatchResultUiModel>() {
 

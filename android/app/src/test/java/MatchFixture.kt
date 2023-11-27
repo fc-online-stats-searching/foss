@@ -1,7 +1,7 @@
-import com.foss.foss.model.MatchResult
-import com.foss.foss.model.MatchType
-import com.foss.foss.model.Score
-import com.foss.foss.model.WinDrawLose
+import com.foss.foss.model.legacy.MatchResult
+import com.foss.foss.model.legacy.MatchType
+import com.foss.foss.model.legacy.Score
+import com.foss.foss.model.legacy.WinDrawLose
 
 object MatchFixture {
 

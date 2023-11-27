@@ -1,6 +1,6 @@
 package com.foss.foss.feature.statsearching.legacy
 
-import com.foss.foss.model.MatchResultUiModel
+import com.foss.foss.model.leagacy.mapper.MatchResultUiModel
 
 sealed interface StatsUiState {
 
