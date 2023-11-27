@@ -3,9 +3,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.foss.foss.feature.statsearching.legacy.StatsEvent
 import com.foss.foss.feature.statsearching.legacy.StatsUiState
 import com.foss.foss.feature.statsearching.legacy.StatsViewModel
+import com.foss.foss.model.leagacy.mapper.MatchMapper.toUiModel
 import com.foss.foss.model.legacy.MatchType
 import com.foss.foss.model.legacy.MatchesResult
-import com.foss.foss.model.leagacy.mapper.MatchMapper.toUiModel
 import com.foss.foss.repository.legacy.MatchRepository
 import com.foss.foss.repository.legacy.UserRepository
 import io.mockk.coEvery

@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.foss.foss.model.leagacy.mapper.MatchMapper.toUiModel
 import com.foss.foss.model.legacy.MatchResult
 import com.foss.foss.model.legacy.MatchType
 import com.foss.foss.model.legacy.MatchesResult
-import com.foss.foss.model.leagacy.mapper.MatchMapper.toUiModel
 import com.foss.foss.repository.legacy.MatchRepository
 import com.foss.foss.repository.legacy.UserRepository
 import com.foss.foss.util.livedata.MutableSingleLiveData
