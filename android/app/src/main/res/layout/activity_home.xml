@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#272D31"
+        android:background="@color/common_light_gray"
         tools:context=".feature.home.HomeActivity">
 
         <ImageView
@@ -34,7 +34,6 @@
             app:layout_constraintTop_toBottomOf="@id/home_iv_foss_logo" />
 
         <androidx.fragment.app.FragmentContainerView
-
             android:id="@+id/home_fcv_stats"
             android:layout_width="0dp"
             android:layout_height="0dp"
