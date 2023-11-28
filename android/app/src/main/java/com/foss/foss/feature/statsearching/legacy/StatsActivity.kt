@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import com.boogiwoogi.woogidi.activity.DiActivity
 import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Module
-import com.di.woogidi.viewmodel.diViewModels
+import com.boogiwoogi.woogidi.viewmodel.diViewModels
 import com.foss.foss.R
 import com.foss.foss.databinding.ActivityStatsBinding
 

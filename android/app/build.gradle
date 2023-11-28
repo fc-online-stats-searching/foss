@@ -82,5 +82,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     // woogi-di
-    implementation 'com.github.boogi-woogi:woogi-di:1.0.3'
+    implementation 'com.github.boogi-woogi:woogi-di:1.1.0'
 }
