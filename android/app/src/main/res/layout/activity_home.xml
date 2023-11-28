@@ -28,6 +28,7 @@
             android:drawableStart="@drawable/ic_searching"
             android:hint="@string/home_user_nickname_description"
             android:padding="12dp"
+            android:textColor="@color/white"
             android:textColorHint="#64686D"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
