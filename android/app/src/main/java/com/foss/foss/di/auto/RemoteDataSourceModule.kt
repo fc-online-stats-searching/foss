@@ -4,8 +4,8 @@ import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Provides
 import com.boogiwoogi.woogidi.pure.Singleton
 import com.foss.foss.BuildConfig
-import com.foss.foss.data.service.MatchService
-import com.foss.foss.data.service.UserService
+import com.foss.foss.data.legacy.service.MatchService
+import com.foss.foss.data.legacy.service.UserService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor

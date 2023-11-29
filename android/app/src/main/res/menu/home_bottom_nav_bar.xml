@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/item_recent_stats"
+        android:enabled="true"
+        android:icon="@drawable/ic_recent_stats"
+        android:title="@string/common_recent_stats" />
+
+    <item
+        android:id="@+id/item_relative_stats"
+        android:enabled="true"
+        android:icon="@drawable/ic_relative_stats"
+        android:title="@string/common_relative_stats" />
+</menu>
