@@ -1,17 +1,17 @@
 package com.foss.foss.feature.statsearching.legacy
 
 import androidx.recyclerview.widget.DiffUtil
-import com.foss.foss.model.leagacy.mapper.MatchResultUiModel
+import com.foss.foss.model.MatchUiModel
 
-class MatchResultDiffUtilCallBack : DiffUtil.ItemCallback<MatchResultUiModel>() {
+class MatchResultDiffUtilCallBack : DiffUtil.ItemCallback<MatchUiModel>() {
 
     override fun areItemsTheSame(
-        oldItem: MatchResultUiModel,
-        newItem: MatchResultUiModel
+        oldItem: MatchUiModel,
+        newItem: MatchUiModel
     ): Boolean = oldItem == newItem
 
     override fun areContentsTheSame(
-        oldItem: MatchResultUiModel,
-        newItem: MatchResultUiModel
+        oldItem: MatchUiModel,
+        newItem: MatchUiModel
     ): Boolean = oldItem == newItem
 }

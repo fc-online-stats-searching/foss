@@ -1,7 +1,9 @@
 package com.foss.foss.model.legacy
 
+import com.foss.foss.model.Match
+
 class MatchesResult(
-    val value: List<MatchResult>
+    val value: List<Match>
 ) {
 
     val numberOfMatch: Int = value.size

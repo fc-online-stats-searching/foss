@@ -1,12 +1,12 @@
-package com.foss.foss.model.leagacy.mapper
+package com.foss.foss.model
 
-import com.foss.foss.model.legacy.MatchResult
-import com.foss.foss.model.legacy.MatchType
 import com.foss.foss.model.legacy.WinDrawLose
 
 object MatchMapper {
 
-    fun MatchResult.toUiModel() = MatchResultUiModel(
+    fun Match.toUiModel() = MatchUiModel(
+        date = date,
+        manOfTheMatch = "https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/players/p$manOfTheMatch.png",
         matchType = matchType.toUiModel(),
         otherSideNickname = otherSideNickname,
         winDrawLose = winDrawLose.toUiModel(),
@@ -14,7 +14,7 @@ object MatchMapper {
         otherPoint = score.otherPoint
     )
 
-    private fun MatchType.toUiModel() = when (this) {
+    fun MatchType.toUiModel() = when (this) {
         MatchType.LEAGUE_FRIENDLY -> "리그 친선"
         MatchType.CLASSIC_ONE_TO_ONE -> "클래식 1on1"
         MatchType.OFFICIAL -> "공식 경기"

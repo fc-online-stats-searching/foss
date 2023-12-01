@@ -1,7 +1,11 @@
-package com.foss.foss.model.leagacy.mapper
+package com.foss.foss.model
 
-data class MatchResultUiModel(
+import java.time.LocalDate
+
+data class MatchUiModel(
+    val date: LocalDate,
     val matchType: String,
+    val manOfTheMatch: String,
     val otherSideNickname: String,
     val winDrawLose: String,
     val point: Int,
