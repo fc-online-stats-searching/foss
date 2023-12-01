@@ -33,6 +33,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/stats_et_nickname"
-            tools:listitem="@layout/item_match_result" />
+            tools:listitem="@layout/item_match" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

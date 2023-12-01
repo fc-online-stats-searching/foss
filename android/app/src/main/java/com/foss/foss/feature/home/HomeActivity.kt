@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.commit
 import com.foss.foss.R
 import com.foss.foss.databinding.ActivityHomeBinding
-import com.foss.foss.feature.statsearching.recent.RecentStatsFragment
+import com.foss.foss.feature.statsearching.recent.RecentMatchesFragment
 import com.foss.foss.feature.statsearching.relative.RelativeStatsFragment
 
 class HomeActivity : AppCompatActivity() {
@@ -33,7 +33,7 @@ class HomeActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.item_recent_stats -> {
                     supportFragmentManager.commit {
-                        replace(R.id.home_fcv_stats, RecentStatsFragment())
+                        replace(R.id.home_fcv_stats, RecentMatchesFragment())
                     }
                     return@setOnItemSelectedListener true
                 }
