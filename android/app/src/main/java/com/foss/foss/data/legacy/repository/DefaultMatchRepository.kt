@@ -1,19 +1,19 @@
-//package com.foss.foss.data.legacy.repository
+// package com.foss.foss.data.legacy.repository
 //
-//import com.foss.foss.data.legacy.datasource.MatchRemoteDataSource
-//import com.foss.foss.data.legacy.entity.request.MatchRequest
-//import com.foss.foss.data.legacy.entity.request.MatchesIdRequest
-//import com.foss.foss.data.legacy.entity.response.MatchInfoResponse
-//import com.foss.foss.data.legacy.entity.response.MatchResultResponse
-//import com.foss.foss.data.legacy.mapper.MatchMapper
-//import com.foss.foss.model.Match
-//import com.foss.foss.model.MatchType
-//import com.foss.foss.model.legacy.Score
-//import com.foss.foss.repository.MatchRepository
+// import com.foss.foss.data.legacy.datasource.MatchRemoteDataSource
+// import com.foss.foss.data.legacy.entity.request.MatchRequest
+// import com.foss.foss.data.legacy.entity.request.MatchesIdRequest
+// import com.foss.foss.data.legacy.entity.response.MatchInfoResponse
+// import com.foss.foss.data.legacy.entity.response.MatchResultResponse
+// import com.foss.foss.data.legacy.mapper.MatchMapper
+// import com.foss.foss.model.Match
+// import com.foss.foss.model.MatchType
+// import com.foss.foss.model.legacy.Score
+// import com.foss.foss.repository.MatchRepository
 //
-//class DefaultMatchRepository(
+// class DefaultMatchRepository(
 //    private val matchRemoteDataSource: MatchRemoteDataSource
-//) : MatchRepository {
+// ) : MatchRepository {
 //
 //    // todo: need dependency injection
 //    private val matchMapper = MatchMapper()
@@ -66,4 +66,4 @@
 //    companion object {
 //        private const val ERROR_NO_SUCH_USER = "해당 유저의 경기 결과가 존재하지 않습니다."
 //    }
-//}
+// }
