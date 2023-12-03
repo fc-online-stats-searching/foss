@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import com.boogiwoogi.woogidi.fragment.DiFragment
@@ -53,8 +54,17 @@ class RecentMatchesFragment : DiFragment() {
     }
 
     private fun setupObserver() {
-        viewModel.matches.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
+        viewModel.matches.observe(viewLifecycleOwner) { matches ->
+            adapter.submitList(matches)
+        }
+        viewModel.matchTypes.observe(viewLifecycleOwner) { matchTypes ->
+            binding.recentMatchSpinnerMatchType.adapter = ArrayAdapter(
+                requireContext(),
+                R.layout.spinner_item_match_type,
+                matchTypes.map { matchType ->
+                    getString(matchType.resId)
+                }.toTypedArray()
+            )
         }
     }
 }

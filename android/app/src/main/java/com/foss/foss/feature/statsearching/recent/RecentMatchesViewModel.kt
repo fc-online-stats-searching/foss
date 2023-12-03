@@ -7,6 +7,7 @@ import androidx.lifecycle.map
 import com.foss.foss.model.Match
 import com.foss.foss.model.MatchMapper.toUiModel
 import com.foss.foss.model.MatchType
+import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.model.MatchUiModel
 import com.foss.foss.repository.MatchRepository
 
@@ -19,7 +20,7 @@ class RecentMatchesViewModel(
             .values()
             .toList()
     )
-    val matchTypes: LiveData<List<String>>
+    val matchTypes: LiveData<List<MatchTypeUiModel>>
         get() = _matchTypes.map { matchTypes ->
             matchTypes.map { matchType ->
                 matchType.toUiModel()

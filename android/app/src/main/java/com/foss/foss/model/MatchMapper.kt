@@ -13,19 +13,19 @@ object MatchMapper {
     )
 
     fun MatchType.toUiModel() = when (this) {
-        MatchType.LEAGUE_FRIENDLY -> "리그 친선"
-        MatchType.CLASSIC_ONE_TO_ONE -> "클래식 1on1"
-        MatchType.OFFICIAL -> "공식 경기"
-        MatchType.DIRECTOR -> "감독 모드"
-        MatchType.OFFICIAL_FRIENDLY -> "공식 친선"
-        MatchType.VOLTA_FRIENDLY -> "볼타 친선"
-        MatchType.VOLTA_OFFICIAL -> "볼타 공식 경기"
-        MatchType.VOLTA_CUSTOM -> "볼타 커스텀"
+        MatchType.LEAGUE_FRIENDLY -> MatchTypeUiModel.LEAGUE_FRIENDLY
+        MatchType.CLASSIC_ONE_TO_ONE -> MatchTypeUiModel.CLASSIC_ONE_TO_ONE
+        MatchType.OFFICIAL -> MatchTypeUiModel.OFFICIAL
+        MatchType.DIRECTOR -> MatchTypeUiModel.DIRECTOR
+        MatchType.OFFICIAL_FRIENDLY -> MatchTypeUiModel.OFFICIAL_FRIENDLY
+        MatchType.VOLTA_FRIENDLY -> MatchTypeUiModel.VOLTA_FRIENDLY
+        MatchType.VOLTA_OFFICIAL -> MatchTypeUiModel.VOLTA_OFFICIAL
+        MatchType.VOLTA_CUSTOM -> MatchTypeUiModel.VOLTA_CUSTOM
     }
 
     private fun WinDrawLose.toUiModel() = when (this) {
-        WinDrawLose.WIN -> "승리"
-        WinDrawLose.DRAW -> "무승부"
-        WinDrawLose.LOSE -> "패배"
+        WinDrawLose.WIN -> WinDrawLoseUiModel.WIN
+        WinDrawLose.DRAW -> WinDrawLoseUiModel.DRAW
+        WinDrawLose.LOSE -> WinDrawLoseUiModel.LOSE
     }
 }

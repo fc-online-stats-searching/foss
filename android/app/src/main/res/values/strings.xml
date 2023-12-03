@@ -26,6 +26,14 @@
 
     <string name="item_match_result_score">%d:%d</string>
     <string name="item_match_man_of_the_match_description">MOM</string>
+    <string name="common_league_friendly_description">리그 친선</string>
+    <string name="common_classic_one_to_one">클래식 1on1</string>
+    <string name="common_official_description">공식 경기</string>
+    <string name="common_director_description">감독 모드</string>
+    <string name="common_official_friendly">공식 친선</string>
+    <string name="common_volta_friendly_description">볼타 친선</string>
+    <string name="common_volta_offical_description">볼타 공식 경기</string>
+    <string name="common_volta_custom_description">볼타 커스텀</string>
 
 
 </resources>

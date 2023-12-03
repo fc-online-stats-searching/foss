@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.foss.foss.R
 import com.foss.foss.databinding.ItemMatchBinding
 import com.foss.foss.model.MatchUiModel
+import com.foss.foss.model.WinDrawLoseUiModel
 import java.time.format.DateTimeFormatter
 
 class MatchViewHolder(
@@ -23,6 +24,8 @@ class MatchViewHolder(
                     )
                 )
             )
+            itemMatchTvMatchType.text = root.context.getString(match.matchType.resId)
+            itemMatchTvWinDrawLose.text = root.context.getString(match.winDrawLose.resId)
             itemMatchTvScore.text = root.context.getString(
                 R.string.common_score_format,
                 match.point,
@@ -38,25 +41,22 @@ class MatchViewHolder(
     /**
      * todo: 색깔 때문에 브랜치 충돌이 발생할까봐 현재 추가적인 color.xml 정의하지 않음.
      */
-    private fun getSideBarColor(winDrawLose: String): Int = when (winDrawLose) {
-        "승리" -> Color.parseColor("#D5E3FE")
-        "무승부" -> Color.LTGRAY
-        "패배" -> Color.parseColor("#FFD7D9")
-        else -> throw IllegalArgumentException()
+    private fun getSideBarColor(winDrawLose: WinDrawLoseUiModel): Int = when (winDrawLose) {
+        WinDrawLoseUiModel.WIN -> Color.parseColor("#D5E3FE")
+        WinDrawLoseUiModel.DRAW -> Color.LTGRAY
+        WinDrawLoseUiModel.LOSE -> Color.parseColor("#FFD7D9")
     }
 
-    private fun getTextColor(winDrawLose: String): Int = when (winDrawLose) {
-        "승리" -> Color.parseColor("#4171D6")
-        "무승부" -> Color.LTGRAY
-        "패배" -> Color.parseColor("#E9455C")
-        else -> throw IllegalArgumentException()
+    private fun getTextColor(winDrawLose: WinDrawLoseUiModel): Int = when (winDrawLose) {
+        WinDrawLoseUiModel.WIN -> Color.parseColor("#4171D6")
+        WinDrawLoseUiModel.DRAW -> Color.LTGRAY
+        WinDrawLoseUiModel.LOSE -> Color.parseColor("#E9455C")
     }
 
-    private fun getDropDownArrowColor(winDrawLose: String): Int = when (winDrawLose) {
-        "승리" -> Color.parseColor("#5383E8")
-        "무승부" -> Color.DKGRAY
-        "패배" -> Color.parseColor("#E9455C")
-        else -> throw IllegalArgumentException()
+    private fun getDropDownArrowColor(winDrawLose: WinDrawLoseUiModel): Int = when (winDrawLose) {
+        WinDrawLoseUiModel.WIN -> Color.parseColor("#5383E8")
+        WinDrawLoseUiModel.DRAW -> Color.DKGRAY
+        WinDrawLoseUiModel.LOSE -> Color.parseColor("#E9455C")
     }
 
     companion object {
