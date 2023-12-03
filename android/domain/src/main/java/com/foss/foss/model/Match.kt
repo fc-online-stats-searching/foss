@@ -1,7 +1,6 @@
 package com.foss.foss.model
 
 import com.foss.foss.model.legacy.Score
-import com.foss.foss.model.legacy.WinDrawLose
 import java.time.LocalDate
 
 data class Match(

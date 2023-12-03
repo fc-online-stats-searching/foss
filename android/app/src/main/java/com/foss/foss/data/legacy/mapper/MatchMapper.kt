@@ -1,7 +1,7 @@
 package com.foss.foss.data.legacy.mapper
 
 import com.foss.foss.model.MatchType
-import com.foss.foss.model.legacy.WinDrawLose
+import com.foss.foss.model.WinDrawLose
 
 class MatchMapper {
 

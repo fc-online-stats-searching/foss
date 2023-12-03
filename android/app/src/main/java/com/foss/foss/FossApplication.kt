@@ -1,13 +1,22 @@
 package com.foss.foss
 
 import com.boogiwoogi.woogidi.application.DiApplication
+import com.boogiwoogi.woogidi.pure.Instance
+import com.foss.foss.data.FakeMatchRepository
+import com.foss.foss.repository.MatchRepository
 
 class FossApplication : DiApplication() {
 
     override fun onCreate() {
         super.onCreate()
 
-//        with(injector) {
+        with(injector) {
+            applicationContainer.add(
+                Instance<MatchRepository>(
+                    FakeMatchRepository()
+                )
+            )
+
 //            applicationContainer.add(
 //                Instance<UserRepository>(
 //                    DefaultUserRepository(
@@ -23,5 +32,6 @@ class FossApplication : DiApplication() {
 //                    )
 //                )
 //            )
+        }
     }
 }

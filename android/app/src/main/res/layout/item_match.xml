@@ -11,9 +11,9 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_marginTop="6dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
         android:background="@color/common_light_gray">
 
         <TextView
@@ -81,6 +81,7 @@
             android:id="@+id/item_match_iv_man_of_the_match"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            app:imageUrl="@{match.manOfTheMatch}"
             app:layout_constraintBottom_toBottomOf="@id/item_match_tv_win_draw_lose"
             app:layout_constraintEnd_toEndOf="@id/item_match_tv_man_of_the_match_description"
             app:layout_constraintStart_toStartOf="@id/item_match_tv_man_of_the_match_description"
@@ -132,7 +133,7 @@
             android:src="@drawable/ic_arrow_down"
             app:layout_constraintBottom_toBottomOf="@id/item_match_view_side_bar"
             app:layout_constraintEnd_toEndOf="@id/item_match_view_side_bar"
-            app:layout_constraintStart_toStartOf="@id/item_match_view_side_bar"/>
+            app:layout_constraintStart_toStartOf="@id/item_match_view_side_bar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

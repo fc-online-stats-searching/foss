@@ -1,6 +1,7 @@
 package com.foss.foss.model.legacy
 
 import com.foss.foss.model.Match
+import com.foss.foss.model.WinDrawLose
 
 class MatchesResult(
     val value: List<Match>

@@ -1,7 +1,5 @@
 package com.foss.foss.model
 
-import com.foss.foss.model.legacy.WinDrawLose
-
 object MatchMapper {
 
     fun Match.toUiModel() = MatchUiModel(
@@ -26,8 +24,8 @@ object MatchMapper {
     }
 
     private fun WinDrawLose.toUiModel() = when (this) {
-        WinDrawLose.WIN -> "승"
-        WinDrawLose.DRAW -> "무"
-        WinDrawLose.LOSE -> "패"
+        WinDrawLose.WIN -> "승리"
+        WinDrawLose.DRAW -> "무승부"
+        WinDrawLose.LOSE -> "패배"
     }
 }
