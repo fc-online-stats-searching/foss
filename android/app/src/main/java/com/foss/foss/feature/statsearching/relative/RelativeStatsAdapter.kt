@@ -5,12 +5,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.foss.foss.model.RelativeStatsUiModel
 
 class RelativeStatsAdapter(private val relativeStats: List<RelativeStatsUiModel>) :
-    RecyclerView.Adapter<RelativeStatsVIewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RelativeStatsVIewHolder {
-        return RelativeStatsVIewHolder(parent)
+    RecyclerView.Adapter<RelativeStatsViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RelativeStatsViewHolder {
+        return RelativeStatsViewHolder(parent)
     }
 
-    override fun onBindViewHolder(holder: RelativeStatsVIewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RelativeStatsViewHolder, position: Int) {
         holder.bind(relativeStats[position])
     }
 
