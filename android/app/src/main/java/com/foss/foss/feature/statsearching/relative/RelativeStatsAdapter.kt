@@ -7,7 +7,7 @@ import com.foss.foss.model.RelativeStatsUiModel
 class RelativeStatsAdapter(private val relativeStats: List<RelativeStatsUiModel>) :
     RecyclerView.Adapter<RelativeStatsViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RelativeStatsViewHolder {
-        return RelativeStatsViewHolder(parent)
+        return RelativeStatsViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: RelativeStatsViewHolder, position: Int) {
