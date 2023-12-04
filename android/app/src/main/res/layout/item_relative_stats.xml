@@ -3,13 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="relativeStatsUiModel"
-            type="com.foss.foss.model.RelativeStatsUiModel" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,7 +40,6 @@
             android:layout_marginStart="16dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@{relativeStatsUiModel.opponentName}"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/item_relative_tv_stats"
@@ -59,7 +51,6 @@
             android:id="@+id/item_relative_tv_stats"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="@{relativeStatsUiModel.matchResult}"
             app:layout_constraintBottom_toBottomOf="@id/item_relative_iv_rank"
             app:layout_constraintStart_toStartOf="@id/item_relative_tv_name"
             app:layout_constraintTop_toTopOf="@+id/item_relative_tv_name"
@@ -69,7 +60,6 @@
             android:id="@+id/item_relative_tv_last_match"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{relativeStatsUiModel.lastMatchData}"
             app:layout_constraintBottom_toBottomOf="@id/item_relative_tv_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -92,7 +82,6 @@
             android:id="@+id/item_relative_tv_goal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{@string/item_relative_stats_score(relativeStatsUiModel.goal)}"
             app:layout_constraintBottom_toBottomOf="@id/item_relative_tv_goal_title"
             app:layout_constraintEnd_toStartOf="@id/item_relative_tv_conceded_title"
             app:layout_constraintStart_toEndOf="@id/item_relative_tv_goal_title"
@@ -114,7 +103,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="@{@string/item_relative_stats_score(relativeStatsUiModel.conceded)}"
             app:layout_constraintBottom_toBottomOf="@id/item_relative_tv_goal_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/item_relative_tv_conceded_title"

@@ -15,6 +15,14 @@ class RelativeStatsViewHolder(
     private val binding = ItemRelativeStatsBinding.bind(itemView)
 
     fun bind(data: RelativeStatsUiModel) {
-        binding.relativeStatsUiModel = data
+        with(binding) {
+            itemRelativeTvName.text = data.opponentName
+            itemRelativeTvStats.text = data.matchResult
+            itemRelativeTvLastMatch.text = data.lastMatchData
+            itemRelativeTvGoal.text =
+                itemView.context.getString(R.string.item_relative_stats_score, data.goal)
+            itemRelativeTvConceded.text =
+                itemView.context.getString(R.string.item_relative_stats_score, data.conceded)
+        }
     }
 }
