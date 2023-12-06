@@ -1,7 +1,6 @@
 package com.foss.foss.feature.home
 
 import android.os.Bundle
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.commit
 import com.boogiwoogi.woogidi.activity.DiActivity
 import com.boogiwoogi.woogidi.pure.DefaultModule
@@ -30,12 +29,9 @@ class HomeActivity : DiActivity() {
     }
 
     private fun setupBinding() {
-        binding = DataBindingUtil.setContentView<ActivityHomeBinding>(
-            this,
-            R.layout.activity_home
-        ).also {
-            it.viewModel = recentMatchesViewModel
-        }
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+
+        setContentView(binding.root)
     }
 
     private fun setupView() {

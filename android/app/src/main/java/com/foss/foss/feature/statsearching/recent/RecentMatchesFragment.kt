@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import com.boogiwoogi.woogidi.fragment.DiFragment
 import com.boogiwoogi.woogidi.pure.DefaultModule
@@ -30,14 +29,7 @@ class RecentMatchesFragment : DiFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DataBindingUtil.inflate<FragmentRecentMatchesBinding>(
-            layoutInflater,
-            R.layout.fragment_recent_matches,
-            container,
-            false
-        ).also {
-            it.lifecycleOwner = viewLifecycleOwner
-        }
+        _binding = FragmentRecentMatchesBinding.inflate(layoutInflater)
 
         return binding.root
     }

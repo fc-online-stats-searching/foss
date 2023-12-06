@@ -3,7 +3,9 @@ package com.foss.foss.feature.statsearching.recent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.foss.foss.R
 import com.foss.foss.databinding.ItemMatchBinding
 import com.foss.foss.model.MatchUiModel
@@ -16,7 +18,6 @@ class MatchViewHolder(
 
     fun bind(match: MatchUiModel) {
         with(binding) {
-            this.match = match
             itemMatchTvDate.text = match.date.format(
                 DateTimeFormatter.ofPattern(
                     root.context.getString(
@@ -24,6 +25,7 @@ class MatchViewHolder(
                     )
                 )
             )
+            itemMatchTvOtherSideNickname.text = match.otherSideNickname
             itemMatchTvMatchType.text = root.context.getString(match.matchType.resId)
             itemMatchTvWinDrawLose.text = root.context.getString(match.winDrawLose.resId)
             itemMatchTvScore.text = root.context.getString(
@@ -35,6 +37,10 @@ class MatchViewHolder(
             itemMatchIvArrowDown.setColorFilter(getDropDownArrowColor(match.winDrawLose))
             itemMatchTvMatchType.setTextColor(getTextColor(match.winDrawLose))
             itemMatchTvWinDrawLose.setTextColor(getTextColor(match.winDrawLose))
+            setManOfTheMatchImage(
+                imageView = itemMatchIvManOfTheMatch,
+                manOfTheMatch = match.manOfTheMatch
+            )
         }
     }
 
@@ -59,6 +65,13 @@ class MatchViewHolder(
         WinDrawLoseUiModel.LOSE -> Color.parseColor("#E9455C")
     }
 
+    private fun setManOfTheMatchImage(imageView: ImageView, manOfTheMatch: String) {
+        Glide.with(imageView.context)
+            .load(manOfTheMatch)
+            .error(R.drawable.eight)
+            .into(imageView)
+    }
+
     companion object {
 
         fun valueOf(parent: ViewGroup): MatchViewHolder {
@@ -68,7 +81,6 @@ class MatchViewHolder(
                 parent,
                 false
             )
-
             return MatchViewHolder(binding)
         }
     }

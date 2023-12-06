@@ -1,137 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="6dp"
+    android:background="@color/common_dark_gray">
 
-    <data>
+    <TextView
+        android:id="@+id/item_match_tv_match_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="공식 경기"
+        tools:textColor="@color/item_match_blue" />
 
-        <variable
-            name="match"
-            type="com.foss.foss.model.MatchUiModel" />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/item_match_tv_date"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:background="@color/common_light_gray">
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@id/item_match_tv_match_type"
+        app:layout_constraintTop_toBottomOf="@id/item_match_tv_match_type"
+        tools:text="2023.12.06" />
 
-        <TextView
-            android:id="@+id/item_match_tv_match_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="공식 경기"
-            tools:textColor="@color/item_match_blue" />
+    <ImageView
+        android:id="@+id/item_match_iv_separator"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_separator"
+        app:layout_constraintEnd_toEndOf="@id/item_match_tv_date"
+        app:layout_constraintStart_toStartOf="@id/item_match_tv_date"
+        app:layout_constraintTop_toBottomOf="@id/item_match_tv_date" />
 
-        <TextView
-            android:id="@+id/item_match_tv_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@id/item_match_tv_match_type"
-            app:layout_constraintTop_toBottomOf="@id/item_match_tv_match_type"
-            tools:text="2023.12.06" />
+    <TextView
+        android:id="@+id/item_match_tv_win_draw_lose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/item_match_iv_separator"
+        app:layout_constraintTop_toBottomOf="@id/item_match_iv_separator"
+        tools:text="승리"
+        tools:textColor="@color/item_match_blue" />
 
-        <ImageView
-            android:id="@+id/item_match_iv_separator"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_separator"
-            app:layout_constraintEnd_toEndOf="@id/item_match_tv_date"
-            app:layout_constraintStart_toStartOf="@id/item_match_tv_date"
-            app:layout_constraintTop_toBottomOf="@id/item_match_tv_date" />
+    <TextView
+        android:id="@+id/item_match_tv_man_of_the_match_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="54dp"
+        android:text="@string/item_match_man_of_the_match_description"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@id/item_match_tv_match_type"
+        app:layout_constraintTop_toTopOf="@id/item_match_tv_match_type" />
 
-        <TextView
-            android:id="@+id/item_match_tv_win_draw_lose"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/item_match_iv_separator"
-            app:layout_constraintTop_toBottomOf="@id/item_match_iv_separator"
-            tools:text="승리"
-            tools:textColor="@color/item_match_blue" />
+    <ImageView
+        android:id="@+id/item_match_iv_man_of_the_match"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/item_match_tv_win_draw_lose"
+        app:layout_constraintEnd_toEndOf="@id/item_match_tv_man_of_the_match_description"
+        app:layout_constraintStart_toStartOf="@id/item_match_tv_man_of_the_match_description"
+        app:layout_constraintTop_toBottomOf="@id/item_match_tv_man_of_the_match_description"
+        tools:src="@drawable/ic_player_example" />
 
-        <TextView
-            android:id="@+id/item_match_tv_man_of_the_match_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="54dp"
-            android:text="@string/item_match_man_of_the_match_description"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toEndOf="@id/item_match_tv_match_type"
-            app:layout_constraintTop_toTopOf="@id/item_match_tv_match_type" />
+    <TextView
+        android:id="@+id/item_match_tv_other_side_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="54dp"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/item_match_tv_man_of_the_match_description"
+        app:layout_constraintTop_toTopOf="@id/item_match_tv_man_of_the_match_description"
+        tools:text="신공학관캣대디" />
 
-        <ImageView
-            android:id="@+id/item_match_iv_man_of_the_match"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            app:imageUrl="@{match.manOfTheMatch}"
-            app:layout_constraintBottom_toBottomOf="@id/item_match_tv_win_draw_lose"
-            app:layout_constraintEnd_toEndOf="@id/item_match_tv_man_of_the_match_description"
-            app:layout_constraintStart_toStartOf="@id/item_match_tv_man_of_the_match_description"
-            app:layout_constraintTop_toBottomOf="@id/item_match_tv_man_of_the_match_description"
-            tools:src="@drawable/ic_player_example" />
+    <TextView
+        android:id="@+id/item_match_tv_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/item_match_tv_win_draw_lose"
+        app:layout_constraintEnd_toEndOf="@id/item_match_tv_other_side_nickname"
+        app:layout_constraintStart_toStartOf="@id/item_match_tv_other_side_nickname"
+        app:layout_constraintTop_toTopOf="@id/item_match_tv_date"
+        tools:text="1:0" />
 
-        <TextView
-            android:id="@+id/item_match_tv_other_side_nickname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="54dp"
-            android:layout_marginTop="6dp"
-            android:text="@{match.otherSideNickname}"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/item_match_tv_man_of_the_match_description"
-            app:layout_constraintTop_toTopOf="@id/item_match_tv_man_of_the_match_description"
-            tools:text="신공학관캣대디" />
+    <View
+        android:id="@+id/item_match_view_side_bar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/item_match_tv_other_side_nickname"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@color/item_match_blue_side_bar" />
 
-        <TextView
-            android:id="@+id/item_match_tv_score"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@id/item_match_tv_win_draw_lose"
-            app:layout_constraintEnd_toEndOf="@id/item_match_tv_other_side_nickname"
-            app:layout_constraintStart_toStartOf="@id/item_match_tv_other_side_nickname"
-            app:layout_constraintTop_toTopOf="@id/item_match_tv_date"
-            tools:text="1:0" />
+    <ImageView
+        android:id="@+id/item_match_iv_arrow_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_down"
+        app:layout_constraintBottom_toBottomOf="@id/item_match_view_side_bar"
+        app:layout_constraintEnd_toEndOf="@id/item_match_view_side_bar"
+        app:layout_constraintStart_toStartOf="@id/item_match_view_side_bar" />
 
-        <View
-            android:id="@+id/item_match_view_side_bar"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/item_match_tv_other_side_nickname"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:background="@color/item_match_blue_side_bar" />
-
-        <ImageView
-            android:id="@+id/item_match_iv_arrow_down"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_arrow_down"
-            app:layout_constraintBottom_toBottomOf="@id/item_match_view_side_bar"
-            app:layout_constraintEnd_toEndOf="@id/item_match_view_side_bar"
-            app:layout_constraintStart_toStartOf="@id/item_match_view_side_bar" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>
