@@ -5,7 +5,7 @@ data class RelativeStatsUiModel(
     val matchResult: String,
     val lastMatchData: String,
     val goal: Int,
-    val conceded: Int,
+    val conceded: Int
 ) {
     companion object {
         val mockDatas = List(5) {
@@ -14,7 +14,7 @@ data class RelativeStatsUiModel(
                 matchResult = "5전 3승 2패",
                 lastMatchData = "최근 경기 2021.09.01",
                 goal = 3,
-                conceded = 1,
+                conceded = 1
             )
         }
     }

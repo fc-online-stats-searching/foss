@@ -8,7 +8,7 @@ import com.foss.foss.databinding.ItemRelativeStatsBinding
 import com.foss.foss.model.RelativeStatsUiModel
 
 class RelativeStatsViewHolder private constructor(
-    private val binding: ItemRelativeStatsBinding,
+    private val binding: ItemRelativeStatsBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(data: RelativeStatsUiModel) {
@@ -29,7 +29,7 @@ class RelativeStatsViewHolder private constructor(
             val binding = ItemRelativeStatsBinding.inflate(
                 layoutInflater,
                 parent,
-                false,
+                false
             )
             return RelativeStatsViewHolder(binding)
         }

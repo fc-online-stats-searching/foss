@@ -45,39 +45,51 @@ class MatchViewHolder(
     }
 
     private fun getSideBarColor(winDrawLose: WinDrawLoseUiModel): Int = when (winDrawLose) {
-        WinDrawLoseUiModel.WIN -> binding.root
-            .context
-            .getColor(R.color.item_match_blue_side_bar)
+        WinDrawLoseUiModel.WIN -> {
+            binding.root
+                .context
+                .getColor(R.color.item_match_blue_side_bar)
+        }
 
         WinDrawLoseUiModel.DRAW -> Color.LTGRAY
 
-        WinDrawLoseUiModel.LOSE -> binding.root
-            .context
-            .getColor(R.color.item_match_red_side_bar)
+        WinDrawLoseUiModel.LOSE -> {
+            binding.root
+                .context
+                .getColor(R.color.item_match_red_side_bar)
+        }
     }
 
     private fun getTextColor(winDrawLose: WinDrawLoseUiModel): Int = when (winDrawLose) {
-        WinDrawLoseUiModel.WIN -> binding.root
-            .context
-            .getColor(R.color.item_match_blue_text)
+        WinDrawLoseUiModel.WIN -> {
+            binding.root
+                .context
+                .getColor(R.color.item_match_blue_text)
+        }
 
         WinDrawLoseUiModel.DRAW -> Color.LTGRAY
 
-        WinDrawLoseUiModel.LOSE -> binding.root
-            .context
-            .getColor(R.color.item_match_red_text)
+        WinDrawLoseUiModel.LOSE -> {
+            binding.root
+                .context
+                .getColor(R.color.item_match_red_text)
+        }
     }
 
     private fun getDropDownArrowColor(winDrawLose: WinDrawLoseUiModel): Int = when (winDrawLose) {
-        WinDrawLoseUiModel.WIN -> binding.root
-            .context
-            .getColor(R.color.item_match_blue_drop_down_arrow)
+        WinDrawLoseUiModel.WIN -> {
+            binding.root
+                .context
+                .getColor(R.color.item_match_blue_drop_down_arrow)
+        }
 
         WinDrawLoseUiModel.DRAW -> Color.DKGRAY
 
-        WinDrawLoseUiModel.LOSE -> binding.root
-            .context
-            .getColor(R.color.item_match_red_drop_down_arrow)
+        WinDrawLoseUiModel.LOSE -> {
+            binding.root
+                .context
+                .getColor(R.color.item_match_red_drop_down_arrow)
+        }
     }
 
     private fun setManOfTheMatchImage(imageView: ImageView, manOfTheMatch: String) {

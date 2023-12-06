@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="공식 경기"
-        tools:textColor="@color/item_match_blue" />
+        tools:textColor="@color/item_match_blue_text" />
 
     <TextView
         android:id="@+id/item_match_tv_date"
@@ -54,7 +54,7 @@
         app:layout_constraintStart_toStartOf="@id/item_match_iv_separator"
         app:layout_constraintTop_toBottomOf="@id/item_match_iv_separator"
         tools:text="승리"
-        tools:textColor="@color/item_match_blue" />
+        tools:textColor="@color/item_match_blue_text" />
 
     <TextView
         android:id="@+id/item_match_tv_man_of_the_match_description"
