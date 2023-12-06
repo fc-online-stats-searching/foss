@@ -14,26 +14,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
+@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "mb_id")
+  @Column(name = "mb_id", nullable = false)
   private Long id;
 
   @Setter(AccessLevel.PUBLIC)
   @NotBlank(message = "사용자 닉네임은 1자 이상이어야 합니다")
-  @Column(name = "mb_username")
+  @Column(name = "mb_username", nullable = false)
   private String username;
 
   @NotBlank(message = "accessid는 필수 입니다")
-  @Column(name = "mb_access_id")
+  @Column(name = "mb_access_id", nullable = false)
   private String accessId;
 
   @Setter(AccessLevel.PUBLIC)
   @NotNull(message = "사용자 레벨은 필수입니다")
-  @Column(name = "mb_level")
+  @Column(name = "mb_level", nullable = false)
   private Integer level;
 
   @Builder
