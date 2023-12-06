@@ -44,25 +44,40 @@ class MatchViewHolder(
         }
     }
 
-    /**
-     * todo: 색깔 때문에 브랜치 충돌이 발생할까봐 현재 추가적인 color.xml 정의하지 않음.
-     */
     private fun getSideBarColor(winDrawLose: WinDrawLoseUiModel): Int = when (winDrawLose) {
-        WinDrawLoseUiModel.WIN -> Color.parseColor("#D5E3FE")
+        WinDrawLoseUiModel.WIN -> binding.root
+            .context
+            .getColor(R.color.item_match_blue_side_bar)
+
         WinDrawLoseUiModel.DRAW -> Color.LTGRAY
-        WinDrawLoseUiModel.LOSE -> Color.parseColor("#FFD7D9")
+
+        WinDrawLoseUiModel.LOSE -> binding.root
+            .context
+            .getColor(R.color.item_match_red_side_bar)
     }
 
     private fun getTextColor(winDrawLose: WinDrawLoseUiModel): Int = when (winDrawLose) {
-        WinDrawLoseUiModel.WIN -> Color.parseColor("#4171D6")
+        WinDrawLoseUiModel.WIN -> binding.root
+            .context
+            .getColor(R.color.item_match_blue_text)
+
         WinDrawLoseUiModel.DRAW -> Color.LTGRAY
-        WinDrawLoseUiModel.LOSE -> Color.parseColor("#E9455C")
+
+        WinDrawLoseUiModel.LOSE -> binding.root
+            .context
+            .getColor(R.color.item_match_red_text)
     }
 
     private fun getDropDownArrowColor(winDrawLose: WinDrawLoseUiModel): Int = when (winDrawLose) {
-        WinDrawLoseUiModel.WIN -> Color.parseColor("#5383E8")
+        WinDrawLoseUiModel.WIN -> binding.root
+            .context
+            .getColor(R.color.item_match_blue_drop_down_arrow)
+
         WinDrawLoseUiModel.DRAW -> Color.DKGRAY
-        WinDrawLoseUiModel.LOSE -> Color.parseColor("#E9455C")
+
+        WinDrawLoseUiModel.LOSE -> binding.root
+            .context
+            .getColor(R.color.item_match_red_drop_down_arrow)
     }
 
     private fun setManOfTheMatchImage(imageView: ImageView, manOfTheMatch: String) {
