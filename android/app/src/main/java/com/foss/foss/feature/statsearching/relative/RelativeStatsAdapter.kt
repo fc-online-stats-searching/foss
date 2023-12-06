@@ -6,6 +6,7 @@ import com.foss.foss.model.RelativeStatsUiModel
 
 class RelativeStatsAdapter(private val relativeStats: List<RelativeStatsUiModel>) :
     RecyclerView.Adapter<RelativeStatsViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RelativeStatsViewHolder {
         return RelativeStatsViewHolder.from(parent)
     }

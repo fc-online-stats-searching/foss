@@ -1,7 +1,10 @@
 package com.foss.foss.model.legacy
 
+import com.foss.foss.model.Match
+import com.foss.foss.model.WinDrawLose
+
 class MatchesResult(
-    val value: List<MatchResult>
+    val value: List<Match>
 ) {
 
     val numberOfMatch: Int = value.size

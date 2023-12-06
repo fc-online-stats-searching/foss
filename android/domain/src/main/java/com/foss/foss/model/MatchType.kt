@@ -1,9 +1,9 @@
-package com.foss.foss.model.legacy
+package com.foss.foss.model
 
 enum class MatchType {
+    OFFICIAL,
     LEAGUE_FRIENDLY,
     CLASSIC_ONE_TO_ONE,
-    OFFICIAL,
     DIRECTOR,
     OFFICIAL_FRIENDLY,
     VOLTA_FRIENDLY,

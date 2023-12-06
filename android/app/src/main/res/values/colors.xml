@@ -14,4 +14,12 @@
 
     <color name="common_dark_gray">#272D31</color>
     <color name="common_light_gray">#64686D</color>
+
+    <color name="item_match_red_side_bar">#FFD7D9</color>
+    <color name="item_match_red_text">#E9455C</color>
+    <color name="item_match_red_drop_down_arrow">#E9455C</color>
+
+    <color name="item_match_blue_text">#4171D6</color>
+    <color name="item_match_blue_side_bar">#D5E3FE</color>
+    <color name="item_match_blue_drop_down_arrow">#5383E8</color>
 </resources>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#171B1E"
+        tools:context=".feature.statsearching.recent.RecentMatchesFragment">
+
+        <View
+            android:id="@+id/recent_match_view_tool_bar"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="6dp"
+            android:background="@color/common_dark_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:background="@drawable/custom_match_type_spinner"
+            android:popupBackground="@drawable/custom_match_type_spinner"
+            android:id="@+id/recent_match_spinner_match_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="1dp"
+            app:layout_constraintBottom_toBottomOf="@id/recent_match_view_tool_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/recent_match_view_tool_bar" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recent_match_rv_matches"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recent_match_view_tool_bar"
+            tools:listitem="@layout/item_match" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
