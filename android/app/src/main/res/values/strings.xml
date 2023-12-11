@@ -38,6 +38,7 @@
 
     <string name="relative_info">사용자 이름을 검색해 주세요.</string>
 
+    <string name="item_relative_stats_win_draw_loses_format">%d전 %d승 %d무 %d패</string>
     <string name="item_relative_stats_score">%d</string>
     <string name="item_relative_stats_goal_title">득</string>
     <string name="item_relative_stats_conceded_title">실</string>

@@ -9,6 +9,6 @@ import java.time.LocalDate
 data class RelativeStat(
     val opponentName: String,
     val recentMatchDate: LocalDate,
-    val winDrawLose: List<WinDrawLose>,
+    val winDrawLoses: WinDrawLoses,
     val totalScore: Score
 )
