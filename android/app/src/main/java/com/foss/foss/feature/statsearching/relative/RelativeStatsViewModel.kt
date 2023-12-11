@@ -5,8 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.foss.foss.model.RelativeStatMapper.toUiModel
 import com.foss.foss.model.RelativeStatUiModel
 import com.foss.foss.repository.RelativeStatsRepository
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
@@ -19,12 +22,18 @@ class RelativeStatsViewModel(
     val relativeStats: StateFlow<List<RelativeStatUiModel>>
         get() = _relativeStats.asStateFlow()
 
+    private val _event: MutableSharedFlow<RelativeStatsEvent> = MutableSharedFlow()
+    val event: SharedFlow<RelativeStatsEvent>
+        get() = _event.asSharedFlow()
+
     fun fetchRelativeStats(nickname: String) {
         viewModelScope.launch {
             relativeStatsRepository.fetchRelativeStats(nickname)
                 .onSuccess { relativeStats ->
                     _relativeStats.value = relativeStats.map { it.toUiModel() }
-                }.onFailure {}
+                }.onFailure {
+                    _event.emit(RelativeStatsEvent.Failed)
+                }
         }
     }
 }
