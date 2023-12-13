@@ -5,12 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.foss.foss.model.RelativeStatUiModel
 
-class RelativeStatsAdapter :
+class RelativeStatsAdapter(
+    private val onClick: (String) -> Unit,
+) :
     ListAdapter<RelativeStatUiModel, RelativeStatsViewHolder>(RelativeStatDiffUtilCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RelativeStatsViewHolder {
         return RelativeStatsViewHolder.from(parent) {
             Log.d("krrong", getItem(it).opponentName)
+            onClick(getItem(it).opponentName)
         }
     }
 

@@ -6,12 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import com.boogiwoogi.woogidi.fragment.DiFragment
 import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Module
 import com.foss.foss.R
 import com.foss.foss.databinding.FragmentRelativeStatsBinding
 import com.foss.foss.util.lifecycle.repeatOnStarted
+import com.foss.foss.feature.statsearching.recent.RecentMatchesFragment
+import kotlinx.coroutines.launch
 
 class RelativeStatsFragment : DiFragment() {
 
@@ -22,12 +26,20 @@ class RelativeStatsFragment : DiFragment() {
 
     private val relativeStatsViewModel: RelativeStatsViewModel by activityViewModels()
 
-    private val relativeStatsAdapter: RelativeStatsAdapter by lazy { RelativeStatsAdapter() }
+    private val relativeStatsAdapter: RelativeStatsAdapter by lazy {
+        RelativeStatsAdapter {
+            parentFragmentManager.commit {
+                replace<RecentMatchesFragment>(R.id.home_fcv_stats)
+                setReorderingAllowed(true)
+                addToBackStack(null)
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentRelativeStatsBinding.inflate(inflater, container, false)
 
