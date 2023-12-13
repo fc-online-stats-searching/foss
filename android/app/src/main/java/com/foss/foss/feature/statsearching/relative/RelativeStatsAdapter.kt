@@ -1,6 +1,5 @@
 package com.foss.foss.feature.statsearching.relative
 
-import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.foss.foss.model.RelativeStatUiModel
@@ -12,7 +11,6 @@ class RelativeStatsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RelativeStatsViewHolder {
         return RelativeStatsViewHolder.from(parent) {
-            Log.d("krrong", getItem(it).opponentName)
             onClick(getItem(it).opponentName)
         }
     }

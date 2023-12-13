@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -15,6 +16,7 @@ import com.foss.foss.R
 import com.foss.foss.databinding.FragmentRelativeStatsBinding
 import com.foss.foss.util.lifecycle.repeatOnStarted
 import com.foss.foss.feature.statsearching.recent.RecentMatchesFragment
+import com.foss.foss.feature.statsearching.relative.detail.RelativeDetailStatsFragment
 import kotlinx.coroutines.launch
 
 class RelativeStatsFragment : DiFragment() {
@@ -27,9 +29,10 @@ class RelativeStatsFragment : DiFragment() {
     private val relativeStatsViewModel: RelativeStatsViewModel by activityViewModels()
 
     private val relativeStatsAdapter: RelativeStatsAdapter by lazy {
-        RelativeStatsAdapter {
+        RelativeStatsAdapter { opponentName ->
             parentFragmentManager.commit {
-                replace<RecentMatchesFragment>(R.id.home_fcv_stats)
+                setFragmentResult(REQUEST_KEY, bundleOf(BUNDLE_KEY to opponentName))
+                replace<RelativeDetailStatsFragment>(R.id.home_fcv_stats)
                 setReorderingAllowed(true)
                 addToBackStack(null)
             }
@@ -84,5 +87,10 @@ class RelativeStatsFragment : DiFragment() {
                 }
             }
         }
+    }
+
+    companion object {
+        const val REQUEST_KEY = ""
+        const val BUNDLE_KEY = ""
     }
 }
