@@ -6,12 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.boogiwoogi.woogidi.fragment.DiFragment
 import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Module
 import com.foss.foss.databinding.FragmentRelativeDetailStatsBinding
-import com.foss.foss.feature.statsearching.relative.RelativeStatsFragment.Companion.BUNDLE_KEY
-import com.foss.foss.feature.statsearching.relative.RelativeStatsFragment.Companion.REQUEST_KEY
+import com.foss.foss.feature.statsearching.recent.RecentMatchesAdapter
+import com.foss.foss.feature.statsearching.relative.RelativeStatsFragment.Companion.KEY_NICKNAME
+import com.foss.foss.feature.statsearching.relative.RelativeStatsFragment.Companion.KEY_OPPONENT_NAME
+import com.foss.foss.feature.statsearching.relative.RelativeStatsFragment.Companion.KEY_REQUEST
+import kotlinx.coroutines.launch
 
 class RelativeDetailStatsFragment : DiFragment() {
     override val module: Module by lazy { DefaultModule() }
@@ -21,7 +27,9 @@ class RelativeDetailStatsFragment : DiFragment() {
         get() = _binding!!
 
     private val relativeDetailStatsViewModel: RelativeDetailStatsViewModel by activityViewModels()
-    private lateinit var opponentName: String
+    private val relativeDetailStatsAdapter: RecentMatchesAdapter by lazy {
+        RecentMatchesAdapter()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,16 +41,45 @@ class RelativeDetailStatsFragment : DiFragment() {
         return _binding!!.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        setFragmentResultListener(REQUEST_KEY) { _, bundle ->
-            opponentName = requireNotNull(bundle.getString(BUNDLE_KEY))
+        setupRelativeDetailStatsObserver()
+        setupRelativeDetailStatsView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        setupData()
+    }
+
+    private fun setupData() {
+        var nickname = ""
+        var opponentName = ""
+        setFragmentResultListener(KEY_REQUEST) { _, bundle ->
+            nickname = requireNotNull(bundle.getString(KEY_NICKNAME))
+            opponentName = requireNotNull(bundle.getString(KEY_OPPONENT_NAME))
+        }
+        relativeDetailStatsViewModel.fetchMatchesBetweenUsers(nickname, opponentName)
+    }
+
+    private fun setupRelativeDetailStatsObserver() {
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                relativeDetailStatsViewModel.matches.collect {
+                    relativeDetailStatsAdapter.submitList(it)
+                }
+            }
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    private fun setupRelativeDetailStatsView() {
+        binding.relativeDetailRvMatches.adapter = relativeDetailStatsAdapter
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
 
         _binding = null
     }
