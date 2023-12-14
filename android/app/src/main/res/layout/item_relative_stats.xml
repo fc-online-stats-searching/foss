@@ -35,7 +35,7 @@
         android:id="@+id/item_relative_tv_name"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="12dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:textSize="20sp"
@@ -52,9 +52,10 @@
         app:layout_constraintBottom_toBottomOf="@id/item_relative_iv_rank"
         app:layout_constraintStart_toStartOf="@id/item_relative_tv_name"
         app:layout_constraintTop_toTopOf="@+id/item_relative_tv_name"
-        tools:text="5전 3승 2패" />
+        tools:text="5전 3승 3무 2패" />
 
     <TextView
+        android:layout_marginStart="8dp"
         android:id="@+id/item_relative_tv_last_match"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -73,7 +74,7 @@
         android:text="@string/item_relative_stats_goal_title"
         app:layout_constraintEnd_toStartOf="@id/item_relative_tv_goal"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toEndOf="@id/item_relative_tv_name"
+        app:layout_constraintStart_toStartOf="@+id/item_relative_tv_last_match"
         app:layout_constraintTop_toBottomOf="@id/item_relative_tv_last_match" />
 
     <TextView

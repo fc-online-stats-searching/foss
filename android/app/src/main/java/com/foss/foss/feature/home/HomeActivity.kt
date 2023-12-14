@@ -11,6 +11,8 @@ import com.foss.foss.databinding.ActivityHomeBinding
 import com.foss.foss.feature.statsearching.recent.RecentMatchesFragment
 import com.foss.foss.feature.statsearching.recent.RecentMatchesViewModel
 import com.foss.foss.feature.statsearching.relative.RelativeStatsFragment
+import com.foss.foss.feature.statsearching.relative.RelativeStatsViewModel
+import com.foss.foss.util.lifecycle.repeatOnStarted
 
 class HomeActivity : DiActivity() {
 
@@ -19,13 +21,16 @@ class HomeActivity : DiActivity() {
     override val module: Module by lazy { DefaultModule() }
 
     private val recentMatchesViewModel: RecentMatchesViewModel by diViewModels()
+    private val relativeStatsViewModel: RelativeStatsViewModel by diViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setupBinding()
-        setupView()
-        setupButtonClickListener()
+        setupHomeView()
+        setupRecentMatchesObserver()
+        setupRelativeStatsObserver()
+        setSearchingMatchesButtonClickListener()
     }
 
     private fun setupBinding() {
@@ -34,7 +39,7 @@ class HomeActivity : DiActivity() {
         setContentView(binding.root)
     }
 
-    private fun setupView() {
+    private fun setupHomeView() {
         setupBottomNavigationView()
     }
 
@@ -45,6 +50,7 @@ class HomeActivity : DiActivity() {
                     supportFragmentManager.commit {
                         replace(R.id.home_fcv_stats, RecentMatchesFragment())
                     }
+                    setSearchingMatchesButtonClickListener()
                     return@setOnItemSelectedListener true
                 }
 
@@ -52,6 +58,7 @@ class HomeActivity : DiActivity() {
                     supportFragmentManager.commit {
                         replace(R.id.home_fcv_stats, RelativeStatsFragment())
                     }
+                    setSearchingRelativeStatsButtonClickListener()
                     return@setOnItemSelectedListener true
                 }
 
@@ -61,9 +68,27 @@ class HomeActivity : DiActivity() {
         binding.homeBnvMenu.selectedItemId = R.id.item_recent_stats
     }
 
-    private fun setupButtonClickListener() {
+    private fun setupRecentMatchesObserver() {
+        recentMatchesViewModel.matches.observe(this) {
+        }
+    }
+
+    private fun setupRelativeStatsObserver() {
+        repeatOnStarted {
+            relativeStatsViewModel.relativeStats.collect {
+            }
+        }
+    }
+
+    private fun setSearchingMatchesButtonClickListener() {
         binding.homeIvFossLogo.setOnClickListener {
             recentMatchesViewModel.fetchMatches(binding.homeEtNicknameSearching.text.toString())
+        }
+    }
+
+    private fun setSearchingRelativeStatsButtonClickListener() {
+        binding.homeIvFossLogo.setOnClickListener {
+            relativeStatsViewModel.fetchRelativeStats(binding.homeEtNicknameSearching.text.toString())
         }
     }
 }

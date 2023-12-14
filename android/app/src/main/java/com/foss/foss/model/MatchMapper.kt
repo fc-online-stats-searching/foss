@@ -23,7 +23,7 @@ object MatchMapper {
         MatchType.VOLTA_CUSTOM -> MatchTypeUiModel.VOLTA_CUSTOM
     }
 
-    private fun WinDrawLose.toUiModel() = when (this) {
+    fun WinDrawLose.toUiModel() = when (this) {
         WinDrawLose.WIN -> WinDrawLoseUiModel.WIN
         WinDrawLose.DRAW -> WinDrawLoseUiModel.DRAW
         WinDrawLose.LOSE -> WinDrawLoseUiModel.LOSE

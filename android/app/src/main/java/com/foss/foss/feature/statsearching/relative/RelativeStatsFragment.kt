@@ -4,16 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.widget.Toast
+import androidx.fragment.app.activityViewModels
+import com.boogiwoogi.woogidi.fragment.DiFragment
+import com.boogiwoogi.woogidi.pure.DefaultModule
+import com.boogiwoogi.woogidi.pure.Module
+import com.foss.foss.R
 import com.foss.foss.databinding.FragmentRelativeStatsBinding
-import com.foss.foss.model.RelativeStatsUiModel.Companion.mockDatas
+import com.foss.foss.util.lifecycle.repeatOnStarted
 
-class RelativeStatsFragment : Fragment() {
+class RelativeStatsFragment : DiFragment() {
+
+    override val module: Module = DefaultModule()
 
     private var _binding: FragmentRelativeStatsBinding? = null
     private val binding get() = _binding!!
 
-    private val relativeStatsAdapter: RelativeStatsAdapter by lazy { RelativeStatsAdapter(mockDatas) }
+    private val relativeStatsViewModel: RelativeStatsViewModel by activityViewModels()
+
+    private val relativeStatsAdapter: RelativeStatsAdapter by lazy { RelativeStatsAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,12 +37,40 @@ class RelativeStatsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.relativeRvStats.adapter = relativeStatsAdapter
+        setupRelativeStatsView()
+        setupRelativeStatsObserver()
+        setupRelativeStatsEventObserver()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
 
         _binding = null
+    }
+
+    private fun setupRelativeStatsView() {
+        binding.relativeRvStats.adapter = relativeStatsAdapter
+    }
+
+    private fun setupRelativeStatsObserver() {
+        repeatOnStarted {
+            relativeStatsViewModel.relativeStats.collect { relativeStats ->
+                relativeStatsAdapter.submitList(relativeStats)
+            }
+        }
+    }
+
+    private fun setupRelativeStatsEventObserver() {
+        repeatOnStarted {
+            relativeStatsViewModel.event.collect { event ->
+                when (event) {
+                    RelativeStatsEvent.Failed -> Toast.makeText(
+                        requireContext(),
+                        getString(R.string.relative_stats_failed_fetching_data),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
     }
 }
