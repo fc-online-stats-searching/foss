@@ -6,15 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.boogiwoogi.woogidi.fragment.DiFragment
 import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Module
 import com.foss.foss.R
 import com.foss.foss.databinding.FragmentRelativeStatsBinding
-import kotlinx.coroutines.launch
+import com.foss.foss.util.lifecycle.repeatOnStarted
 
 class RelativeStatsFragment : DiFragment() {
 
@@ -56,26 +53,22 @@ class RelativeStatsFragment : DiFragment() {
     }
 
     private fun setupRelativeStatsObserver() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                relativeStatsViewModel.relativeStats.collect { relativeStats ->
-                    relativeStatsAdapter.submitList(relativeStats)
-                }
+        repeatOnStarted {
+            relativeStatsViewModel.relativeStats.collect { relativeStats ->
+                relativeStatsAdapter.submitList(relativeStats)
             }
         }
     }
 
     private fun setupRelativeStatsEventObserver() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                relativeStatsViewModel.event.collect { event ->
-                    when (event) {
-                        RelativeStatsEvent.Failed -> Toast.makeText(
-                            requireContext(),
-                            getString(R.string.relative_stats_failed_fetching_data),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+        repeatOnStarted {
+            relativeStatsViewModel.event.collect { event ->
+                when (event) {
+                    RelativeStatsEvent.Failed -> Toast.makeText(
+                        requireContext(),
+                        getString(R.string.relative_stats_failed_fetching_data),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }

@@ -2,9 +2,6 @@ package com.foss.foss.feature.home
 
 import android.os.Bundle
 import androidx.fragment.app.commit
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.boogiwoogi.woogidi.activity.DiActivity
 import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Module
@@ -15,7 +12,7 @@ import com.foss.foss.feature.statsearching.recent.RecentMatchesFragment
 import com.foss.foss.feature.statsearching.recent.RecentMatchesViewModel
 import com.foss.foss.feature.statsearching.relative.RelativeStatsFragment
 import com.foss.foss.feature.statsearching.relative.RelativeStatsViewModel
-import kotlinx.coroutines.launch
+import com.foss.foss.util.lifecycle.repeatOnStarted
 
 class HomeActivity : DiActivity() {
 
@@ -77,10 +74,8 @@ class HomeActivity : DiActivity() {
     }
 
     private fun setupRelativeStatsObserver() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                relativeStatsViewModel.relativeStats.collect {
-                }
+        repeatOnStarted {
+            relativeStatsViewModel.relativeStats.collect {
             }
         }
     }
