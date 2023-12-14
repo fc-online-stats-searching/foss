@@ -17,6 +17,7 @@ import com.foss.foss.feature.statsearching.recent.RecentMatchesAdapter
 import com.foss.foss.feature.statsearching.relative.RelativeStatsFragment.Companion.KEY_NICKNAME
 import com.foss.foss.feature.statsearching.relative.RelativeStatsFragment.Companion.KEY_OPPONENT_NAME
 import com.foss.foss.feature.statsearching.relative.RelativeStatsFragment.Companion.KEY_REQUEST
+import com.foss.foss.feature.statsearching.relative.RelativeStatsViewModel
 import kotlinx.coroutines.launch
 
 class RelativeDetailStatsFragment : DiFragment() {
@@ -26,7 +27,7 @@ class RelativeDetailStatsFragment : DiFragment() {
     private val binding
         get() = _binding!!
 
-    private val relativeDetailStatsViewModel: RelativeDetailStatsViewModel by activityViewModels()
+    private val relativeStatsViewModel: RelativeStatsViewModel by activityViewModels()
     private val relativeDetailStatsAdapter: RecentMatchesAdapter by lazy {
         RecentMatchesAdapter()
     }
@@ -61,13 +62,13 @@ class RelativeDetailStatsFragment : DiFragment() {
             nickname = requireNotNull(bundle.getString(KEY_NICKNAME))
             opponentName = requireNotNull(bundle.getString(KEY_OPPONENT_NAME))
         }
-        relativeDetailStatsViewModel.fetchMatchesBetweenUsers(nickname, opponentName)
+        relativeStatsViewModel.fetchMatchesBetweenUsers(nickname, opponentName)
     }
 
     private fun setupRelativeDetailStatsObserver() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                relativeDetailStatsViewModel.matches.collect {
+                relativeStatsViewModel.relativeStatsDetails.collect {
                     relativeDetailStatsAdapter.submitList(it)
                 }
             }
