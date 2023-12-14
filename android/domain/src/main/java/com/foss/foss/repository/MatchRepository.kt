@@ -8,4 +8,5 @@ import com.foss.foss.model.Match
 interface MatchRepository {
 
     fun fetchMatches(nickname: String): Result<List<Match>>
+    fun fetchMatchesBetweenUsers(nickname: String, opponentNickname: String): Result<List<Match>>
 }
