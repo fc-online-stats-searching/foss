@@ -21,6 +21,8 @@ class RelativeStatsViewModel(
     private val relativeStatsRepository: RelativeStatsRepository,
 ) : ViewModel() {
 
+    val name = MutableStateFlow("")
+
     private val _relativeStats: MutableStateFlow<List<RelativeStatUiModel>> =
         MutableStateFlow(listOf())
     val relativeStats: StateFlow<List<RelativeStatUiModel>>

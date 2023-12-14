@@ -35,6 +35,7 @@ class HomeActivity : DiActivity() {
 
     private fun setupBinding() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
+        binding.viewModel = relativeStatsViewModel
 
         setContentView(binding.root)
     }
