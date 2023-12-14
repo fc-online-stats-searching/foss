@@ -22,6 +22,7 @@ class HomeActivity : DiActivity() {
 
     private val recentMatchesViewModel: RecentMatchesViewModel by diViewModels()
     private val relativeStatsViewModel: RelativeStatsViewModel by diViewModels()
+    private val relativeDetailStatsViewModel: RelativeDetailStatsViewModel by diViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +31,7 @@ class HomeActivity : DiActivity() {
         setupHomeView()
         setupRecentMatchesObserver()
         setupRelativeStatsObserver()
+        setUpRelativeDetailStatsObserver()
         setSearchingMatchesButtonClickListener()
     }
 
@@ -76,6 +78,15 @@ class HomeActivity : DiActivity() {
     private fun setupRelativeStatsObserver() {
         repeatOnStarted {
             relativeStatsViewModel.relativeStats.collect {
+            }
+        }
+    }
+
+    private fun setUpRelativeDetailStatsObserver() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                relativeDetailStatsViewModel.matches.collect {
+                }
             }
         }
     }
