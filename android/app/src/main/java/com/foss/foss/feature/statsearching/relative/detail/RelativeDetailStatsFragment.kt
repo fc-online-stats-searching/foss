@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -14,8 +13,6 @@ import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Module
 import com.foss.foss.databinding.FragmentRelativeDetailStatsBinding
 import com.foss.foss.feature.statsearching.recent.RecentMatchesAdapter
-import com.foss.foss.feature.statsearching.relative.RelativeStatsFragment.Companion.KEY_OPPONENT_NAME
-import com.foss.foss.feature.statsearching.relative.RelativeStatsFragment.Companion.KEY_REQUEST
 import com.foss.foss.feature.statsearching.relative.RelativeStatsViewModel
 import kotlinx.coroutines.launch
 
@@ -55,11 +52,7 @@ class RelativeDetailStatsFragment : DiFragment() {
     }
 
     private fun setupData() {
-        var opponentName = ""
-        setFragmentResultListener(KEY_REQUEST) { _, bundle ->
-            opponentName = requireNotNull(bundle.getString(KEY_OPPONENT_NAME))
-        }
-        relativeStatsViewModel.fetchMatchesBetweenUsers(opponentName)
+        relativeStatsViewModel.fetchMatchesBetweenUsers()
     }
 
     private fun setupRelativeDetailStatsObserver() {

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -30,9 +29,8 @@ class RelativeStatsFragment : DiFragment() {
 
     private val relativeStatsAdapter: RelativeStatsAdapter by lazy {
         RelativeStatsAdapter { opponentName ->
+            relativeStatsViewModel.updateOpponentName(opponentName)
             parentFragmentManager.commit {
-                val requestBundle = bundleOf(KEY_OPPONENT_NAME to opponentName)
-                setFragmentResult(KEY_REQUEST, requestBundle)
                 replace<RelativeDetailStatsFragment>(R.id.home_fcv_stats)
                 setReorderingAllowed(true)
                 addToBackStack(null)
@@ -88,10 +86,5 @@ class RelativeStatsFragment : DiFragment() {
                 }
             }
         }
-    }
-
-    companion object {
-        const val KEY_REQUEST = "request"
-        const val KEY_OPPONENT_NAME = "opponentName"
     }
 }

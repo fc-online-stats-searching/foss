@@ -22,6 +22,7 @@ class RelativeStatsViewModel(
 ) : ViewModel() {
 
     val name = MutableStateFlow("")
+    private var _opponentName = ""
 
     private val _relativeStats: MutableStateFlow<List<RelativeStatUiModel>> =
         MutableStateFlow(listOf())
@@ -48,13 +49,17 @@ class RelativeStatsViewModel(
         }
     }
 
-    fun fetchMatchesBetweenUsers(opponentNickname: String) {
+    fun fetchMatchesBetweenUsers() {
         viewModelScope.launch {
-            matchRepository.fetchMatchesBetweenUsers(name.value, opponentNickname)
+            matchRepository.fetchMatchesBetweenUsers(name.value, _opponentName)
                 .onSuccess { matches ->
                     _relativeStatsDetails.value = matches.map { it.toUiModel() }
                 }
                 .onFailure { }
         }
+    }
+
+    fun updateOpponentName(opponentNickname: String) {
+        _opponentName = opponentNickname
     }
 }
