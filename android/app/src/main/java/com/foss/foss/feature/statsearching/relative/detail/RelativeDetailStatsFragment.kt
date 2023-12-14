@@ -14,7 +14,6 @@ import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Module
 import com.foss.foss.databinding.FragmentRelativeDetailStatsBinding
 import com.foss.foss.feature.statsearching.recent.RecentMatchesAdapter
-import com.foss.foss.feature.statsearching.relative.RelativeStatsFragment.Companion.KEY_NICKNAME
 import com.foss.foss.feature.statsearching.relative.RelativeStatsFragment.Companion.KEY_OPPONENT_NAME
 import com.foss.foss.feature.statsearching.relative.RelativeStatsFragment.Companion.KEY_REQUEST
 import com.foss.foss.feature.statsearching.relative.RelativeStatsViewModel
@@ -56,13 +55,11 @@ class RelativeDetailStatsFragment : DiFragment() {
     }
 
     private fun setupData() {
-        var nickname = ""
         var opponentName = ""
         setFragmentResultListener(KEY_REQUEST) { _, bundle ->
-            nickname = requireNotNull(bundle.getString(KEY_NICKNAME))
             opponentName = requireNotNull(bundle.getString(KEY_OPPONENT_NAME))
         }
-        relativeStatsViewModel.fetchMatchesBetweenUsers(nickname, opponentName)
+        relativeStatsViewModel.fetchMatchesBetweenUsers(opponentName)
     }
 
     private fun setupRelativeDetailStatsObserver() {

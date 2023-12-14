@@ -37,9 +37,9 @@ class RelativeStatsViewModel(
     val event: SharedFlow<RelativeStatsEvent>
         get() = _event.asSharedFlow()
 
-    fun fetchRelativeStats(nickname: String) {
+    fun fetchRelativeStats() {
         viewModelScope.launch {
-            relativeStatsRepository.fetchRelativeStats(nickname)
+            relativeStatsRepository.fetchRelativeStats(name.value)
                 .onSuccess { relativeStats ->
                     _relativeStats.value = relativeStats.map { it.toUiModel() }
                 }.onFailure {
@@ -48,9 +48,9 @@ class RelativeStatsViewModel(
         }
     }
 
-    fun fetchMatchesBetweenUsers(nickname: String, opponentNickname: String) {
+    fun fetchMatchesBetweenUsers(opponentNickname: String) {
         viewModelScope.launch {
-            matchRepository.fetchMatchesBetweenUsers(nickname, opponentNickname)
+            matchRepository.fetchMatchesBetweenUsers(name.value, opponentNickname)
                 .onSuccess { matches ->
                     _relativeStatsDetails.value = matches.map { it.toUiModel() }
                 }

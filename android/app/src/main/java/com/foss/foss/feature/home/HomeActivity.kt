@@ -89,7 +89,7 @@ class HomeActivity : DiActivity() {
 
     private fun setSearchingRelativeStatsButtonClickListener() {
         binding.homeIvFossLogo.setOnClickListener {
-            relativeStatsViewModel.fetchRelativeStats(binding.homeEtNicknameSearching.text.toString())
+            relativeStatsViewModel.fetchRelativeStats()
         }
     }
 }
