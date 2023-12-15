@@ -30,7 +30,7 @@ class HomeActivity : DiActivity() {
         setupHomeView()
         setupRecentMatchesObserver()
         setupRelativeStatsObserver()
-        setSearchingMatchesButtonClickListener()
+        setSearchingRecentMatchesButtonClickListener()
     }
 
     private fun setupBinding() {
@@ -46,12 +46,13 @@ class HomeActivity : DiActivity() {
 
     private fun setupBottomNavigationView() {
         binding.homeBnvMenu.setOnItemSelectedListener { item ->
+            setSearchingMatchesButtonClickListener(item.itemId)
+
             when (item.itemId) {
                 R.id.item_recent_stats -> {
                     supportFragmentManager.commit {
                         replace(R.id.home_fcv_stats, RecentMatchesFragment())
                     }
-                    setSearchingMatchesButtonClickListener()
                     return@setOnItemSelectedListener true
                 }
 
@@ -59,7 +60,6 @@ class HomeActivity : DiActivity() {
                     supportFragmentManager.commit {
                         replace(R.id.home_fcv_stats, RelativeStatsFragment())
                     }
-                    setSearchingRelativeStatsButtonClickListener()
                     return@setOnItemSelectedListener true
                 }
 
@@ -81,7 +81,14 @@ class HomeActivity : DiActivity() {
         }
     }
 
-    private fun setSearchingMatchesButtonClickListener() {
+    private fun setSearchingMatchesButtonClickListener(id: Int) {
+        when (id) {
+            R.id.item_recent_stats -> setSearchingRecentMatchesButtonClickListener()
+            R.id.item_relative_stats -> setSearchingRelativeStatsButtonClickListener()
+        }
+    }
+
+    private fun setSearchingRecentMatchesButtonClickListener() {
         binding.homeIvFossLogo.setOnClickListener {
             recentMatchesViewModel.fetchMatches(binding.homeEtNicknameSearching.text.toString())
         }
