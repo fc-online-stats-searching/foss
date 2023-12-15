@@ -12,9 +12,10 @@ import com.foss.foss.feature.statsearching.recent.RecentMatchesFragment
 import com.foss.foss.feature.statsearching.recent.RecentMatchesViewModel
 import com.foss.foss.feature.statsearching.relative.RelativeStatsFragment
 import com.foss.foss.feature.statsearching.relative.RelativeStatsViewModel
+import com.foss.foss.util.OnChangeVisibilityListener
 import com.foss.foss.util.lifecycle.repeatOnStarted
 
-class HomeActivity : DiActivity() {
+class HomeActivity : DiActivity(), OnChangeVisibilityListener {
 
     private lateinit var binding: ActivityHomeBinding
 
@@ -97,6 +98,15 @@ class HomeActivity : DiActivity() {
     private fun setSearchingRelativeStatsButtonClickListener() {
         binding.homeIvFossLogo.setOnClickListener {
             relativeStatsViewModel.fetchRelativeStats()
+            onChangeVisibility()
+        }
+    }
+
+    override fun onChangeVisibility() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.home_fcv_stats)
+        when (fragment) {
+            is RecentMatchesFragment -> { fragment.changeVisibility() }
+            is RelativeStatsFragment -> { fragment.changeVisibility() }
         }
     }
 }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -54,12 +55,6 @@ class RelativeStatsFragment : DiFragment() {
         setupRelativeStatsEventObserver()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-
-        _binding = null
-    }
-
     private fun setupRelativeStatsView() {
         binding.relativeRvStats.adapter = relativeStatsAdapter
     }
@@ -84,5 +79,17 @@ class RelativeStatsFragment : DiFragment() {
                 }
             }
         }
+    }
+
+    fun changeVisibility() {
+        if (binding.relativeTvInfo.isVisible) {
+            binding.relativeTvInfo.visibility = View.GONE
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        _binding = null
     }
 }
