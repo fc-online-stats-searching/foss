@@ -104,12 +104,10 @@
 
     <View
         android:id="@+id/item_match_view_side_bar"
-        android:layout_width="0dp"
+        android:layout_width="24dp"
         android:layout_height="0dp"
-        android:layout_marginStart="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/item_match_tv_other_side_nickname"
         app:layout_constraintTop_toTopOf="parent"
         tools:background="@color/item_match_blue_side_bar" />
 
