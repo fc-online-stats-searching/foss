@@ -27,7 +27,7 @@ class RecentMatchesFragment : DiFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentRecentMatchesBinding.inflate(layoutInflater)
 
@@ -55,7 +55,7 @@ class RecentMatchesFragment : DiFragment() {
                 R.layout.spinner_item_match_type,
                 matchTypes.map { matchType ->
                     getString(matchType.resId)
-                }.toTypedArray()
+                }.toTypedArray(),
             )
         }
     }

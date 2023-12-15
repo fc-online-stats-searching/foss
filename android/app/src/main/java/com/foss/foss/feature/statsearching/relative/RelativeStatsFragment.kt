@@ -13,10 +13,8 @@ import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Module
 import com.foss.foss.R
 import com.foss.foss.databinding.FragmentRelativeStatsBinding
-import com.foss.foss.util.lifecycle.repeatOnStarted
-import com.foss.foss.feature.statsearching.recent.RecentMatchesFragment
 import com.foss.foss.feature.statsearching.relative.detail.RelativeDetailStatsFragment
-import kotlinx.coroutines.launch
+import com.foss.foss.util.lifecycle.repeatOnStarted
 
 class RelativeStatsFragment : DiFragment() {
 
@@ -81,7 +79,7 @@ class RelativeStatsFragment : DiFragment() {
                     RelativeStatsEvent.Failed -> Toast.makeText(
                         requireContext(),
                         getString(R.string.relative_stats_failed_fetching_data),
-                        Toast.LENGTH_SHORT
+                        Toast.LENGTH_SHORT,
                     ).show()
                 }
             }
