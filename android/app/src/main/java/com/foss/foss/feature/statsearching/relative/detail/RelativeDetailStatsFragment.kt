@@ -67,6 +67,7 @@ class RelativeDetailStatsFragment : DiFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
+        relativeStatsViewModel.resetRelativeStatsDetails()
         _binding = null
     }
 }

@@ -25,7 +25,7 @@ class RelativeStatsViewModel(
     private var _opponentName = ""
 
     private val _relativeStats: MutableStateFlow<List<RelativeStatUiModel>> =
-        MutableStateFlow(listOf())
+        MutableStateFlow(emptyList())
     val relativeStats: StateFlow<List<RelativeStatUiModel>>
         get() = _relativeStats.asStateFlow()
 
@@ -57,6 +57,10 @@ class RelativeStatsViewModel(
                 }
                 .onFailure { }
         }
+    }
+
+    fun resetRelativeStatsDetails() {
+        _relativeStatsDetails.value = emptyList()
     }
 
     fun updateOpponentName(opponentNickname: String) {
