@@ -5,16 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.boogiwoogi.woogidi.fragment.DiFragment
 import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Module
 import com.foss.foss.databinding.FragmentRelativeDetailStatsBinding
 import com.foss.foss.feature.statsearching.recent.RecentMatchesAdapter
 import com.foss.foss.feature.statsearching.relative.RelativeStatsViewModel
-import kotlinx.coroutines.launch
+import com.foss.foss.util.lifecycle.repeatOnStarted
 
 class RelativeDetailStatsFragment : DiFragment() {
     override val module: Module by lazy { DefaultModule() }
@@ -56,11 +53,9 @@ class RelativeDetailStatsFragment : DiFragment() {
     }
 
     private fun setupRelativeDetailStatsObserver() {
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                relativeStatsViewModel.relativeStatsDetails.collect {
-                    relativeDetailStatsAdapter.submitList(it)
-                }
+        repeatOnStarted {
+            relativeStatsViewModel.relativeStatsDetails.collect {
+                relativeDetailStatsAdapter.submitList(it)
             }
         }
     }
