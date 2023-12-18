@@ -18,10 +18,10 @@ object RelativeStatsFixture {
                     WinDrawLose.WIN,
                     WinDrawLose.DRAW,
                     WinDrawLose.WIN,
-                    WinDrawLose.DRAW
-                )
+                    WinDrawLose.DRAW,
+                ),
             ),
-            totalScore = Score(point = 31, otherPoint = 23)
+            totalScore = Score(point = 31, otherPoint = 23),
         ),
         RelativeStat(
             "신공학관캣대디",
@@ -34,10 +34,10 @@ object RelativeStatsFixture {
                     WinDrawLose.WIN,
                     WinDrawLose.DRAW,
                     WinDrawLose.WIN,
-                    WinDrawLose.DRAW
-                )
+                    WinDrawLose.DRAW,
+                ),
             ),
-            totalScore = Score(point = 31, otherPoint = 23)
+            totalScore = Score(point = 31, otherPoint = 23),
         ),
         RelativeStat(
             "신공학관캣맘",
@@ -50,10 +50,10 @@ object RelativeStatsFixture {
                     WinDrawLose.WIN,
                     WinDrawLose.DRAW,
                     WinDrawLose.WIN,
-                    WinDrawLose.DRAW
-                )
+                    WinDrawLose.DRAW,
+                ),
             ),
-            totalScore = Score(point = 31, otherPoint = 23)
-        )
+            totalScore = Score(point = 31, otherPoint = 23),
+        ),
     )
 }
