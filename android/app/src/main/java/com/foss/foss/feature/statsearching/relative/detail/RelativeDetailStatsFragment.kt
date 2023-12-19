@@ -49,7 +49,7 @@ class RelativeDetailStatsFragment : DiFragment() {
     }
 
     private fun setupData() {
-        relativeStatsViewModel.fetchMatchesBetweenUsers()
+        relativeStatsViewModel.fetchRelativeMatchesBetweenUsers()
     }
 
     private fun setupRelativeDetailStatsObserver() {

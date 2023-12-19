@@ -51,7 +51,7 @@ class RelativeStatsViewModelTest {
     }
 
     fun `특정 유저와의 상대 전적 요청을 하면`() {
-        relativeStatsViewModel.fetchMatchesBetweenUsers()
+        relativeStatsViewModel.fetchRelativeMatchesBetweenUsers()
     }
 
     fun `상대전적 기록 요청을 하면`() {

@@ -49,7 +49,7 @@ class RelativeStatsViewModel(
         }
     }
 
-    fun fetchMatchesBetweenUsers() {
+    fun fetchRelativeMatchesBetweenUsers() {
         viewModelScope.launch {
             matchRepository.fetchMatchesBetweenUsers(name.value, _opponentName)
                 .onSuccess { matches ->
