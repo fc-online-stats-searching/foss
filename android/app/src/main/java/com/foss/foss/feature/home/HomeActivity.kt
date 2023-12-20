@@ -12,9 +12,10 @@ import com.foss.foss.feature.statsearching.recent.RecentMatchesFragment
 import com.foss.foss.feature.statsearching.recent.RecentMatchesViewModel
 import com.foss.foss.feature.statsearching.relative.RelativeStatsFragment
 import com.foss.foss.feature.statsearching.relative.RelativeStatsViewModel
+import com.foss.foss.util.OnChangeVisibilityListener
 import com.foss.foss.util.lifecycle.repeatOnStarted
 
-class HomeActivity : DiActivity() {
+class HomeActivity : DiActivity(), OnChangeVisibilityListener {
 
     private lateinit var binding: ActivityHomeBinding
 
@@ -30,11 +31,12 @@ class HomeActivity : DiActivity() {
         setupHomeView()
         setupRecentMatchesObserver()
         setupRelativeStatsObserver()
-        setSearchingMatchesButtonClickListener()
+        setSearchingRecentMatchesButtonClickListener()
     }
 
     private fun setupBinding() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
+        binding.viewModel = relativeStatsViewModel
 
         setContentView(binding.root)
     }
@@ -45,12 +47,13 @@ class HomeActivity : DiActivity() {
 
     private fun setupBottomNavigationView() {
         binding.homeBnvMenu.setOnItemSelectedListener { item ->
+            setSearchingMatchesButtonClickListener(item.itemId)
+
             when (item.itemId) {
                 R.id.item_recent_stats -> {
                     supportFragmentManager.commit {
                         replace(R.id.home_fcv_stats, RecentMatchesFragment())
                     }
-                    setSearchingMatchesButtonClickListener()
                     return@setOnItemSelectedListener true
                 }
 
@@ -58,7 +61,6 @@ class HomeActivity : DiActivity() {
                     supportFragmentManager.commit {
                         replace(R.id.home_fcv_stats, RelativeStatsFragment())
                     }
-                    setSearchingRelativeStatsButtonClickListener()
                     return@setOnItemSelectedListener true
                 }
 
@@ -80,7 +82,14 @@ class HomeActivity : DiActivity() {
         }
     }
 
-    private fun setSearchingMatchesButtonClickListener() {
+    private fun setSearchingMatchesButtonClickListener(id: Int) {
+        when (id) {
+            R.id.item_recent_stats -> setSearchingRecentMatchesButtonClickListener()
+            R.id.item_relative_stats -> setSearchingRelativeStatsButtonClickListener()
+        }
+    }
+
+    private fun setSearchingRecentMatchesButtonClickListener() {
         binding.homeIvFossLogo.setOnClickListener {
             recentMatchesViewModel.fetchMatches(binding.homeEtNicknameSearching.text.toString())
         }
@@ -88,7 +97,16 @@ class HomeActivity : DiActivity() {
 
     private fun setSearchingRelativeStatsButtonClickListener() {
         binding.homeIvFossLogo.setOnClickListener {
-            relativeStatsViewModel.fetchRelativeStats(binding.homeEtNicknameSearching.text.toString())
+            relativeStatsViewModel.fetchRelativeStats()
+            onChangeVisibility()
+        }
+    }
+
+    override fun onChangeVisibility() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.home_fcv_stats)
+        when (fragment) {
+            is RecentMatchesFragment -> { fragment.changeVisibility() }
+            is RelativeStatsFragment -> { fragment.changeVisibility() }
         }
     }
 }

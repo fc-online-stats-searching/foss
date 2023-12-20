@@ -9,8 +9,14 @@ import com.foss.foss.model.RelativeStatUiModel
 import java.time.format.DateTimeFormatter
 
 class RelativeStatsViewHolder private constructor(
-    private val binding: ItemRelativeStatsBinding
+    private val binding: ItemRelativeStatsBinding,
+    private val onClick: (Int) -> Unit,
 ) : RecyclerView.ViewHolder(binding.root) {
+    init {
+        binding.root.setOnClickListener {
+            onClick(adapterPosition)
+        }
+    }
 
     fun bind(relativeStat: RelativeStatUiModel) {
         with(binding) {
@@ -20,32 +26,32 @@ class RelativeStatsViewHolder private constructor(
                 relativeStat.numberOfGames,
                 relativeStat.numberOfWins,
                 relativeStat.numberOfDraws,
-                relativeStat.numberOfLoses
+                relativeStat.numberOfLoses,
             )
             itemRelativeTvLastMatch.text = relativeStat.recentMatchDate.format(
-                DateTimeFormatter.ofPattern(itemView.context.getString(R.string.common_date_format))
+                DateTimeFormatter.ofPattern(itemView.context.getString(R.string.common_date_format)),
             )
             itemRelativeTvGoal.text = itemView.context.getString(
                 R.string.item_relative_stats_score,
-                relativeStat.goal
+                relativeStat.goal,
             )
             itemRelativeTvConceded.text = itemView.context.getString(
                 R.string.item_relative_stats_score,
-                relativeStat.conceded
+                relativeStat.conceded,
             )
         }
     }
 
     companion object {
 
-        fun from(parent: ViewGroup): RelativeStatsViewHolder {
+        fun from(parent: ViewGroup, onClick: (Int) -> Unit): RelativeStatsViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             val binding = ItemRelativeStatsBinding.inflate(
                 layoutInflater,
                 parent,
-                false
+                false,
             )
-            return RelativeStatsViewHolder(binding)
+            return RelativeStatsViewHolder(binding, onClick)
         }
     }
 }

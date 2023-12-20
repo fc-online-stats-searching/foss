@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import com.boogiwoogi.woogidi.fragment.DiFragment
 import com.boogiwoogi.woogidi.pure.DefaultModule
@@ -27,7 +28,7 @@ class RecentMatchesFragment : DiFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentRecentMatchesBinding.inflate(layoutInflater)
 
@@ -55,8 +56,14 @@ class RecentMatchesFragment : DiFragment() {
                 R.layout.spinner_item_match_type,
                 matchTypes.map { matchType ->
                     getString(matchType.resId)
-                }.toTypedArray()
+                }.toTypedArray(),
             )
+        }
+    }
+
+    fun changeVisibility() {
+        if (binding.recentTvInfo.isVisible) {
+            binding.recentTvInfo.visibility = View.GONE
         }
     }
 
