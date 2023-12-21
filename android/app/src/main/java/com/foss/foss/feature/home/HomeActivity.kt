@@ -1,6 +1,7 @@
 package com.foss.foss.feature.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.commit
 import com.boogiwoogi.woogidi.activity.DiActivity
 import com.boogiwoogi.woogidi.pure.DefaultModule
@@ -13,6 +14,7 @@ import com.foss.foss.feature.statsearching.recent.RecentMatchesViewModel
 import com.foss.foss.feature.statsearching.relative.RelativeStatsFragment
 import com.foss.foss.feature.statsearching.relative.RelativeStatsViewModel
 import com.foss.foss.util.OnChangeVisibilityListener
+import com.foss.foss.util.UiState
 import com.foss.foss.util.lifecycle.repeatOnStarted
 
 class HomeActivity : DiActivity(), OnChangeVisibilityListener {
@@ -29,9 +31,21 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
 
         setupBinding()
         setupHomeView()
+
+        test()
+
         setupRecentMatchesObserver()
         setupRelativeStatsObserver()
         setSearchingRecentMatchesButtonClickListener()
+
+    }
+
+    private fun test() {
+        //recentMatchesViewModel 를 한번 사용하기 위한 임시 코드. (사용 안하면 오류 발생)
+        //java.lang.RuntimeException: Cannot create an instance of class com.foss.foss.feature.statsearching.recent.RecentMatchesViewModel
+        recentMatchesViewModel.matchTypes.observe(this) {
+            Log.d("Test", "Test")
+        }
     }
 
     private fun setupBinding() {
@@ -71,7 +85,19 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
     }
 
     private fun setupRecentMatchesObserver() {
-        recentMatchesViewModel.matches.observe(this) {
+        repeatOnStarted {
+            recentMatchesViewModel.uiState.collect { uiState ->
+                when (uiState) {
+                    is UiState.Loading -> {
+                    }
+
+                    is UiState.Success -> {
+                    }
+
+                    is UiState.Error -> {
+                    }
+                }
+            }
         }
     }
 
@@ -105,8 +131,13 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
     override fun onChangeVisibility() {
         val fragment = supportFragmentManager.findFragmentById(R.id.home_fcv_stats)
         when (fragment) {
-            is RecentMatchesFragment -> { fragment.changeVisibility() }
-            is RelativeStatsFragment -> { fragment.changeVisibility() }
+            is RecentMatchesFragment -> {
+                fragment.changeVisibility()
+            }
+
+            is RelativeStatsFragment -> {
+                fragment.changeVisibility()
+            }
         }
     }
 }

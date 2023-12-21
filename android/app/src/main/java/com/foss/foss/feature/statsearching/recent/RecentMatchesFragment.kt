@@ -12,6 +12,8 @@ import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Module
 import com.foss.foss.R
 import com.foss.foss.databinding.FragmentRecentMatchesBinding
+import com.foss.foss.util.UiState
+import com.foss.foss.util.lifecycle.repeatOnStarted
 
 class RecentMatchesFragment : DiFragment() {
 
@@ -47,18 +49,45 @@ class RecentMatchesFragment : DiFragment() {
     }
 
     private fun setupObserver() {
-        viewModel.matches.observe(viewLifecycleOwner) { matches ->
-            adapter.submitList(matches)
+
+        repeatOnStarted {
+            viewModel.uiState.collect { uiState ->
+                when (uiState) {
+                    is UiState.Loading -> {
+                    }
+
+                    is UiState.Success -> {
+                        adapter.submitList(uiState.data)
+                    }
+
+                    is UiState.Error -> {
+                    }
+                }
+            }
         }
-        viewModel.matchTypes.observe(viewLifecycleOwner) { matchTypes ->
+
+        viewModel.matchTypes.observe(viewLifecycleOwner) {
             binding.recentMatchSpinnerMatchType.adapter = ArrayAdapter(
                 requireContext(),
                 R.layout.spinner_item_match_type,
-                matchTypes.map { matchType ->
+                it.map { matchType ->
                     getString(matchType.resId)
                 }.toTypedArray(),
             )
         }
+
+//        repeatOnStarted {
+//            viewModel.matchTypes.collect { matchTypes ->
+//                binding.recentMatchSpinnerMatchType.adapter = ArrayAdapter(
+//                    requireContext(),
+//                    R.layout.spinner_item_match_type,
+//                    matchTypes.map { matchType ->
+//                        getString(matchType.resId)
+//                    }.toTypedArray(),
+//                )
+//            }
+//        }
+
     }
 
     fun changeVisibility() {
