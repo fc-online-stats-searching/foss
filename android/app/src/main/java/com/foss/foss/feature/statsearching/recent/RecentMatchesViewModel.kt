@@ -38,6 +38,10 @@ class RecentMatchesViewModel(
             }
         }
 
+    private val _event: MutableLiveData<RecentMatchesEvent> = MutableLiveData()
+    val event: LiveData<RecentMatchesEvent>
+        get() = _event
+
     fun fetchMatches(_nickname: String) {
         runCatching {
             val nickname = Nickname(_nickname)
@@ -47,6 +51,6 @@ class RecentMatchesViewModel(
                         _matches.value = matchResults
                     }.onFailure { }
             }
-        }.onFailure { }
+        }.onFailure { _event.value = RecentMatchesEvent.Failed }
     }
 }

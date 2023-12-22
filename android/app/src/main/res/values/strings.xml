@@ -8,7 +8,6 @@
     <string name="previous">Previous</string>
 
 
-
     <string name="common_recent_stats">최근 전적</string>
     <string name="common_relative_stats">상대 전적</string>
     <string name="common_logo_description">FOSS</string>
@@ -31,7 +30,7 @@
     <string name="common_volta_offical_description">볼타 공식 경기</string>
     <string name="common_volta_custom_description">볼타 커스텀</string>
 
-
+    <string name="error_message_searching_failed">다시 검색해주세요.</string>
 
     <string name="item_match_result_score">%d:%d</string>
     <string name="item_match_man_of_the_match_description">MOM</string>
@@ -45,6 +44,4 @@
     <string name="home_user_nickname_description">사용자 이름</string>
     <string name="relative_stats_failed_fetching_data">상대 전적을 받아오지 못했습니다.</string>
 
-
-    <string name="toast_invalid_nickname_text">잘못된 닉네임입니다.</string>
 </resources>

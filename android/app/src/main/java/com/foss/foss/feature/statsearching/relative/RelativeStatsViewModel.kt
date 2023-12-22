@@ -50,6 +50,7 @@ class RelativeStatsViewModel(
                         _event.emit(RelativeStatsEvent.Failed)
                     }
             }
+            // TODO: UiState로 적용하면서 닉네임 변환 실패 시 처리 필요
         }.onFailure { }
     }
 
