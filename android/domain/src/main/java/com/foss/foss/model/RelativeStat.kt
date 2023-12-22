@@ -7,8 +7,8 @@ import java.time.LocalDate
  * todo : opponentName으로 통일하기
  */
 data class RelativeStat(
-    val opponentName: String,
+    val opponentName: Nickname,
     val recentMatchDate: LocalDate,
     val winDrawLoses: WinDrawLoses,
-    val totalScore: Score
+    val totalScore: Score,
 )
