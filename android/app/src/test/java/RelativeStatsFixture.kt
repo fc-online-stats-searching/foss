@@ -15,6 +15,7 @@ object RelativeStatsFixture {
                     WinDrawLose.WIN,
                     WinDrawLose.DRAW,
                     WinDrawLose.LOSE,
+                    fff
                     WinDrawLose.WIN,
                     WinDrawLose.DRAW,
                     WinDrawLose.WIN,
