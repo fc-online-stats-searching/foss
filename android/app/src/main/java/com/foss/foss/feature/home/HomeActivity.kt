@@ -37,12 +37,11 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
         setupRecentMatchesObserver()
         setupRelativeStatsObserver()
         setSearchingRecentMatchesButtonClickListener()
-
     }
 
     private fun test() {
-        //recentMatchesViewModel 를 한번 사용하기 위한 임시 코드. (사용 안하면 오류 발생)
-        //java.lang.RuntimeException: Cannot create an instance of class com.foss.foss.feature.statsearching.recent.RecentMatchesViewModel
+        // recentMatchesViewModel 를 한번 사용하기 위한 임시 코드. (사용 안하면 오류 발생)
+        // java.lang.RuntimeException: Cannot create an instance of class com.foss.foss.feature.statsearching.recent.RecentMatchesViewModel
         recentMatchesViewModel.matchTypes.observe(this) {
             Log.d("Test", "Test")
         }
