@@ -1,7 +1,7 @@
 import com.foss.foss.feature.statsearching.recent.RecentMatchesViewModel
 import com.foss.foss.model.Match
 import com.foss.foss.repository.MatchRepository
-import com.foss.foss.util.UiState
+import com.foss.foss.util.RecentMatchesUiState
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -43,7 +43,7 @@ class RecentMatchesViewModelTest {
         val actual = recentMatchesViewModel.uiState.value
 
         // then
-        val expected = UiState.Success(emptyList)
+        val expected = RecentMatchesUiState.Success(emptyList)
         assertEquals(expected, actual)
     }
 
@@ -62,7 +62,7 @@ class RecentMatchesViewModelTest {
         val actual = recentMatchesViewModel.uiState.value
 
         // then
-        val expected = UiState.Error
+        val expected = RecentMatchesUiState.Error
         assertEquals(expected, actual)
     }
 }
