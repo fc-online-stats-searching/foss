@@ -1,7 +1,13 @@
 package com.foss.foss.util
 
-sealed class UiState<out T>(val _data: T?) {
-    object Loading : UiState<Nothing>(_data = null)
-    object Error : UiState<Nothing>(_data = null)
-    data class Success<out R>(val data: R) : UiState<R>(_data = data)
+sealed class HomeUiState<out T>(val _data: T?) {
+    object Loading : HomeUiState<Nothing>(null)
+    object Error : HomeUiState<Nothing>(null)
+    data class Success<out R>(val data: R) : HomeUiState<R>(data)
+}
+
+sealed class RecentMatchesUiState<out T>(val _data: T?) {
+    object Loading : RecentMatchesUiState<Nothing>(null)
+    object Error : RecentMatchesUiState<Nothing>(null)
+    data class Success<out R>(val data: R) : RecentMatchesUiState<R>(data)
 }
