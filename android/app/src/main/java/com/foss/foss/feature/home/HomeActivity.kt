@@ -14,7 +14,6 @@ import com.foss.foss.feature.statsearching.recent.RecentMatchesViewModel
 import com.foss.foss.feature.statsearching.relative.RelativeStatsFragment
 import com.foss.foss.feature.statsearching.relative.RelativeStatsViewModel
 import com.foss.foss.util.OnChangeVisibilityListener
-import com.foss.foss.util.UiState
 import com.foss.foss.util.lifecycle.repeatOnStarted
 
 class HomeActivity : DiActivity(), OnChangeVisibilityListener {
@@ -84,20 +83,6 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
     }
 
     private fun setupRecentMatchesObserver() {
-        repeatOnStarted {
-            recentMatchesViewModel.uiState.collect { uiState ->
-                when (uiState) {
-                    is UiState.Loading -> {
-                    }
-
-                    is UiState.Success -> {
-                    }
-
-                    is UiState.Error -> {
-                    }
-                }
-            }
-        }
     }
 
     private fun setupRelativeStatsObserver() {

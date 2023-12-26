@@ -9,7 +9,7 @@ import com.foss.foss.model.MatchType
 import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.model.MatchUiModel
 import com.foss.foss.repository.MatchRepository
-import com.foss.foss.util.UiState
+import com.foss.foss.util.RecentMatchesUiState
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -21,18 +21,19 @@ class RecentMatchesViewModel(
     private val matchRepository: MatchRepository
 ) : ViewModel() {
 
-
     private val _matchTypes: MutableLiveData<List<MatchTypeUiModel>> =
-        MutableLiveData(MatchType.values().toList().map { machType ->
-            machType.toUiModel()
-        })
+        MutableLiveData(
+            MatchType.values().toList().map { matchType ->
+                matchType.toUiModel()
+            }
+        )
 
     val matchTypes: LiveData<List<MatchTypeUiModel>>
         get() = _matchTypes
 
-    private val _uiState: MutableStateFlow<UiState<List<MatchUiModel>>> =
-        MutableStateFlow(UiState.Loading)
-    val uiState: StateFlow<UiState<List<MatchUiModel>>>
+    private val _uiState: MutableStateFlow<RecentMatchesUiState<List<MatchUiModel>>> =
+        MutableStateFlow(RecentMatchesUiState.Loading)
+    val uiState: StateFlow<RecentMatchesUiState<List<MatchUiModel>>>
         get() = _uiState
 
     private val _event: MutableSharedFlow<RecentMatchesEvent> =
@@ -42,7 +43,7 @@ class RecentMatchesViewModel(
 
     fun fetchMatches(nickname: String) {
         viewModelScope.launch {
-            _uiState.value = UiState.Loading
+            _uiState.value = RecentMatchesUiState.Loading
 
             matchRepository.fetchMatches(nickname)
                 .map { matchResults ->
@@ -51,9 +52,9 @@ class RecentMatchesViewModel(
                     }
                 }
                 .onSuccess { matchResults ->
-                    _uiState.value = UiState.Success(matchResults)
+                    _uiState.value = RecentMatchesUiState.Success(matchResults)
                 }.onFailure { error ->
-                    _uiState.value = UiState.Error
+                    _uiState.value = RecentMatchesUiState.Error
                     _event.emit(RecentMatchesEvent.Failed)
                 }
         }

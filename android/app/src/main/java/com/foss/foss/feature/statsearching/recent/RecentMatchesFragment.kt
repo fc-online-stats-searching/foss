@@ -12,7 +12,7 @@ import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Module
 import com.foss.foss.R
 import com.foss.foss.databinding.FragmentRecentMatchesBinding
-import com.foss.foss.util.UiState
+import com.foss.foss.util.RecentMatchesUiState
 import com.foss.foss.util.lifecycle.repeatOnStarted
 
 class RecentMatchesFragment : DiFragment() {
@@ -53,14 +53,14 @@ class RecentMatchesFragment : DiFragment() {
         repeatOnStarted {
             viewModel.uiState.collect { uiState ->
                 when (uiState) {
-                    is UiState.Loading -> {
+                    is RecentMatchesUiState.Loading -> {
                     }
 
-                    is UiState.Success -> {
+                    is RecentMatchesUiState.Success -> {
                         adapter.submitList(uiState.data)
                     }
 
-                    is UiState.Error -> {
+                    is RecentMatchesUiState.Error -> {
                     }
                 }
             }
@@ -87,7 +87,6 @@ class RecentMatchesFragment : DiFragment() {
 //                )
 //            }
 //        }
-
     }
 
     fun changeVisibility() {
