@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import com.boogiwoogi.woogidi.fragment.DiFragment
@@ -58,6 +59,17 @@ class RecentMatchesFragment : DiFragment() {
                     getString(matchType.resId)
                 }.toTypedArray(),
             )
+        }
+        viewModel.event.observe(viewLifecycleOwner) { event ->
+            when (event) {
+                RecentMatchesEvent.Failed -> {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.error_message_searching_failed),
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                }
+            }
         }
     }
 
