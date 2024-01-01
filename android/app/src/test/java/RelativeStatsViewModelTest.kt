@@ -28,7 +28,7 @@ class RelativeStatsViewModelTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setUp() {
-        Dispatchers.setMain(Dispatchers.Unconfined)
+        Dispatchers.setMain(UnconfinedTestDispatcher())
         matchRepository = mockk()
         relativeStatsRepository = mockk()
         relativeStatsViewModel = RelativeStatsViewModel(matchRepository, relativeStatsRepository)
