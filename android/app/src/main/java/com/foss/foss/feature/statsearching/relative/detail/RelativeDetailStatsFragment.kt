@@ -28,7 +28,7 @@ class RelativeDetailStatsFragment : DiFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRelativeDetailStatsBinding.inflate(inflater, container, false)
 

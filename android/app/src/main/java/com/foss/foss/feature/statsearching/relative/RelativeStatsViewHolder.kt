@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter
 
 class RelativeStatsViewHolder private constructor(
     private val binding: ItemRelativeStatsBinding,
-    private val onClick: (Int) -> Unit,
+    private val onClick: (Int) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     init {
         binding.root.setOnClickListener {
@@ -26,18 +26,18 @@ class RelativeStatsViewHolder private constructor(
                 relativeStat.numberOfGames,
                 relativeStat.numberOfWins,
                 relativeStat.numberOfDraws,
-                relativeStat.numberOfLoses,
+                relativeStat.numberOfLoses
             )
             itemRelativeTvLastMatch.text = relativeStat.recentMatchDate.format(
-                DateTimeFormatter.ofPattern(itemView.context.getString(R.string.common_date_format)),
+                DateTimeFormatter.ofPattern(itemView.context.getString(R.string.common_date_format))
             )
             itemRelativeTvGoal.text = itemView.context.getString(
                 R.string.item_relative_stats_score,
-                relativeStat.goal,
+                relativeStat.goal
             )
             itemRelativeTvConceded.text = itemView.context.getString(
                 R.string.item_relative_stats_score,
-                relativeStat.conceded,
+                relativeStat.conceded
             )
         }
     }
@@ -49,7 +49,7 @@ class RelativeStatsViewHolder private constructor(
             val binding = ItemRelativeStatsBinding.inflate(
                 layoutInflater,
                 parent,
-                false,
+                false
             )
             return RelativeStatsViewHolder(binding, onClick)
         }

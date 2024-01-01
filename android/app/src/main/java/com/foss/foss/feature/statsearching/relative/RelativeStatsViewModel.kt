@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 class RelativeStatsViewModel(
     private val matchRepository: MatchRepository,
-    private val relativeStatsRepository: RelativeStatsRepository,
+    private val relativeStatsRepository: RelativeStatsRepository
 ) : ViewModel() {
 
     val name = MutableStateFlow("")

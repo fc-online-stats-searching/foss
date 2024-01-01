@@ -40,7 +40,7 @@ class RelativeStatsFragment : DiFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRelativeStatsBinding.inflate(inflater, container, false)
 
@@ -74,7 +74,7 @@ class RelativeStatsFragment : DiFragment() {
                     RelativeStatsEvent.Failed -> Toast.makeText(
                         requireContext(),
                         getString(R.string.relative_stats_failed_fetching_data),
-                        Toast.LENGTH_SHORT,
+                        Toast.LENGTH_SHORT
                     ).show()
                 }
             }

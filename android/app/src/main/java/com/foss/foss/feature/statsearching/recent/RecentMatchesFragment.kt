@@ -4,15 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import com.boogiwoogi.woogidi.fragment.DiFragment
 import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Module
-import com.foss.foss.R
 import com.foss.foss.databinding.FragmentRecentMatchesBinding
-import com.foss.foss.util.RecentMatchesUiState
 import com.foss.foss.util.lifecycle.repeatOnStarted
 
 class RecentMatchesFragment : DiFragment() {
@@ -30,7 +27,7 @@ class RecentMatchesFragment : DiFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRecentMatchesBinding.inflate(layoutInflater)
 
@@ -49,32 +46,31 @@ class RecentMatchesFragment : DiFragment() {
     }
 
     private fun setupObserver() {
-
         repeatOnStarted {
             viewModel.uiState.collect { uiState ->
                 when (uiState) {
+                    is RecentMatchesUiState.Default -> {
+                    }
+
                     is RecentMatchesUiState.Loading -> {
                     }
 
                     is RecentMatchesUiState.Success -> {
                         adapter.submitList(uiState.data)
                     }
-
-                    is RecentMatchesUiState.Error -> {
-                    }
                 }
             }
         }
 
-        viewModel.matchTypes.observe(viewLifecycleOwner) {
-            binding.recentMatchSpinnerMatchType.adapter = ArrayAdapter(
-                requireContext(),
-                R.layout.spinner_item_match_type,
-                it.map { matchType ->
-                    getString(matchType.resId)
-                }.toTypedArray(),
-            )
-        }
+//        viewModel.matchTypes.observe(viewLifecycleOwner) {
+//            binding.recentMatchSpinnerMatchType.adapter = ArrayAdapter(
+//                requireContext(),
+//                R.layout.spinner_item_match_type,
+//                it.map { matchType ->
+//                    getString(matchType.resId)
+//                }.toTypedArray()
+//            )
+//        }
 
 //        repeatOnStarted {
 //            viewModel.matchTypes.collect { matchTypes ->
