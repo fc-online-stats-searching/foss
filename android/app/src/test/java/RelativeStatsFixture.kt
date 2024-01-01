@@ -9,7 +9,7 @@ object RelativeStatsFixture {
 
     fun create() = listOf(
         RelativeStat(
-            Nickname("Clinton Hinton"),
+            Nickname("신공학관캣"),
             recentMatchDate = LocalDate.of(2023, 12, 2),
             winDrawLoses = WinDrawLoses(
                 listOf(
@@ -25,7 +25,7 @@ object RelativeStatsFixture {
             totalScore = Score(point = 31, otherPoint = 23)
         ),
         RelativeStat(
-            Nickname("신공학관캣대디"),
+            Nickname("신공학관캣"),
             recentMatchDate = LocalDate.of(2023, 12, 2),
             winDrawLoses = WinDrawLoses(
                 listOf(
@@ -41,7 +41,7 @@ object RelativeStatsFixture {
             totalScore = Score(point = 31, otherPoint = 23)
         ),
         RelativeStat(
-            Nickname("신공학관캣맘"),
+            Nickname("신공학관캣"),
             recentMatchDate = LocalDate.of(2023, 12, 2),
             winDrawLoses = WinDrawLoses(
                 listOf(
