@@ -1,4 +1,4 @@
-package com.foss.foss.feature.matchearching.recent
+package com.foss.foss.feature.matchsearching.recent
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter

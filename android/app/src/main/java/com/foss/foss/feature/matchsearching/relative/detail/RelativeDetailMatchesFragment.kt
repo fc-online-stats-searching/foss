@@ -1,4 +1,4 @@
-package com.foss.foss.feature.matchearching.relative.detail
+package com.foss.foss.feature.matchsearching.relative.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,8 +9,8 @@ import com.boogiwoogi.woogidi.fragment.DiFragment
 import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Module
 import com.foss.foss.databinding.FragmentRelativeMatchesDetailBinding
-import com.foss.foss.feature.matchearching.recent.RecentMatchesAdapter
-import com.foss.foss.feature.matchearching.relative.RelativeMatchesViewModel
+import com.foss.foss.feature.matchsearching.recent.RecentMatchesAdapter
+import com.foss.foss.feature.matchsearching.relative.RelativeMatchesViewModel
 import com.foss.foss.util.lifecycle.repeatOnStarted
 
 class RelativeDetailMatchesFragment : DiFragment() {

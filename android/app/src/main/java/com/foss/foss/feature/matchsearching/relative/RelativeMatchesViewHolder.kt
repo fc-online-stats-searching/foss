@@ -1,4 +1,4 @@
-package com.foss.foss.feature.matchearching.relative
+package com.foss.foss.feature.matchsearching.relative
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

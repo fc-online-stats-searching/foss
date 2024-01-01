@@ -1,7 +1,7 @@
 import app.cash.turbine.test
-import com.foss.foss.feature.matchearching.recent.RecentMatchesEvent
-import com.foss.foss.feature.matchearching.recent.RecentMatchesUiState
-import com.foss.foss.feature.matchearching.recent.RecentMatchesViewModel
+import com.foss.foss.feature.matchsearching.recent.RecentMatchesEvent
+import com.foss.foss.feature.matchsearching.recent.RecentMatchesUiState
+import com.foss.foss.feature.matchsearching.recent.RecentMatchesViewModel
 import com.foss.foss.model.Match
 import com.foss.foss.model.MatchMapper.toUiModel
 import com.foss.foss.model.Nickname

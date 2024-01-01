@@ -1,4 +1,4 @@
-package com.foss.foss.feature.matchearching.recent
+package com.foss.foss.feature.matchsearching.recent
 
 import android.os.Bundle
 import android.util.Log

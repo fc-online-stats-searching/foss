@@ -1,4 +1,4 @@
-package com.foss.foss.feature.matchearching.recent
+package com.foss.foss.feature.matchsearching.recent
 
 import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.model.MatchUiModel

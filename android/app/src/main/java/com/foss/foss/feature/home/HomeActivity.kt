@@ -8,10 +8,10 @@ import com.boogiwoogi.woogidi.pure.Module
 import com.boogiwoogi.woogidi.viewmodel.diViewModels
 import com.foss.foss.R
 import com.foss.foss.databinding.ActivityHomeBinding
-import com.foss.foss.feature.matchearching.recent.RecentMatchesFragment
-import com.foss.foss.feature.matchearching.recent.RecentMatchesViewModel
-import com.foss.foss.feature.matchearching.relative.RelativeMatchesFragment
-import com.foss.foss.feature.matchearching.relative.RelativeMatchesViewModel
+import com.foss.foss.feature.matchsearching.recent.RecentMatchesFragment
+import com.foss.foss.feature.matchsearching.recent.RecentMatchesViewModel
+import com.foss.foss.feature.matchsearching.relative.RelativeMatchesFragment
+import com.foss.foss.feature.matchsearching.relative.RelativeMatchesViewModel
 import com.foss.foss.util.OnChangeVisibilityListener
 import com.foss.foss.util.lifecycle.repeatOnStarted
 

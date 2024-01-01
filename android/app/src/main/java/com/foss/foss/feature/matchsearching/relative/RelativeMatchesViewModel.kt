@@ -1,4 +1,4 @@
-package com.foss.foss.feature.matchearching.relative
+package com.foss.foss.feature.matchsearching.relative
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

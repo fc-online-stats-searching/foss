@@ -1,4 +1,4 @@
-package com.foss.foss.feature.matchearching.relative
+package com.foss.foss.feature.matchsearching.relative
 
 import androidx.recyclerview.widget.DiffUtil
 import com.foss.foss.model.RelativeMatchUiModel

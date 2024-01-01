@@ -1,4 +1,4 @@
-package com.foss.foss.feature.matchearching.relative
+package com.foss.foss.feature.matchsearching.relative
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,7 +14,7 @@ import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Module
 import com.foss.foss.R
 import com.foss.foss.databinding.FragmentRelativeMatchesBinding
-import com.foss.foss.feature.matchearching.relative.detail.RelativeDetailMatchesFragment
+import com.foss.foss.feature.matchsearching.relative.detail.RelativeDetailMatchesFragment
 import com.foss.foss.util.lifecycle.repeatOnStarted
 
 class RelativeMatchesFragment : DiFragment() {
