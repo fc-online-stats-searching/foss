@@ -3,7 +3,6 @@ import com.foss.foss.feature.statsearching.relative.RelativeStatsEvent
 import com.foss.foss.feature.statsearching.relative.RelativeStatsViewModel
 import com.foss.foss.model.Match
 import com.foss.foss.model.MatchMapper.toUiModel
-import com.foss.foss.model.Nickname
 import com.foss.foss.model.RelativeStat
 import com.foss.foss.model.RelativeStatMapper.toUiModel
 import com.foss.foss.model.RelativeStatUiModel
