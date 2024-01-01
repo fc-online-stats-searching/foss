@@ -51,7 +51,7 @@ class RelativeMatchesFragment : DiFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRelativeMatchesView()
-        setupRelativeMatchesObserver()
+        setupRelativeMatchesUiStateObserver()
         setupRelativeMatchesEventObserver()
     }
 
@@ -59,7 +59,7 @@ class RelativeMatchesFragment : DiFragment() {
         binding.relativeMatchesRv.adapter = relativeMatchesAdapter
     }
 
-    private fun setupRelativeMatchesObserver() {
+    private fun setupRelativeMatchesUiStateObserver() {
         repeatOnStarted {
             relativeMatchesViewModel.relativeMatches.collect { relativeMatches ->
                 relativeMatchesAdapter.submitList(relativeMatches)

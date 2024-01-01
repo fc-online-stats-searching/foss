@@ -2,8 +2,9 @@ package com.foss.foss.feature.matchsearching.recent
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.foss.foss.model.MatchMapper.toDomainModel
 import com.foss.foss.model.MatchMapper.toUiModel
-import com.foss.foss.model.MatchType
+import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.model.Nickname
 import com.foss.foss.repository.MatchRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -18,9 +19,8 @@ class RecentMatchesViewModel(
     private val matchRepository: MatchRepository
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<RecentMatchesUiState> = MutableStateFlow(
-        RecentMatchesUiState.Default(MatchType.values().map { it.toUiModel() })
-    )
+    private val _uiState: MutableStateFlow<RecentMatchesUiState> =
+        MutableStateFlow(RecentMatchesUiState.Empty)
     val uiState: StateFlow<RecentMatchesUiState>
         get() = _uiState.asStateFlow()
 
@@ -28,16 +28,30 @@ class RecentMatchesViewModel(
     val event: SharedFlow<RecentMatchesEvent>
         get() = _event.asSharedFlow()
 
-    fun fetchMatches(nickname: String) {
-        viewModelScope.launch {
-            _uiState.value = RecentMatchesUiState.Loading
+    fun fetchEmptyMatches() {
+        _uiState.value = RecentMatchesUiState.Empty
+    }
 
-            matchRepository.fetchMatches(Nickname(nickname)).map { matchResults ->
-                matchResults.map { match ->
-                    match.toUiModel()
+    fun fetchMatches(
+        nickname: String,
+        searchingMatchType: MatchTypeUiModel = MatchTypeUiModel.OFFICIAL
+    ) {
+        viewModelScope.launch {
+            runCatching {
+                _uiState.value = RecentMatchesUiState.Loading
+
+                matchRepository.fetchMatches(
+                    nickname = Nickname(nickname),
+                    matchType = searchingMatchType.toDomainModel()
+                ).map { matchResults ->
+                    matchResults.map { match ->
+                        match.toUiModel()
+                    }
+                }.onSuccess { matchResults ->
+                    _uiState.value = RecentMatchesUiState.RecentMatches(matchResults)
+                }.onFailure {
+                    _event.emit(RecentMatchesEvent.Failed)
                 }
-            }.onSuccess { matchResults ->
-                _uiState.value = RecentMatchesUiState.Success(matchResults)
             }.onFailure {
                 _event.emit(RecentMatchesEvent.Failed)
             }

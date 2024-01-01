@@ -10,7 +10,10 @@ import java.time.LocalDate
 
 class FakeMatchRepository : MatchRepository {
 
-    override fun fetchMatches(nickname: Nickname): Result<List<Match>> = runCatching { recentMatches }
+    override fun fetchMatches(
+        nickname: Nickname,
+        matchType: MatchType
+    ): Result<List<Match>> = runCatching { recentMatches }
 
     override fun fetchMatchesBetweenUsers(
         nickname: Nickname,

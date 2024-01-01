@@ -52,7 +52,7 @@ class RecentMatchesViewModelTest {
         val actual = recentMatchesViewModel.uiState.value
 
         // then
-        val expected = RecentMatchesUiState.Success(matches.map { it.toUiModel() })
+        val expected = RecentMatchesUiState.RecentMatches(matches.map { it.toUiModel() })
 
         assertEquals(expected, actual)
     }
