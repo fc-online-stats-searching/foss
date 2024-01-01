@@ -1,15 +1,15 @@
-package com.foss.foss.feature.statsearching.relative
+package com.foss.foss.feature.matchearching.relative
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.foss.foss.R
-import com.foss.foss.databinding.ItemRelativeStatsBinding
-import com.foss.foss.model.RelativeStatUiModel
+import com.foss.foss.databinding.ItemRelativeMatchesBinding
+import com.foss.foss.model.RelativeMatchUiModel
 import java.time.format.DateTimeFormatter
 
-class RelativeStatsViewHolder private constructor(
-    private val binding: ItemRelativeStatsBinding,
+class RelativeMatchesViewHolder private constructor(
+    private val binding: ItemRelativeMatchesBinding,
     private val onClick: (Int) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     init {
@@ -18,11 +18,11 @@ class RelativeStatsViewHolder private constructor(
         }
     }
 
-    fun bind(relativeStat: RelativeStatUiModel) {
+    fun bind(relativeStat: RelativeMatchUiModel) {
         with(binding) {
             itemRelativeTvName.text = relativeStat.opponentName
-            itemRelativeTvStats.text = itemView.context.getString(
-                R.string.item_relative_stats_win_draw_loses_format,
+            itemRelativeTvMatches.text = itemView.context.getString(
+                R.string.item_relative_matches_win_draw_loses_format,
                 relativeStat.numberOfGames,
                 relativeStat.numberOfWins,
                 relativeStat.numberOfDraws,
@@ -32,11 +32,11 @@ class RelativeStatsViewHolder private constructor(
                 DateTimeFormatter.ofPattern(itemView.context.getString(R.string.common_date_format))
             )
             itemRelativeTvGoal.text = itemView.context.getString(
-                R.string.item_relative_stats_score,
+                R.string.item_relative_matches_score,
                 relativeStat.goal
             )
             itemRelativeTvConceded.text = itemView.context.getString(
-                R.string.item_relative_stats_score,
+                R.string.item_relative_matches_score,
                 relativeStat.conceded
             )
         }
@@ -44,14 +44,14 @@ class RelativeStatsViewHolder private constructor(
 
     companion object {
 
-        fun from(parent: ViewGroup, onClick: (Int) -> Unit): RelativeStatsViewHolder {
+        fun from(parent: ViewGroup, onClick: (Int) -> Unit): RelativeMatchesViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
-            val binding = ItemRelativeStatsBinding.inflate(
+            val binding = ItemRelativeMatchesBinding.inflate(
                 layoutInflater,
                 parent,
                 false
             )
-            return RelativeStatsViewHolder(binding, onClick)
+            return RelativeMatchesViewHolder(binding, onClick)
         }
     }
 }

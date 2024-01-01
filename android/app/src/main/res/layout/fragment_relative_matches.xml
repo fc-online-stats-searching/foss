@@ -4,30 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#171B1E"
-    tools:context=".feature.statsearching.recent.RecentMatchesFragment">
+    android:background="#171B1E">
 
     <TextView
-        android:id="@+id/relative_detail_view_tool_bar"
+        android:id="@+id/relative_tv_info"
         android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="6dp"
-        android:background="@color/common_dark_gray"
+        android:layout_height="0dp"
         android:gravity="center"
+        android:text="@string/relative_info"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="5전 3승 2패  득 5 실 2" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/relative_detail_rv_matches"
+        android:id="@+id/relative_matches_rv"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/relative_detail_view_tool_bar"
-        tools:listitem="@layout/item_match" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:itemCount="5"
+        tools:listitem="@layout/item_relative_matches" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

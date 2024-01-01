@@ -40,13 +40,13 @@
         android:maxLines="1"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/item_relative_tv_stats"
+        app:layout_constraintBottom_toBottomOf="@id/item_relative_tv_matches"
         app:layout_constraintStart_toEndOf="@id/item_relative_iv_rank"
         app:layout_constraintTop_toTopOf="@id/item_relative_iv_rank"
         tools:text="크롱크롱 크로롱" />
 
     <TextView
-        android:id="@+id/item_relative_tv_stats"
+        android:id="@+id/item_relative_tv_matches"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@id/item_relative_iv_rank"
@@ -71,7 +71,7 @@
         android:id="@+id/item_relative_tv_goal_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/item_relative_stats_goal_title"
+        android:text="@string/item_relative_matches_goal_title"
         app:layout_constraintEnd_toStartOf="@id/item_relative_tv_goal"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="@+id/item_relative_tv_last_match"
@@ -91,7 +91,7 @@
         android:id="@+id/item_relative_tv_conceded_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/item_relative_stats_conceded_title"
+        android:text="@string/item_relative_matches_conceded_title"
         app:layout_constraintBottom_toBottomOf="@id/item_relative_tv_goal_title"
         app:layout_constraintEnd_toStartOf="@id/item_relative_tv_conceded"
         app:layout_constraintStart_toEndOf="@id/item_relative_tv_goal"

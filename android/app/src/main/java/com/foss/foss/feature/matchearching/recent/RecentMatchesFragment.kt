@@ -1,9 +1,11 @@
-package com.foss.foss.feature.statsearching.recent
+package com.foss.foss.feature.matchearching.recent
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import com.boogiwoogi.woogidi.fragment.DiFragment
@@ -50,12 +52,19 @@ class RecentMatchesFragment : DiFragment() {
             viewModel.uiState.collect { uiState ->
                 when (uiState) {
                     is RecentMatchesUiState.Default -> {
+                        Log.d("hello", "setupObserver: default")
+                        binding.recentMatchSpinnerMatchType.adapter = ArrayAdapter(
+                            requireContext(),
+                            android.R.layout.simple_spinner_item,
+                            uiState.matchTypes
+                        )
                     }
 
                     is RecentMatchesUiState.Loading -> {
                     }
 
                     is RecentMatchesUiState.Success -> {
+                        Log.d("hello", "setupObserver: success")
                         adapter.submitList(uiState.data)
                     }
                 }

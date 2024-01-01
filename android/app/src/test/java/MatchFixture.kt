@@ -14,7 +14,7 @@ object MatchFixture {
             otherSideNickname = Nickname("신공학관캣대디"),
             manOfTheMatch = 1,
             winDrawLose = WinDrawLose.WIN,
-            score = Score(point = 31, otherPoint = 23),
+            score = Score(point = 31, otherPoint = 23)
         )
     }
 }

@@ -1,18 +1,18 @@
 package com.foss.foss.data
 
 import com.foss.foss.model.Nickname
-import com.foss.foss.model.RelativeStat
+import com.foss.foss.model.RelativeMatch
 import com.foss.foss.model.Score
 import com.foss.foss.model.WinDrawLose
 import com.foss.foss.model.WinDrawLoses
-import com.foss.foss.repository.RelativeStatsRepository
+import com.foss.foss.repository.RelativeMatchesRepository
 import java.time.LocalDate
 
-class FakeRelativeStatRepository : RelativeStatsRepository {
+class FakeRelativeMatchesRepository : RelativeMatchesRepository {
 
-    override fun fetchRelativeStats(nickname: Nickname): Result<List<RelativeStat>> = runCatching {
+    override fun fetchRelativeMatches(nickname: Nickname): Result<List<RelativeMatch>> = runCatching {
         listOf(
-            RelativeStat(
+            RelativeMatch(
                 Nickname("ClintonHinton"),
                 recentMatchDate = LocalDate.of(2023, 12, 2),
                 winDrawLoses = WinDrawLoses(
@@ -23,12 +23,12 @@ class FakeRelativeStatRepository : RelativeStatsRepository {
                         WinDrawLose.WIN,
                         WinDrawLose.DRAW,
                         WinDrawLose.WIN,
-                        WinDrawLose.DRAW,
-                    ),
+                        WinDrawLose.DRAW
+                    )
                 ),
-                totalScore = Score(point = 31, otherPoint = 23),
+                totalScore = Score(point = 31, otherPoint = 23)
             ),
-            RelativeStat(
+            RelativeMatch(
                 Nickname("신공학관캣대디"),
                 recentMatchDate = LocalDate.of(2023, 12, 2),
                 winDrawLoses = WinDrawLoses(
@@ -39,12 +39,12 @@ class FakeRelativeStatRepository : RelativeStatsRepository {
                         WinDrawLose.WIN,
                         WinDrawLose.DRAW,
                         WinDrawLose.WIN,
-                        WinDrawLose.DRAW,
-                    ),
+                        WinDrawLose.DRAW
+                    )
                 ),
-                totalScore = Score(point = 31, otherPoint = 23),
+                totalScore = Score(point = 31, otherPoint = 23)
             ),
-            RelativeStat(
+            RelativeMatch(
                 Nickname("신공학관캣맘"),
                 recentMatchDate = LocalDate.of(2023, 12, 2),
                 winDrawLoses = WinDrawLoses(
@@ -55,11 +55,11 @@ class FakeRelativeStatRepository : RelativeStatsRepository {
                         WinDrawLose.WIN,
                         WinDrawLose.DRAW,
                         WinDrawLose.WIN,
-                        WinDrawLose.DRAW,
-                    ),
+                        WinDrawLose.DRAW
+                    )
                 ),
-                totalScore = Score(point = 31, otherPoint = 23),
-            ),
+                totalScore = Score(point = 31, otherPoint = 23)
+            )
         )
     }
 }

@@ -1,4 +1,4 @@
-package com.foss.foss.feature.statsearching.recent
+package com.foss.foss.feature.matchearching.recent
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class RecentMatchesViewModel(
@@ -21,7 +22,7 @@ class RecentMatchesViewModel(
         RecentMatchesUiState.Default(MatchType.values().map { it.toUiModel() })
     )
     val uiState: StateFlow<RecentMatchesUiState>
-        get() = _uiState
+        get() = _uiState.asStateFlow()
 
     private val _event: MutableSharedFlow<RecentMatchesEvent> = MutableSharedFlow()
     val event: SharedFlow<RecentMatchesEvent>

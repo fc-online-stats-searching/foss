@@ -1,4 +1,4 @@
-package com.foss.foss.feature.statsearching.relative
+package com.foss.foss.feature.matchearching.relative
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,24 +13,24 @@ import com.boogiwoogi.woogidi.fragment.DiFragment
 import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Module
 import com.foss.foss.R
-import com.foss.foss.databinding.FragmentRelativeStatsBinding
-import com.foss.foss.feature.statsearching.relative.detail.RelativeDetailStatsFragment
+import com.foss.foss.databinding.FragmentRelativeMatchesBinding
+import com.foss.foss.feature.matchearching.relative.detail.RelativeDetailMatchesFragment
 import com.foss.foss.util.lifecycle.repeatOnStarted
 
-class RelativeStatsFragment : DiFragment() {
+class RelativeMatchesFragment : DiFragment() {
 
     override val module: Module = DefaultModule()
 
-    private var _binding: FragmentRelativeStatsBinding? = null
+    private var _binding: FragmentRelativeMatchesBinding? = null
     private val binding get() = _binding!!
 
-    private val relativeStatsViewModel: RelativeStatsViewModel by activityViewModels()
+    private val relativeMatchesViewModel: RelativeMatchesViewModel by activityViewModels()
 
-    private val relativeStatsAdapter: RelativeStatsAdapter by lazy {
-        RelativeStatsAdapter { opponentName ->
-            relativeStatsViewModel.updateOpponentName(opponentName)
+    private val relativeMatchesAdapter: RelativeMatchAdapter by lazy {
+        RelativeMatchAdapter { opponentName ->
+            relativeMatchesViewModel.updateOpponentName(opponentName)
             parentFragmentManager.commit {
-                replace<RelativeDetailStatsFragment>(R.id.home_fcv_stats)
+                replace<RelativeDetailMatchesFragment>(R.id.home_fcv_match)
                 setReorderingAllowed(true)
                 addToBackStack(null)
             }
@@ -42,7 +42,7 @@ class RelativeStatsFragment : DiFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRelativeStatsBinding.inflate(inflater, container, false)
+        _binding = FragmentRelativeMatchesBinding.inflate(inflater, container, false)
 
         return _binding!!.root
     }
@@ -50,30 +50,30 @@ class RelativeStatsFragment : DiFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupRelativeStatsView()
-        setupRelativeStatsObserver()
-        setupRelativeStatsEventObserver()
+        setupRelativeMatchesView()
+        setupRelativeMatchesObserver()
+        setupRelativeMatchesEventObserver()
     }
 
-    private fun setupRelativeStatsView() {
-        binding.relativeRvStats.adapter = relativeStatsAdapter
+    private fun setupRelativeMatchesView() {
+        binding.relativeMatchesRv.adapter = relativeMatchesAdapter
     }
 
-    private fun setupRelativeStatsObserver() {
+    private fun setupRelativeMatchesObserver() {
         repeatOnStarted {
-            relativeStatsViewModel.relativeStats.collect { relativeStats ->
-                relativeStatsAdapter.submitList(relativeStats)
+            relativeMatchesViewModel.relativeMatches.collect { relativeMatches ->
+                relativeMatchesAdapter.submitList(relativeMatches)
             }
         }
     }
 
-    private fun setupRelativeStatsEventObserver() {
+    private fun setupRelativeMatchesEventObserver() {
         repeatOnStarted {
-            relativeStatsViewModel.event.collect { event ->
+            relativeMatchesViewModel.event.collect { event ->
                 when (event) {
-                    RelativeStatsEvent.Failed -> Toast.makeText(
+                    RelativeMatchesEvent.Failed -> Toast.makeText(
                         requireContext(),
-                        getString(R.string.relative_stats_failed_fetching_data),
+                        getString(R.string.relative_matches_failed_fetching_data),
                         Toast.LENGTH_SHORT
                     ).show()
                 }

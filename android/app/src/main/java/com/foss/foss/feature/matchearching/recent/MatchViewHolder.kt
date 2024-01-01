@@ -1,4 +1,4 @@
-package com.foss.foss.feature.statsearching.recent
+package com.foss.foss.feature.matchearching.recent
 
 import android.graphics.Color
 import android.view.LayoutInflater

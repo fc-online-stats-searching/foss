@@ -1,13 +1,13 @@
 import app.cash.turbine.test
-import com.foss.foss.feature.statsearching.relative.RelativeStatsEvent
-import com.foss.foss.feature.statsearching.relative.RelativeStatsViewModel
+import com.foss.foss.feature.matchearching.relative.RelativeMatchesEvent
+import com.foss.foss.feature.matchearching.relative.RelativeMatchesViewModel
 import com.foss.foss.model.Match
 import com.foss.foss.model.MatchMapper.toUiModel
-import com.foss.foss.model.RelativeStat
+import com.foss.foss.model.RelativeMatch
+import com.foss.foss.model.RelativeMatchUiModel
 import com.foss.foss.model.RelativeStatMapper.toUiModel
-import com.foss.foss.model.RelativeStatUiModel
 import com.foss.foss.repository.MatchRepository
-import com.foss.foss.repository.RelativeStatsRepository
+import com.foss.foss.repository.RelativeMatchesRepository
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -19,24 +19,24 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-class RelativeStatsViewModelTest {
+class RelativeMatchesViewModelTest {
 
-    private lateinit var relativeStatsRepository: RelativeStatsRepository
+    private lateinit var relativeMatchesRepository: RelativeMatchesRepository
     private lateinit var matchRepository: MatchRepository
-    private lateinit var relativeStatsViewModel: RelativeStatsViewModel
+    private lateinit var relativeMatchesViewModel: RelativeMatchesViewModel
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setUp() {
         Dispatchers.setMain(UnconfinedTestDispatcher())
         matchRepository = mockk()
-        relativeStatsRepository = mockk()
-        relativeStatsViewModel = RelativeStatsViewModel(matchRepository, relativeStatsRepository)
+        relativeMatchesRepository = mockk()
+        relativeMatchesViewModel = RelativeMatchesViewModel(matchRepository, relativeMatchesRepository)
     }
 
-    fun `상대전적 기록 요청에 대한 결과가 다음과 같을 때`(result: Result<List<RelativeStat>>) {
+    fun `상대전적 기록 요청에 대한 결과가 다음과 같을 때`(result: Result<List<RelativeMatch>>) {
         coEvery {
-            relativeStatsRepository.fetchRelativeStats(any())
+            relativeMatchesRepository.fetchRelativeMatches(any())
         } returns result
     }
 
@@ -47,19 +47,19 @@ class RelativeStatsViewModelTest {
     }
 
     fun `특정 유저와의 상대 전적을 초기화 하면`() {
-        relativeStatsViewModel.resetRelativeStatsDetails()
+        relativeMatchesViewModel.resetRelativeMatchesDetails()
     }
 
     fun `특정 유저와의 상대 전적 요청을 하면`() {
-        relativeStatsViewModel.fetchRelativeMatchesBetweenUsers()
+        relativeMatchesViewModel.fetchRelativeMatchesBetweenUsers()
     }
 
     fun `상대 전적 기록 요청을 하면`() {
-        relativeStatsViewModel.fetchRelativeStats("신공학관캣대디")
+        relativeMatchesViewModel.fetchRelativeMatches("신공학관캣대디")
     }
 
     fun `상대방 닉네임을 초기화 하면`() {
-        relativeStatsViewModel.updateOpponentName("신공학관캣대디")
+        relativeMatchesViewModel.updateOpponentName("신공학관캣대디")
     }
 
     @Test
@@ -67,10 +67,10 @@ class RelativeStatsViewModelTest {
         // given
 
         // when
-        val actual = relativeStatsViewModel.relativeStats.value
+        val actual = relativeMatchesViewModel.relativeMatches.value
 
         // then
-        val expected = listOf<RelativeStatUiModel>()
+        val expected = listOf<RelativeMatchUiModel>()
 
         assertEquals(expected, actual)
     }
@@ -78,15 +78,15 @@ class RelativeStatsViewModelTest {
     @Test
     fun `상대 전적을 받아온 경우 빈 리스트가 아니다`() {
         // given
-        `상대전적 기록 요청에 대한 결과가 다음과 같을 때`(Result.success(RelativeStatsFixture.create()))
+        `상대전적 기록 요청에 대한 결과가 다음과 같을 때`(Result.success(RelativeMatchesFixture.create()))
 
         // when
         `상대 전적 기록 요청을 하면`()
 
-        val actual = relativeStatsViewModel.relativeStats.value
+        val actual = relativeMatchesViewModel.relativeMatches.value
 
         // then
-        val expected = RelativeStatsFixture.create().map { it.toUiModel() }
+        val expected = RelativeMatchesFixture.create().map { it.toUiModel() }
 
         assertEquals(expected, actual)
     }
@@ -96,14 +96,14 @@ class RelativeStatsViewModelTest {
         // given
         `상대전적 기록 요청에 대한 결과가 다음과 같을 때`(Result.failure(Throwable()))
 
-        relativeStatsViewModel.event.test {
+        relativeMatchesViewModel.event.test {
             // when
             `상대 전적 기록 요청을 하면`()
 
             val actual = awaitItem()
 
             // then
-            val expected = RelativeStatsEvent.Failed
+            val expected = RelativeMatchesEvent.Failed
 
             assertEquals(expected, actual)
         }
@@ -112,7 +112,7 @@ class RelativeStatsViewModelTest {
     @Test
     fun `상대 전적을 불러온 뒤 특정 유저와의 전적을 받아온 경우 빈 리스트가 아니다`() {
         // given
-        `상대전적 기록 요청에 대한 결과가 다음과 같을 때`(Result.success(RelativeStatsFixture.create()))
+        `상대전적 기록 요청에 대한 결과가 다음과 같을 때`(Result.success(RelativeMatchesFixture.create()))
         `특정 유저와의 상대 전적 요청 결과가 다음과 같을 때`(Result.success(MatchFixture.create()))
 
         // when
@@ -120,7 +120,7 @@ class RelativeStatsViewModelTest {
         `상대방 닉네임을 초기화 하면`()
         `특정 유저와의 상대 전적 요청을 하면`()
 
-        val actual = relativeStatsViewModel.relativeStatsDetails.value
+        val actual = relativeMatchesViewModel.relativeMatchesDetails.value
 
         // then
         val expected = MatchFixture.create().map { it.toUiModel() }
@@ -131,7 +131,7 @@ class RelativeStatsViewModelTest {
     @Test
     fun `특정 유저와의 상대 전적을 초기화 하면 특정 유저와의 상대 전적을 저장하는 리스트의 길이는 0이다`() {
         // given
-        `상대전적 기록 요청에 대한 결과가 다음과 같을 때`(Result.success(RelativeStatsFixture.create()))
+        `상대전적 기록 요청에 대한 결과가 다음과 같을 때`(Result.success(RelativeMatchesFixture.create()))
         `특정 유저와의 상대 전적 요청 결과가 다음과 같을 때`(Result.success(MatchFixture.create()))
 
         // when
@@ -139,7 +139,7 @@ class RelativeStatsViewModelTest {
         `상대방 닉네임을 초기화 하면`()
         `특정 유저와의 상대 전적 요청을 하면`()
 
-        val actual = relativeStatsViewModel.relativeStatsDetails.value
+        val actual = relativeMatchesViewModel.relativeMatchesDetails.value
 
         // then
         val expected = MatchFixture.create().map { it.toUiModel() }
@@ -150,7 +150,7 @@ class RelativeStatsViewModelTest {
         `특정 유저와의 상대 전적을 초기화 하면`()
 
         // then
-        val actualAfterReset = relativeStatsViewModel.relativeStatsDetails.value
+        val actualAfterReset = relativeMatchesViewModel.relativeMatchesDetails.value
         assertEquals(0, actualAfterReset.size)
     }
 }

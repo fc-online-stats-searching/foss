@@ -8,10 +8,10 @@ import com.boogiwoogi.woogidi.pure.Module
 import com.boogiwoogi.woogidi.viewmodel.diViewModels
 import com.foss.foss.R
 import com.foss.foss.databinding.ActivityHomeBinding
-import com.foss.foss.feature.statsearching.recent.RecentMatchesFragment
-import com.foss.foss.feature.statsearching.recent.RecentMatchesViewModel
-import com.foss.foss.feature.statsearching.relative.RelativeStatsFragment
-import com.foss.foss.feature.statsearching.relative.RelativeStatsViewModel
+import com.foss.foss.feature.matchearching.recent.RecentMatchesFragment
+import com.foss.foss.feature.matchearching.recent.RecentMatchesViewModel
+import com.foss.foss.feature.matchearching.relative.RelativeMatchesFragment
+import com.foss.foss.feature.matchearching.relative.RelativeMatchesViewModel
 import com.foss.foss.util.OnChangeVisibilityListener
 import com.foss.foss.util.lifecycle.repeatOnStarted
 
@@ -22,7 +22,7 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
     override val module: Module by lazy { DefaultModule() }
 
     private val recentMatchesViewModel: RecentMatchesViewModel by diViewModels()
-    private val relativeStatsViewModel: RelativeStatsViewModel by diViewModels()
+    private val relativeMatchesViewModel: RelativeMatchesViewModel by diViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +30,7 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
         setupBinding()
         setupHomeView()
         setupRecentMatchesObserver()
-        setupRelativeStatsObserver()
+        setupRelativeMatchesObserver()
         setSearchingRecentMatchesButtonClickListener()
     }
 
@@ -49,16 +49,16 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
             setSearchingMatchesButtonClickListener(item.itemId)
 
             when (item.itemId) {
-                R.id.item_recent_stats -> {
+                R.id.item_recent_matches -> {
                     supportFragmentManager.commit {
-                        replace(R.id.home_fcv_stats, RecentMatchesFragment())
+                        replace(R.id.home_fcv_match, RecentMatchesFragment())
                     }
                     return@setOnItemSelectedListener true
                 }
 
-                R.id.item_relative_stats -> {
+                R.id.item_relative_matches -> {
                     supportFragmentManager.commit {
-                        replace(R.id.home_fcv_stats, RelativeStatsFragment())
+                        replace(R.id.home_fcv_match, RelativeMatchesFragment())
                     }
                     return@setOnItemSelectedListener true
                 }
@@ -66,25 +66,27 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
                 else -> return@setOnItemSelectedListener false
             }
         }
-        binding.homeBnvMenu.selectedItemId = R.id.item_recent_stats
+        binding.homeBnvMenu.selectedItemId = R.id.item_recent_matches
     }
 
     private fun setupRecentMatchesObserver() {
         repeatOnStarted {
+            recentMatchesViewModel.uiState.collect {
+            }
         }
     }
 
-    private fun setupRelativeStatsObserver() {
+    private fun setupRelativeMatchesObserver() {
         repeatOnStarted {
-            relativeStatsViewModel.relativeStats.collect {
+            relativeMatchesViewModel.relativeMatches.collect {
             }
         }
     }
 
     private fun setSearchingMatchesButtonClickListener(id: Int) {
         when (id) {
-            R.id.item_recent_stats -> setSearchingRecentMatchesButtonClickListener()
-            R.id.item_relative_stats -> setSearchingRelativeStatsButtonClickListener()
+            R.id.item_recent_matches -> setSearchingRecentMatchesButtonClickListener()
+            R.id.item_relative_matches -> setSearchingRelativeMatchesButtonClickListener()
         }
     }
 
@@ -94,21 +96,22 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
         }
     }
 
-    private fun setSearchingRelativeStatsButtonClickListener() {
+    private fun setSearchingRelativeMatchesButtonClickListener() {
         binding.homeIvFossLogo.setOnClickListener {
-            relativeStatsViewModel.fetchRelativeStats(binding.homeEtNicknameSearching.text.toString())
+            relativeMatchesViewModel.fetchRelativeMatches(binding.homeEtNicknameSearching.text.toString())
             onChangeVisibility()
         }
     }
 
     override fun onChangeVisibility() {
-        val fragment = supportFragmentManager.findFragmentById(R.id.home_fcv_stats)
+        val fragment = supportFragmentManager.findFragmentById(R.id.home_fcv_match)
+
         when (fragment) {
             is RecentMatchesFragment -> {
                 fragment.changeVisibility()
             }
 
-            is RelativeStatsFragment -> {
+            is RelativeMatchesFragment -> {
                 fragment.changeVisibility()
             }
         }
