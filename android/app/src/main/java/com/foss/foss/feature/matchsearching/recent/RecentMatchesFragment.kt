@@ -1,7 +1,6 @@
 package com.foss.foss.feature.matchsearching.recent
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,7 @@ import com.boogiwoogi.woogidi.fragment.DiFragment
 import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Module
 import com.foss.foss.databinding.FragmentRecentMatchesBinding
+import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.util.lifecycle.repeatOnStarted
 
 class RecentMatchesFragment : DiFragment() {
@@ -45,31 +45,36 @@ class RecentMatchesFragment : DiFragment() {
 
     private fun setupView() {
         binding.recentMatchRvMatches.adapter = adapter
+        setupMatchTypeSpinnerAdapter()
     }
 
     private fun setupObserver() {
         repeatOnStarted {
             viewModel.uiState.collect { uiState ->
                 when (uiState) {
-                    is RecentMatchesUiState.Default -> {
-                        Log.d("hello", "setupObserver: default")
-                        binding.recentMatchSpinnerMatchType.adapter = ArrayAdapter(
-                            requireContext(),
-                            android.R.layout.simple_spinner_item,
-                            uiState.matchTypes
-                        )
+                    is RecentMatchesUiState.Empty -> {
+                        binding.recentMatchPbLoadingBar.isVisible = false
                     }
 
                     is RecentMatchesUiState.Loading -> {
+                        binding.recentMatchPbLoadingBar.isVisible = true
                     }
 
-                    is RecentMatchesUiState.Success -> {
-                        Log.d("hello", "setupObserver: success")
-                        adapter.submitList(uiState.data)
+                    is RecentMatchesUiState.RecentMatches -> {
+                        binding.recentMatchPbLoadingBar.isVisible = false
+                        adapter.submitList(uiState.matches)
                     }
                 }
             }
         }
+    }
+
+    private fun setupMatchTypeSpinnerAdapter() {
+        binding.recentMatchSpinnerMatchType.adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            MatchTypeUiModel.values().map { getString(it.resId) }
+        )
     }
 
     fun changeVisibility() {
