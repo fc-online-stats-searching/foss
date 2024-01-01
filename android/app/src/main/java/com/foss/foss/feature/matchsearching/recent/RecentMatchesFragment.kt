@@ -4,14 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import com.boogiwoogi.woogidi.fragment.DiFragment
 import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Module
 import com.foss.foss.databinding.FragmentRecentMatchesBinding
-import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.util.lifecycle.repeatOnStarted
 
 class RecentMatchesFragment : DiFragment() {
@@ -39,21 +37,20 @@ class RecentMatchesFragment : DiFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupView()
-        setupObserver()
+        setupRecentMatchesView()
+        setupRecentMatchesUiStateObserver()
+        setupRecentMatchesEventObserver()
     }
 
-    private fun setupView() {
+    private fun setupRecentMatchesView() {
         binding.recentMatchRvMatches.adapter = adapter
-        setupMatchTypeSpinnerAdapter()
     }
 
-    private fun setupObserver() {
+    private fun setupRecentMatchesUiStateObserver() {
         repeatOnStarted {
             viewModel.uiState.collect { uiState ->
                 when (uiState) {
                     is RecentMatchesUiState.Empty -> {
-                        binding.recentMatchPbLoadingBar.isVisible = false
                     }
 
                     is RecentMatchesUiState.Loading -> {
@@ -69,12 +66,16 @@ class RecentMatchesFragment : DiFragment() {
         }
     }
 
-    private fun setupMatchTypeSpinnerAdapter() {
-        binding.recentMatchSpinnerMatchType.adapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_item,
-            MatchTypeUiModel.values().map { getString(it.resId) }
-        )
+    private fun setupRecentMatchesEventObserver() {
+        repeatOnStarted {
+            viewModel.event.collect { event ->
+                when (event) {
+                    RecentMatchesEvent.Failed -> {
+                        binding.recentMatchPbLoadingBar.isVisible = false
+                    }
+                }
+            }
+        }
     }
 
     fun changeVisibility() {

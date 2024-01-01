@@ -1,6 +1,8 @@
 package com.foss.foss.feature.home
 
 import android.os.Bundle
+import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import androidx.fragment.app.commit
 import com.boogiwoogi.woogidi.activity.DiActivity
 import com.boogiwoogi.woogidi.pure.DefaultModule
@@ -12,8 +14,8 @@ import com.foss.foss.feature.matchsearching.recent.RecentMatchesFragment
 import com.foss.foss.feature.matchsearching.recent.RecentMatchesViewModel
 import com.foss.foss.feature.matchsearching.relative.RelativeMatchesFragment
 import com.foss.foss.feature.matchsearching.relative.RelativeMatchesViewModel
+import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.util.OnChangeVisibilityListener
-import com.foss.foss.util.lifecycle.repeatOnStarted
 
 class HomeActivity : DiActivity(), OnChangeVisibilityListener {
 
@@ -29,9 +31,7 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
 
         setupBinding()
         setupHomeView()
-        setupRecentMatchesObserver()
-        setupRelativeMatchesObserver()
-        setSearchingRecentMatchesButtonClickListener()
+        setSearchingMatchesButtonClickListener()
     }
 
     private fun setupBinding() {
@@ -42,14 +42,14 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
 
     private fun setupHomeView() {
         setupBottomNavigationView()
+        setupMatchTypeSpinnerAdapter()
     }
 
     private fun setupBottomNavigationView() {
         binding.homeBnvMenu.setOnItemSelectedListener { item ->
-            setSearchingMatchesButtonClickListener(item.itemId)
-
             when (item.itemId) {
                 R.id.item_recent_matches -> {
+                    binding.homeSpinnerMatchType.isVisible = true
                     supportFragmentManager.commit {
                         replace(R.id.home_fcv_match, RecentMatchesFragment())
                     }
@@ -57,6 +57,7 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
                 }
 
                 R.id.item_relative_matches -> {
+                    binding.homeSpinnerMatchType.isVisible = false
                     supportFragmentManager.commit {
                         replace(R.id.home_fcv_match, RelativeMatchesFragment())
                     }
@@ -69,37 +70,27 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
         binding.homeBnvMenu.selectedItemId = R.id.item_recent_matches
     }
 
-    private fun setupRecentMatchesObserver() {
-        repeatOnStarted {
-            recentMatchesViewModel.uiState.collect {
+    private fun setupMatchTypeSpinnerAdapter() {
+        binding.homeSpinnerMatchType.adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            MatchTypeUiModel.values().map { getString(it.resId) }
+        )
+    }
+
+    private fun setSearchingMatchesButtonClickListener() {
+        /**
+         * todo: 현재 woogi-di를 사용함으로써 발생하는 문제를 해결하기 위한 코드
+         */
+        recentMatchesViewModel.fetchEmptyMatches()
+        with(binding) {
+            homeIvFossLogo.setOnClickListener {
+                recentMatchesViewModel.fetchMatches(
+                    homeEtNicknameSearching.text.toString(),
+                    MatchTypeUiModel.values()[homeSpinnerMatchType.selectedItemPosition]
+                )
+                relativeMatchesViewModel.fetchRelativeMatches(homeEtNicknameSearching.text.toString())
             }
-        }
-    }
-
-    private fun setupRelativeMatchesObserver() {
-        repeatOnStarted {
-            relativeMatchesViewModel.relativeMatches.collect {
-            }
-        }
-    }
-
-    private fun setSearchingMatchesButtonClickListener(id: Int) {
-        when (id) {
-            R.id.item_recent_matches -> setSearchingRecentMatchesButtonClickListener()
-            R.id.item_relative_matches -> setSearchingRelativeMatchesButtonClickListener()
-        }
-    }
-
-    private fun setSearchingRecentMatchesButtonClickListener() {
-        binding.homeIvFossLogo.setOnClickListener {
-            recentMatchesViewModel.fetchMatches(binding.homeEtNicknameSearching.text.toString())
-        }
-    }
-
-    private fun setSearchingRelativeMatchesButtonClickListener() {
-        binding.homeIvFossLogo.setOnClickListener {
-            relativeMatchesViewModel.fetchRelativeMatches(binding.homeEtNicknameSearching.text.toString())
-            onChangeVisibility()
         }
     }
 
