@@ -3,6 +3,7 @@ import com.foss.foss.feature.statsearching.relative.RelativeStatsEvent
 import com.foss.foss.feature.statsearching.relative.RelativeStatsViewModel
 import com.foss.foss.model.Match
 import com.foss.foss.model.MatchMapper.toUiModel
+import com.foss.foss.model.Nickname
 import com.foss.foss.model.RelativeStat
 import com.foss.foss.model.RelativeStatMapper.toUiModel
 import com.foss.foss.model.RelativeStatUiModel
@@ -112,6 +113,7 @@ class RelativeStatsViewModelTest {
     @Test
     fun `상대 전적을 불러온 뒤 특정 유저와의 전적을 받아온 경우 빈 리스트가 아니다`() {
         // given
+        `상대전적 기록 요청에 대한 결과가 다음과 같을 때`(Result.success(RelativeStatsFixture.create()))
         `특정 유저와의 상대 전적 요청 결과가 다음과 같을 때`(Result.success(MatchFixture.create()))
 
         // when
@@ -130,6 +132,7 @@ class RelativeStatsViewModelTest {
     @Test
     fun `특정 유저와의 상대 전적을 초기화 하면 특정 유저와의 상대 전적을 저장하는 리스트의 길이는 0이다`() {
         // given
+        `상대전적 기록 요청에 대한 결과가 다음과 같을 때`(Result.success(RelativeStatsFixture.create()))
         `특정 유저와의 상대 전적 요청 결과가 다음과 같을 때`(Result.success(MatchFixture.create()))
 
         // when
