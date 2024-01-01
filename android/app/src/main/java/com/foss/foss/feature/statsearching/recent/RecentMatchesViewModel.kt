@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.foss.foss.model.MatchMapper.toUiModel
 import com.foss.foss.model.MatchType
+import com.foss.foss.model.Nickname
 import com.foss.foss.repository.MatchRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,7 +31,7 @@ class RecentMatchesViewModel(
         viewModelScope.launch {
             _uiState.value = RecentMatchesUiState.Loading
 
-            matchRepository.fetchMatches(nickname).map { matchResults ->
+            matchRepository.fetchMatches(Nickname(nickname)).map { matchResults ->
                 matchResults.map { match ->
                     match.toUiModel()
                 }

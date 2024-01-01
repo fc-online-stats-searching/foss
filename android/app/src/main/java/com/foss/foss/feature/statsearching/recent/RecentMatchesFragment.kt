@@ -61,28 +61,6 @@ class RecentMatchesFragment : DiFragment() {
                 }
             }
         }
-
-//        viewModel.matchTypes.observe(viewLifecycleOwner) {
-//            binding.recentMatchSpinnerMatchType.adapter = ArrayAdapter(
-//                requireContext(),
-//                R.layout.spinner_item_match_type,
-//                it.map { matchType ->
-//                    getString(matchType.resId)
-//                }.toTypedArray()
-//            )
-//        }
-
-//        repeatOnStarted {
-//            viewModel.matchTypes.collect { matchTypes ->
-//                binding.recentMatchSpinnerMatchType.adapter = ArrayAdapter(
-//                    requireContext(),
-//                    R.layout.spinner_item_match_type,
-//                    matchTypes.map { matchType ->
-//                        getString(matchType.resId)
-//                    }.toTypedArray(),
-//                )
-//            }
-//        }
     }
 
     fun changeVisibility() {

@@ -6,7 +6,7 @@ object MatchMapper {
         date = date,
         manOfTheMatch = "https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/players/p$manOfTheMatch.png",
         matchType = matchType.toUiModel(),
-        otherSideNickname = otherSideNickname,
+        otherSideNickname = otherSideNickname.name,
         winDrawLose = winDrawLose.toUiModel(),
         point = score.point,
         otherPoint = score.otherPoint

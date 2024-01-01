@@ -7,7 +7,7 @@ data class Match(
     val date: LocalDate,
     val matchType: MatchType,
     val manOfTheMatch: Int,
-    val otherSideNickname: String,
+    val otherSideNickname: Nickname,
     val winDrawLose: WinDrawLose,
-    val score: Score
+    val score: Score,
 )

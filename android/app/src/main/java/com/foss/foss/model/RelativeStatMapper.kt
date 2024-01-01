@@ -3,7 +3,7 @@ package com.foss.foss.model
 object RelativeStatMapper {
 
     fun RelativeStat.toUiModel(): RelativeStatUiModel = RelativeStatUiModel(
-        opponentName = opponentName,
+        opponentName = opponentName.name,
         numberOfGames = winDrawLoses.numberOfGames,
         numberOfWins = winDrawLoses.numberOfWins,
         numberOfDraws = winDrawLoses.numberOfDraws,

@@ -54,8 +54,12 @@ class RelativeStatsViewModelTest {
         relativeStatsViewModel.fetchRelativeMatchesBetweenUsers()
     }
 
-    fun `상대전적 기록 요청을 하면`() {
-        relativeStatsViewModel.fetchRelativeStats()
+    fun `상대 전적 기록 요청을 하면`() {
+        relativeStatsViewModel.fetchRelativeStats("신공학관캣대디")
+    }
+
+    fun `상대방 닉네임을 초기화 하면`() {
+        relativeStatsViewModel.updateOpponentName("신공학관캣대디")
     }
 
     @Test
@@ -77,7 +81,7 @@ class RelativeStatsViewModelTest {
         `상대전적 기록 요청에 대한 결과가 다음과 같을 때`(Result.success(RelativeStatsFixture.create()))
 
         // when
-        `상대전적 기록 요청을 하면`()
+        `상대 전적 기록 요청을 하면`()
 
         val actual = relativeStatsViewModel.relativeStats.value
 
@@ -94,7 +98,7 @@ class RelativeStatsViewModelTest {
 
         relativeStatsViewModel.event.test {
             // when
-            `상대전적 기록 요청을 하면`()
+            `상대 전적 기록 요청을 하면`()
 
             val actual = awaitItem()
 
@@ -106,11 +110,13 @@ class RelativeStatsViewModelTest {
     }
 
     @Test
-    fun `특정 유저와의 상대 전적을 받아온 경우 빈 리스트가 아니다`() {
+    fun `상대 전적을 불러온 뒤 특정 유저와의 전적을 받아온 경우 빈 리스트가 아니다`() {
         // given
         `특정 유저와의 상대 전적 요청 결과가 다음과 같을 때`(Result.success(MatchFixture.create()))
 
         // when
+        `상대 전적 기록 요청을 하면`()
+        `상대방 닉네임을 초기화 하면`()
         `특정 유저와의 상대 전적 요청을 하면`()
 
         val actual = relativeStatsViewModel.relativeStatsDetails.value
@@ -127,6 +133,8 @@ class RelativeStatsViewModelTest {
         `특정 유저와의 상대 전적 요청 결과가 다음과 같을 때`(Result.success(MatchFixture.create()))
 
         // when
+        `상대 전적 기록 요청을 하면`()
+        `상대방 닉네임을 초기화 하면`()
         `특정 유저와의 상대 전적 요청을 하면`()
 
         val actual = relativeStatsViewModel.relativeStatsDetails.value

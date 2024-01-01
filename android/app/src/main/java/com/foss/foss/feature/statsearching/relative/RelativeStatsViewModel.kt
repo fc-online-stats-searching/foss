@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.foss.foss.model.MatchMapper.toUiModel
 import com.foss.foss.model.MatchUiModel
+import com.foss.foss.model.Nickname
 import com.foss.foss.model.RelativeStatMapper.toUiModel
 import com.foss.foss.model.RelativeStatUiModel
 import com.foss.foss.repository.MatchRepository
@@ -21,8 +22,8 @@ class RelativeStatsViewModel(
     private val relativeStatsRepository: RelativeStatsRepository
 ) : ViewModel() {
 
-    val name = MutableStateFlow("")
-    private var _opponentName = ""
+    private lateinit var _nickname: Nickname
+    private lateinit var _opponentName: Nickname
 
     private val _relativeStats: MutableStateFlow<List<RelativeStatUiModel>> =
         MutableStateFlow(emptyList())
@@ -38,20 +39,24 @@ class RelativeStatsViewModel(
     val event: SharedFlow<RelativeStatsEvent>
         get() = _event.asSharedFlow()
 
-    fun fetchRelativeStats() {
-        viewModelScope.launch {
-            relativeStatsRepository.fetchRelativeStats(name.value)
-                .onSuccess { relativeStats ->
-                    _relativeStats.value = relativeStats.map { it.toUiModel() }
-                }.onFailure {
-                    _event.emit(RelativeStatsEvent.Failed)
-                }
-        }
+    fun fetchRelativeStats(nickname: String) {
+        runCatching {
+            _nickname = Nickname(nickname)
+            viewModelScope.launch {
+                relativeStatsRepository.fetchRelativeStats(_nickname)
+                    .onSuccess { relativeStats ->
+                        _relativeStats.value = relativeStats.map { it.toUiModel() }
+                    }.onFailure {
+                        _event.emit(RelativeStatsEvent.Failed)
+                    }
+            }
+            // TODO: UiState로 적용하면서 닉네임 변환 실패 시 처리 필요
+        }.onFailure { }
     }
 
     fun fetchRelativeMatchesBetweenUsers() {
         viewModelScope.launch {
-            matchRepository.fetchMatchesBetweenUsers(name.value, _opponentName)
+            matchRepository.fetchMatchesBetweenUsers(_nickname, _opponentName)
                 .onSuccess { matches ->
                     _relativeStatsDetails.value = matches.map { it.toUiModel() }
                 }
@@ -64,6 +69,6 @@ class RelativeStatsViewModel(
     }
 
     fun updateOpponentName(opponentNickname: String) {
-        _opponentName = opponentNickname
+        _opponentName = Nickname(opponentNickname)
     }
 }
