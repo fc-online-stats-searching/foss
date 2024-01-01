@@ -36,7 +36,6 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
 
     private fun setupBinding() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
-        binding.viewModel = relativeStatsViewModel
 
         setContentView(binding.root)
     }
@@ -97,7 +96,7 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
 
     private fun setSearchingRelativeStatsButtonClickListener() {
         binding.homeIvFossLogo.setOnClickListener {
-            relativeStatsViewModel.fetchRelativeStats()
+            relativeStatsViewModel.fetchRelativeStats(binding.homeEtNicknameSearching.text.toString())
             onChangeVisibility()
         }
     }
