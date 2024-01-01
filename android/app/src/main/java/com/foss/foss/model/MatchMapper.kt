@@ -13,14 +13,13 @@ object MatchMapper {
     )
 
     fun MatchType.toUiModel() = when (this) {
-        MatchType.LEAGUE_FRIENDLY -> MatchTypeUiModel.LEAGUE_FRIENDLY
         MatchType.CLASSIC_ONE_TO_ONE -> MatchTypeUiModel.CLASSIC_ONE_TO_ONE
         MatchType.OFFICIAL -> MatchTypeUiModel.OFFICIAL
-        MatchType.DIRECTOR -> MatchTypeUiModel.DIRECTOR
-        MatchType.OFFICIAL_FRIENDLY -> MatchTypeUiModel.OFFICIAL_FRIENDLY
-        MatchType.VOLTA_FRIENDLY -> MatchTypeUiModel.VOLTA_FRIENDLY
-        MatchType.VOLTA_OFFICIAL -> MatchTypeUiModel.VOLTA_OFFICIAL
-        MatchType.VOLTA_CUSTOM -> MatchTypeUiModel.VOLTA_CUSTOM
+    }
+
+    fun MatchTypeUiModel.toDomainModel() = when (this) {
+        MatchTypeUiModel.CLASSIC_ONE_TO_ONE -> MatchType.CLASSIC_ONE_TO_ONE
+        MatchTypeUiModel.OFFICIAL -> MatchType.OFFICIAL
     }
 
     fun WinDrawLose.toUiModel() = when (this) {
