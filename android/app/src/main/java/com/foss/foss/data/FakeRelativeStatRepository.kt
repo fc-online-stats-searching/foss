@@ -13,7 +13,7 @@ class FakeRelativeStatRepository : RelativeStatsRepository {
     override fun fetchRelativeStats(nickname: Nickname): Result<List<RelativeStat>> = runCatching {
         listOf(
             RelativeStat(
-                Nickname("Clinton Hinton"),
+                Nickname("ClintonHinton"),
                 recentMatchDate = LocalDate.of(2023, 12, 2),
                 winDrawLoses = WinDrawLoses(
                     listOf(
