@@ -9,7 +9,7 @@ object MatchMapper {
         otherSideNickname = otherSideNickname.name,
         winDrawLose = winDrawLose.toUiModel(),
         point = score.point,
-        otherPoint = score.otherPoint,
+        otherPoint = score.otherPoint
     )
 
     fun MatchType.toUiModel() = when (this) {

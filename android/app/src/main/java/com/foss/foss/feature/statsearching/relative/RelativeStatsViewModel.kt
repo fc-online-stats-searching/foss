@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 
 class RelativeStatsViewModel(
     private val matchRepository: MatchRepository,
-    private val relativeStatsRepository: RelativeStatsRepository,
+    private val relativeStatsRepository: RelativeStatsRepository
 ) : ViewModel() {
 
     private lateinit var _nickname: Nickname

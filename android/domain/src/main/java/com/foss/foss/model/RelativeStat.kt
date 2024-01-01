@@ -1,6 +1,5 @@
 package com.foss.foss.model
 
-import com.foss.foss.model.legacy.Score
 import java.time.LocalDate
 
 /**

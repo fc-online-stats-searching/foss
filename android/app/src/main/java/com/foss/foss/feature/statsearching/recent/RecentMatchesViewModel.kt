@@ -1,56 +1,45 @@
 package com.foss.foss.feature.statsearching.recent
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.foss.foss.model.Match
 import com.foss.foss.model.MatchMapper.toUiModel
 import com.foss.foss.model.MatchType
-import com.foss.foss.model.MatchTypeUiModel
-import com.foss.foss.model.MatchUiModel
 import com.foss.foss.model.Nickname
 import com.foss.foss.repository.MatchRepository
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
 class RecentMatchesViewModel(
-    private val matchRepository: MatchRepository,
+    private val matchRepository: MatchRepository
 ) : ViewModel() {
 
-    private val _matchTypes: MutableLiveData<List<MatchType>> = MutableLiveData(
-        MatchType
-            .values()
-            .toList(),
+    private val _uiState: MutableStateFlow<RecentMatchesUiState> = MutableStateFlow(
+        RecentMatchesUiState.Default(MatchType.values().map { it.toUiModel() })
     )
-    val matchTypes: LiveData<List<MatchTypeUiModel>>
-        get() = _matchTypes.map { matchTypes ->
-            matchTypes.map { matchType ->
-                matchType.toUiModel()
+    val uiState: StateFlow<RecentMatchesUiState>
+        get() = _uiState
+
+    private val _event: MutableSharedFlow<RecentMatchesEvent> = MutableSharedFlow()
+    val event: SharedFlow<RecentMatchesEvent>
+        get() = _event.asSharedFlow()
+
+    fun fetchMatches(nickname: String) {
+        viewModelScope.launch {
+            _uiState.value = RecentMatchesUiState.Loading
+
+            matchRepository.fetchMatches(Nickname(nickname)).map { matchResults ->
+                matchResults.map { match ->
+                    match.toUiModel()
+                }
+            }.onSuccess { matchResults ->
+                _uiState.value = RecentMatchesUiState.Success(matchResults)
+            }.onFailure {
+                _event.emit(RecentMatchesEvent.Failed)
             }
         }
-
-    private val _matches: MutableLiveData<List<Match>> = MutableLiveData()
-    val matches: LiveData<List<MatchUiModel>>
-        get() = _matches.map { matches ->
-            matches.map { match ->
-                match.toUiModel()
-            }
-        }
-
-    private val _event: MutableLiveData<RecentMatchesEvent> = MutableLiveData()
-    val event: LiveData<RecentMatchesEvent>
-        get() = _event
-
-    fun fetchMatches(_nickname: String) {
-        runCatching {
-            val nickname = Nickname(_nickname)
-            viewModelScope.launch {
-                matchRepository.fetchMatches(nickname)
-                    .onSuccess { matchResults ->
-                        _matches.value = matchResults
-                    }.onFailure { }
-            }
-        }.onFailure { _event.value = RecentMatchesEvent.Failed }
     }
 }

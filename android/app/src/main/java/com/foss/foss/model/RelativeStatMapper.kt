@@ -10,6 +10,6 @@ object RelativeStatMapper {
         numberOfLoses = winDrawLoses.numberOfLoses,
         recentMatchDate = recentMatchDate,
         goal = totalScore.point,
-        conceded = totalScore.otherPoint,
+        conceded = totalScore.otherPoint
     )
 }

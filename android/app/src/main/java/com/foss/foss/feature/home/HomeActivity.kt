@@ -70,7 +70,7 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
     }
 
     private fun setupRecentMatchesObserver() {
-        recentMatchesViewModel.matches.observe(this) {
+        repeatOnStarted {
         }
     }
 
@@ -91,7 +91,6 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
     private fun setSearchingRecentMatchesButtonClickListener() {
         binding.homeIvFossLogo.setOnClickListener {
             recentMatchesViewModel.fetchMatches(binding.homeEtNicknameSearching.text.toString())
-            onChangeVisibility()
         }
     }
 
@@ -105,8 +104,13 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
     override fun onChangeVisibility() {
         val fragment = supportFragmentManager.findFragmentById(R.id.home_fcv_stats)
         when (fragment) {
-            is RecentMatchesFragment -> fragment.changeVisibility()
-            is RelativeStatsFragment -> fragment.changeVisibility()
+            is RecentMatchesFragment -> {
+                fragment.changeVisibility()
+            }
+
+            is RelativeStatsFragment -> {
+                fragment.changeVisibility()
+            }
         }
     }
 }

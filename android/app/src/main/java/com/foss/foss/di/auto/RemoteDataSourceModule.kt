@@ -1,11 +1,7 @@
 package com.foss.foss.di.auto
 
 import com.boogiwoogi.woogidi.pure.DefaultModule
-import com.boogiwoogi.woogidi.pure.Provides
-import com.boogiwoogi.woogidi.pure.Singleton
 import com.foss.foss.BuildConfig
-import com.foss.foss.data.legacy.service.MatchService
-import com.foss.foss.data.legacy.service.UserService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
@@ -41,15 +37,15 @@ object RemoteDataSourceModule : DefaultModule() {
             .build()
     }
 
-    @Provides
-    @Singleton
-    fun providesUserService(): UserService {
-        return retrofit.create(UserService::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun providesMatchService(): MatchService {
-        return retrofit.create(MatchService::class.java)
-    }
+//    @Provides
+//    @Singleton
+//    fun providesUserService(): UserService {
+//        return retrofit.create(UserService::class.java)
+//    }
+//
+//    @Provides
+//    @Singleton
+//    fun providesMatchService(): MatchService {
+//        return retrofit.create(MatchService::class.java)
+//    }
 }

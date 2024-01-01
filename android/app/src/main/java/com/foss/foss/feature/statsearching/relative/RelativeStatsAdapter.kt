@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.foss.foss.model.RelativeStatUiModel
 
 class RelativeStatsAdapter(
-    private val onClick: (String) -> Unit,
+    private val onClick: (String) -> Unit
 ) :
     ListAdapter<RelativeStatUiModel, RelativeStatsViewHolder>(RelativeStatDiffUtilCallBack()) {
 
