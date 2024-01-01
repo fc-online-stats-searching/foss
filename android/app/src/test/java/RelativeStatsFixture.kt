@@ -1,8 +1,8 @@
 import com.foss.foss.model.Nickname
 import com.foss.foss.model.RelativeStat
+import com.foss.foss.model.Score
 import com.foss.foss.model.WinDrawLose
 import com.foss.foss.model.WinDrawLoses
-import com.foss.foss.model.Score
 import java.time.LocalDate
 
 object RelativeStatsFixture {
@@ -19,10 +19,10 @@ object RelativeStatsFixture {
                     WinDrawLose.WIN,
                     WinDrawLose.DRAW,
                     WinDrawLose.WIN,
-                    WinDrawLose.DRAW
-                )
+                    WinDrawLose.DRAW,
+                ),
             ),
-            totalScore = Score(point = 31, otherPoint = 23)
+            totalScore = Score(point = 31, otherPoint = 23),
         ),
         RelativeStat(
             Nickname("신공학관캣대디"),
@@ -35,10 +35,10 @@ object RelativeStatsFixture {
                     WinDrawLose.WIN,
                     WinDrawLose.DRAW,
                     WinDrawLose.WIN,
-                    WinDrawLose.DRAW
-                )
+                    WinDrawLose.DRAW,
+                ),
             ),
-            totalScore = Score(point = 31, otherPoint = 23)
+            totalScore = Score(point = 31, otherPoint = 23),
         ),
         RelativeStat(
             Nickname("신공학관캣맘"),
@@ -51,10 +51,10 @@ object RelativeStatsFixture {
                     WinDrawLose.WIN,
                     WinDrawLose.DRAW,
                     WinDrawLose.WIN,
-                    WinDrawLose.DRAW
-                )
+                    WinDrawLose.DRAW,
+                ),
             ),
-            totalScore = Score(point = 31, otherPoint = 23)
-        )
+            totalScore = Score(point = 31, otherPoint = 23),
+        ),
     )
 }

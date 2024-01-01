@@ -1,8 +1,8 @@
 import com.foss.foss.model.Match
 import com.foss.foss.model.MatchType
 import com.foss.foss.model.Nickname
-import com.foss.foss.model.WinDrawLose
 import com.foss.foss.model.Score
+import com.foss.foss.model.WinDrawLose
 import java.time.LocalDate
 
 object MatchFixture {
@@ -14,7 +14,7 @@ object MatchFixture {
             otherSideNickname = Nickname("신공학관캣대디"),
             manOfTheMatch = 1,
             winDrawLose = WinDrawLose.WIN,
-            score = Score(point = 31, otherPoint = 23)
+            score = Score(point = 31, otherPoint = 23),
         )
     }
 }
