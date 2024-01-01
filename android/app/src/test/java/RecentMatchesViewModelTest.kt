@@ -62,7 +62,7 @@ class RecentMatchesViewModelTest {
         // given
         `최근전적 기록 요청에 대한 결과가 다음과 같을 때`(Result.failure(Throwable()))
 
-        val actual = recentMatchesViewModel.event.test {
+        recentMatchesViewModel.event.test {
             // when
             `최근전적 기록을 요청하면`()
             val actual = awaitItem()

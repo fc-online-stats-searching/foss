@@ -1,4 +1,4 @@
-package com.foss.foss.model.legacy
+package com.foss.foss.model
 
 /**
  * todo: point/goal, otherPoint/conceded

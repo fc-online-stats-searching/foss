@@ -2,7 +2,7 @@ import com.foss.foss.model.Nickname
 import com.foss.foss.model.RelativeStat
 import com.foss.foss.model.WinDrawLose
 import com.foss.foss.model.WinDrawLoses
-import com.foss.foss.model.legacy.Score
+import com.foss.foss.model.Score
 import java.time.LocalDate
 
 object RelativeStatsFixture {
