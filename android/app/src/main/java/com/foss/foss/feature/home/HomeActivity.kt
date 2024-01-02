@@ -85,6 +85,7 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
     private fun setSearchingMatchesButtonClickListener() {
         with(binding) {
             homeIvFossLogo.setOnClickListener {
+                onChangeVisibility()
                 recentMatchViewModel.fetchMatches(
                     homeEtNicknameSearching.text.toString(),
                     MatchTypeUiModel.values()[homeSpinnerMatchType.selectedItemPosition]
