@@ -39,16 +39,15 @@ class RecentMatchesViewModel(
         viewModelScope.launch {
             runCatching {
                 _uiState.value = RecentMatchesUiState.Loading
-
                 matchRepository.fetchMatches(
                     nickname = Nickname(nickname),
                     matchType = searchingMatchType.toDomainModel()
-                ).map { matchResults ->
-                    matchResults.map { match ->
-                        match.toUiModel()
-                    }
-                }.onSuccess { matchResults ->
-                    _uiState.value = RecentMatchesUiState.RecentMatches(matchResults)
+                ).onSuccess { matchResults ->
+                    _uiState.value = RecentMatchesUiState.RecentMatches(
+                        matchResults.map { matchResult ->
+                            matchResult.toUiModel()
+                        }
+                    )
                 }.onFailure {
                     _event.emit(RecentMatchesEvent.Failed)
                 }
