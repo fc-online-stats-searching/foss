@@ -46,6 +46,10 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
     }
 
     private fun setupBottomNavigationView() {
+        /**
+         * todo: 현재 woogi-di를 사용함으로써 발생하는 문제를 해결하기 위한 코드
+         */
+        recentMatchesViewModel.fetchEmptyMatches()
         binding.homeBnvMenu.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.item_recent_matches -> {
@@ -79,10 +83,6 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
     }
 
     private fun setSearchingMatchesButtonClickListener() {
-        /**
-         * todo: 현재 woogi-di를 사용함으로써 발생하는 문제를 해결하기 위한 코드
-         */
-        recentMatchesViewModel.fetchEmptyMatches()
         with(binding) {
             homeIvFossLogo.setOnClickListener {
                 recentMatchesViewModel.fetchMatches(
