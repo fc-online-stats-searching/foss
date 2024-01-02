@@ -60,7 +60,8 @@ class RelativeMatchesViewModel(
                 .onSuccess { matches ->
                     _relativeMatchesDetails.value = matches.map { it.toUiModel() }
                 }
-                .onFailure { }
+                .onFailure {
+                }
         }
     }
 

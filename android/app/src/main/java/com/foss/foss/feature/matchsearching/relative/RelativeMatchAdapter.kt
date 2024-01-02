@@ -6,8 +6,9 @@ import com.foss.foss.model.RelativeMatchUiModel
 
 class RelativeMatchAdapter(
     private val onClick: (String) -> Unit
-) :
-    ListAdapter<RelativeMatchUiModel, RelativeMatchesViewHolder>(RelativeMatchDiffUtilCallBack()) {
+) : ListAdapter<RelativeMatchUiModel, RelativeMatchesViewHolder>(
+    RelativeMatchDiffUtilCallBack()
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RelativeMatchesViewHolder {
         return RelativeMatchesViewHolder.from(parent) {
