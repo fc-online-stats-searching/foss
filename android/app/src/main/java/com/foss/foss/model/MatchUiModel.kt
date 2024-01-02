@@ -6,7 +6,7 @@ data class MatchUiModel(
     val date: LocalDate,
     val matchType: MatchTypeUiModel,
     val manOfTheMatch: String,
-    val otherSideNickname: String,
+    val opponentName: String,
     val winDrawLose: WinDrawLoseUiModel,
     val point: Int,
     val otherPoint: Int

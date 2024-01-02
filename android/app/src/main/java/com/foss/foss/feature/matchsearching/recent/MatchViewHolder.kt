@@ -25,7 +25,7 @@ class MatchViewHolder(
                     )
                 )
             )
-            itemMatchTvOtherSideNickname.text = match.otherSideNickname
+            itemMatchTvOpponentNickname.text = match.opponentName
             itemMatchTvMatchType.text = root.context.getString(match.matchType.resId)
             itemMatchTvWinDrawLose.text = root.context.getString(match.winDrawLose.resId)
             itemMatchTvScore.text = root.context.getString(

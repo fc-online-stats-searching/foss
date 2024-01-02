@@ -11,7 +11,7 @@ object MatchFixture {
         Match(
             date = LocalDate.of(2023, 12, 18),
             matchType = MatchType.DIRECTOR,
-            otherSideNickname = Nickname("신공학관캣대디"),
+            opponentName = Nickname("신공학관캣대디"),
             manOfTheMatch = 1,
             winDrawLose = WinDrawLose.WIN,
             score = Score(point = 31, otherPoint = 23)

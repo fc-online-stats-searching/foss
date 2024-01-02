@@ -19,7 +19,7 @@ class FakeMatchRepository : MatchRepository {
         nickname: Nickname,
         opponentNickname: Nickname
     ): Result<List<Match>> = runCatching {
-        recentMatches.filter { it.otherSideNickname.name == opponentNickname.name }
+        recentMatches.filter { it.opponentName.name == opponentNickname.name }
     }
 
     companion object {
@@ -28,7 +28,7 @@ class FakeMatchRepository : MatchRepository {
                 date = LocalDate.of(2023, 12, 2),
                 matchType = MatchType.OFFICIAL,
                 manOfTheMatch = 1,
-                otherSideNickname = Nickname("ClintonHinton"),
+                opponentName = Nickname("ClintonHinton"),
                 winDrawLose = WinDrawLose.WIN,
                 score = Score(point = 2, otherPoint = 1)
             ),
@@ -36,7 +36,7 @@ class FakeMatchRepository : MatchRepository {
                 date = LocalDate.of(2023, 12, 2),
                 matchType = MatchType.OFFICIAL,
                 manOfTheMatch = 1,
-                otherSideNickname = Nickname("신공학관캣대디"),
+                opponentName = Nickname("신공학관캣대디"),
                 winDrawLose = WinDrawLose.LOSE,
                 score = Score(point = 1, otherPoint = 2)
             ),
@@ -44,7 +44,7 @@ class FakeMatchRepository : MatchRepository {
                 date = LocalDate.of(2023, 12, 2),
                 matchType = MatchType.OFFICIAL,
                 manOfTheMatch = 1,
-                otherSideNickname = Nickname("ClintonHinton"),
+                opponentName = Nickname("ClintonHinton"),
                 winDrawLose = WinDrawLose.DRAW,
                 score = Score(point = 1, otherPoint = 1)
             ),
@@ -52,7 +52,7 @@ class FakeMatchRepository : MatchRepository {
                 date = LocalDate.of(2023, 12, 2),
                 matchType = MatchType.OFFICIAL,
                 manOfTheMatch = 1,
-                otherSideNickname = Nickname("신공학관캣대디"),
+                opponentName = Nickname("신공학관캣대디"),
                 winDrawLose = WinDrawLose.LOSE,
                 score = Score(point = 1, otherPoint = 3)
             ),
@@ -60,7 +60,7 @@ class FakeMatchRepository : MatchRepository {
                 date = LocalDate.of(2023, 12, 2),
                 matchType = MatchType.OFFICIAL,
                 manOfTheMatch = 1,
-                otherSideNickname = Nickname("ClintonHinton"),
+                opponentName = Nickname("ClintonHinton"),
                 winDrawLose = WinDrawLose.WIN,
                 score = Score(point = 5, otherPoint = 3)
             ),
@@ -68,7 +68,7 @@ class FakeMatchRepository : MatchRepository {
                 date = LocalDate.of(2023, 12, 2),
                 matchType = MatchType.OFFICIAL,
                 manOfTheMatch = 1,
-                otherSideNickname = Nickname("ClintonHinton"),
+                opponentName = Nickname("ClintonHinton"),
                 winDrawLose = WinDrawLose.LOSE,
                 score = Score(point = 1, otherPoint = 6)
             ),
@@ -76,7 +76,7 @@ class FakeMatchRepository : MatchRepository {
                 date = LocalDate.of(2023, 12, 2),
                 matchType = MatchType.OFFICIAL,
                 manOfTheMatch = 1,
-                otherSideNickname = Nickname("신공학관캣맘"),
+                opponentName = Nickname("신공학관캣맘"),
                 winDrawLose = WinDrawLose.DRAW,
                 score = Score(point = 3, otherPoint = 3)
             ),
@@ -84,7 +84,7 @@ class FakeMatchRepository : MatchRepository {
                 date = LocalDate.of(2023, 12, 2),
                 matchType = MatchType.OFFICIAL,
                 manOfTheMatch = 1,
-                otherSideNickname = Nickname("ClintonHinton"),
+                opponentName = Nickname("ClintonHinton"),
                 winDrawLose = WinDrawLose.LOSE,
                 score = Score(point = 2, otherPoint = 3)
             ),
@@ -92,7 +92,7 @@ class FakeMatchRepository : MatchRepository {
                 date = LocalDate.of(2023, 12, 2),
                 matchType = MatchType.OFFICIAL,
                 manOfTheMatch = 1,
-                otherSideNickname = Nickname("신공학관캣대디"),
+                opponentName = Nickname("신공학관캣대디"),
                 winDrawLose = WinDrawLose.WIN,
                 score = Score(point = 1, otherPoint = 0)
             ),
@@ -100,7 +100,7 @@ class FakeMatchRepository : MatchRepository {
                 date = LocalDate.of(2023, 12, 2),
                 matchType = MatchType.OFFICIAL,
                 manOfTheMatch = 1,
-                otherSideNickname = Nickname("ClintonHinton"),
+                opponentName = Nickname("ClintonHinton"),
                 winDrawLose = WinDrawLose.LOSE,
                 score = Score(point = 2, otherPoint = 5)
             ),
@@ -108,7 +108,7 @@ class FakeMatchRepository : MatchRepository {
                 date = LocalDate.of(2023, 12, 2),
                 matchType = MatchType.OFFICIAL,
                 manOfTheMatch = 1,
-                otherSideNickname = Nickname("ClintonHinton"),
+                opponentName = Nickname("ClintonHinton"),
                 winDrawLose = WinDrawLose.DRAW,
                 score = Score(point = 3, otherPoint = 3)
             ),
@@ -116,7 +116,7 @@ class FakeMatchRepository : MatchRepository {
                 date = LocalDate.of(2023, 12, 2),
                 matchType = MatchType.OFFICIAL,
                 manOfTheMatch = 1,
-                otherSideNickname = Nickname("신공학관캣맘"),
+                opponentName = Nickname("신공학관캣맘"),
                 winDrawLose = WinDrawLose.LOSE,
                 score = Score(point = 0, otherPoint = 1)
             )
