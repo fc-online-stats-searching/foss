@@ -5,10 +5,10 @@ import com.foss.foss.model.RelativeMatch
 import com.foss.foss.model.Score
 import com.foss.foss.model.WinDrawLose
 import com.foss.foss.model.WinDrawLoses
-import com.foss.foss.repository.RelativeMatchesRepository
+import com.foss.foss.repository.RelativeMatchRepository
 import java.time.LocalDate
 
-class FakeRelativeMatchesRepository : RelativeMatchesRepository {
+class FakeRelativeMatchRepository : RelativeMatchRepository {
 
     override fun fetchRelativeMatches(nickname: Nickname): Result<List<RelativeMatch>> = runCatching {
         listOf(

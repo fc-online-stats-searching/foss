@@ -6,17 +6,17 @@ import com.foss.foss.model.RelativeMatchUiModel
 
 class RelativeMatchAdapter(
     private val onClick: (String) -> Unit
-) : ListAdapter<RelativeMatchUiModel, RelativeMatchesViewHolder>(
+) : ListAdapter<RelativeMatchUiModel, RelativeMatchViewHolder>(
     RelativeMatchDiffUtilCallBack()
 ) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RelativeMatchesViewHolder {
-        return RelativeMatchesViewHolder.from(parent) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RelativeMatchViewHolder {
+        return RelativeMatchViewHolder.from(parent) {
             onClick(getItem(it).opponentName)
         }
     }
 
-    override fun onBindViewHolder(holder: RelativeMatchesViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RelativeMatchViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 

@@ -8,23 +8,23 @@ import androidx.fragment.app.activityViewModels
 import com.boogiwoogi.woogidi.fragment.DiFragment
 import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Module
-import com.foss.foss.databinding.FragmentRelativeMatchesDetailBinding
-import com.foss.foss.feature.matchsearching.recent.RecentMatchesAdapter
-import com.foss.foss.feature.matchsearching.relative.RelativeMatchesViewModel
+import com.foss.foss.databinding.FragmentRelativeMatchDetailBinding
+import com.foss.foss.feature.matchsearching.recent.RecentMatchAdapter
+import com.foss.foss.feature.matchsearching.relative.RelativeMatchViewModel
 import com.foss.foss.util.lifecycle.repeatOnStarted
 
-class RelativeDetailMatchesFragment : DiFragment() {
+class RelativeDetailMatchFragment : DiFragment() {
 
     override val module: Module by lazy { DefaultModule() }
 
-    private var _binding: FragmentRelativeMatchesDetailBinding? = null
+    private var _binding: FragmentRelativeMatchDetailBinding? = null
     private val binding
         get() = _binding!!
 
-    private val relativeMatchesViewModel: RelativeMatchesViewModel by activityViewModels()
+    private val relativeMatchViewModel: RelativeMatchViewModel by activityViewModels()
 
-    private val relativeMatchesDetailAdapter: RecentMatchesAdapter by lazy {
-        RecentMatchesAdapter()
+    private val relativeMatchesDetailAdapter: RecentMatchAdapter by lazy {
+        RecentMatchAdapter()
     }
 
     override fun onCreateView(
@@ -32,7 +32,7 @@ class RelativeDetailMatchesFragment : DiFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRelativeMatchesDetailBinding.inflate(inflater, container, false)
+        _binding = FragmentRelativeMatchDetailBinding.inflate(inflater, container, false)
 
         return _binding!!.root
     }
@@ -51,12 +51,12 @@ class RelativeDetailMatchesFragment : DiFragment() {
     }
 
     private fun fetchRelativeMatchesDetail() {
-        relativeMatchesViewModel.fetchRelativeMatchesBetweenUsers()
+        relativeMatchViewModel.fetchRelativeMatchesBetweenUsers()
     }
 
     private fun setupRelativeMatchesDetailObserver() {
         repeatOnStarted {
-            relativeMatchesViewModel.relativeMatchesDetails.collect {
+            relativeMatchViewModel.relativeMatchesDetails.collect {
                 relativeMatchesDetailAdapter.submitList(it)
             }
         }
@@ -69,7 +69,7 @@ class RelativeDetailMatchesFragment : DiFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
-        relativeMatchesViewModel.resetRelativeMatchesDetails()
+        relativeMatchViewModel.resetRelativeMatchesDetails()
         _binding = null
     }
 }

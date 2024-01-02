@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.foss.foss.model.MatchUiModel
 
-class RecentMatchesAdapter : ListAdapter<MatchUiModel, MatchViewHolder>(MatchDiffUtilCallBack()) {
+class RecentMatchAdapter : ListAdapter<MatchUiModel, MatchViewHolder>(MatchDiffUtilCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchViewHolder {
         return MatchViewHolder.valueOf(parent)

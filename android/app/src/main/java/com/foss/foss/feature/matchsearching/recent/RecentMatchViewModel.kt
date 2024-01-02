@@ -15,21 +15,21 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class RecentMatchesViewModel(
+class RecentMatchViewModel(
     private val matchRepository: MatchRepository
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<RecentMatchesUiState> =
-        MutableStateFlow(RecentMatchesUiState.Empty)
-    val uiState: StateFlow<RecentMatchesUiState>
+    private val _uiState: MutableStateFlow<RecentMatchUiState> =
+        MutableStateFlow(RecentMatchUiState.Empty)
+    val uiState: StateFlow<RecentMatchUiState>
         get() = _uiState.asStateFlow()
 
-    private val _event: MutableSharedFlow<RecentMatchesEvent> = MutableSharedFlow()
-    val event: SharedFlow<RecentMatchesEvent>
+    private val _event: MutableSharedFlow<RecentMatchEvent> = MutableSharedFlow()
+    val event: SharedFlow<RecentMatchEvent>
         get() = _event.asSharedFlow()
 
     fun fetchEmptyMatches() {
-        _uiState.value = RecentMatchesUiState.Empty
+        _uiState.value = RecentMatchUiState.Empty
     }
 
     fun fetchMatches(
@@ -38,21 +38,21 @@ class RecentMatchesViewModel(
     ) {
         viewModelScope.launch {
             runCatching {
-                _uiState.value = RecentMatchesUiState.Loading
+                _uiState.value = RecentMatchUiState.Loading
                 matchRepository.fetchMatches(
                     nickname = Nickname(nickname),
                     matchType = searchingMatchType.toDomainModel()
                 ).onSuccess { matchResults ->
-                    _uiState.value = RecentMatchesUiState.RecentMatches(
+                    _uiState.value = RecentMatchUiState.RecentMatch(
                         matchResults.map { matchResult ->
                             matchResult.toUiModel()
                         }
                     )
                 }.onFailure {
-                    _event.emit(RecentMatchesEvent.Failed)
+                    _event.emit(RecentMatchEvent.Failed)
                 }
             }.onFailure {
-                _event.emit(RecentMatchesEvent.Failed)
+                _event.emit(RecentMatchEvent.Failed)
             }
         }
     }

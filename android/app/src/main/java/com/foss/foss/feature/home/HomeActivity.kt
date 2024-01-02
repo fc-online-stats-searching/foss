@@ -10,10 +10,10 @@ import com.boogiwoogi.woogidi.pure.Module
 import com.boogiwoogi.woogidi.viewmodel.diViewModels
 import com.foss.foss.R
 import com.foss.foss.databinding.ActivityHomeBinding
-import com.foss.foss.feature.matchsearching.recent.RecentMatchesFragment
-import com.foss.foss.feature.matchsearching.recent.RecentMatchesViewModel
-import com.foss.foss.feature.matchsearching.relative.RelativeMatchesFragment
-import com.foss.foss.feature.matchsearching.relative.RelativeMatchesViewModel
+import com.foss.foss.feature.matchsearching.recent.RecentMatchFragment
+import com.foss.foss.feature.matchsearching.recent.RecentMatchViewModel
+import com.foss.foss.feature.matchsearching.relative.RelativeMatchFragment
+import com.foss.foss.feature.matchsearching.relative.RelativeMatchViewModel
 import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.util.OnChangeVisibilityListener
 
@@ -23,8 +23,8 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
 
     override val module: Module by lazy { DefaultModule() }
 
-    private val recentMatchesViewModel: RecentMatchesViewModel by diViewModels()
-    private val relativeMatchesViewModel: RelativeMatchesViewModel by diViewModels()
+    private val recentMatchViewModel: RecentMatchViewModel by diViewModels()
+    private val relativeMatchViewModel: RelativeMatchViewModel by diViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,13 +49,13 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
         /**
          * todo: 현재 woogi-di를 사용함으로써 발생하는 문제를 해결하기 위한 코드
          */
-        recentMatchesViewModel.fetchEmptyMatches()
+        recentMatchViewModel.fetchEmptyMatches()
         binding.homeBnvMenu.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.item_recent_matches -> {
                     binding.homeSpinnerMatchType.isVisible = true
                     supportFragmentManager.commit {
-                        replace(R.id.home_fcv_match, RecentMatchesFragment())
+                        replace(R.id.home_fcv_match, RecentMatchFragment())
                     }
                     return@setOnItemSelectedListener true
                 }
@@ -63,7 +63,7 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
                 R.id.item_relative_matches -> {
                     binding.homeSpinnerMatchType.isVisible = false
                     supportFragmentManager.commit {
-                        replace(R.id.home_fcv_match, RelativeMatchesFragment())
+                        replace(R.id.home_fcv_match, RelativeMatchFragment())
                     }
                     return@setOnItemSelectedListener true
                 }
@@ -85,11 +85,11 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
     private fun setSearchingMatchesButtonClickListener() {
         with(binding) {
             homeIvFossLogo.setOnClickListener {
-                recentMatchesViewModel.fetchMatches(
+                recentMatchViewModel.fetchMatches(
                     homeEtNicknameSearching.text.toString(),
                     MatchTypeUiModel.values()[homeSpinnerMatchType.selectedItemPosition]
                 )
-                relativeMatchesViewModel.fetchRelativeMatches(homeEtNicknameSearching.text.toString())
+                relativeMatchViewModel.fetchRelativeMatches(homeEtNicknameSearching.text.toString())
             }
         }
     }
@@ -98,11 +98,11 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
         val fragment = supportFragmentManager.findFragmentById(R.id.home_fcv_match)
 
         when (fragment) {
-            is RecentMatchesFragment -> {
+            is RecentMatchFragment -> {
                 fragment.changeVisibility()
             }
 
-            is RelativeMatchesFragment -> {
+            is RelativeMatchFragment -> {
                 fragment.changeVisibility()
             }
         }

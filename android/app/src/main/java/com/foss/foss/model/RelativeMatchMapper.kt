@@ -1,6 +1,6 @@
 package com.foss.foss.model
 
-object RelativeStatMapper {
+object RelativeMatchMapper {
 
     fun RelativeMatch.toUiModel(): RelativeMatchUiModel = RelativeMatchUiModel(
         opponentName = opponentName.name,

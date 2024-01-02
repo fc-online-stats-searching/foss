@@ -1,7 +1,7 @@
 import app.cash.turbine.test
-import com.foss.foss.feature.matchsearching.recent.RecentMatchesEvent
-import com.foss.foss.feature.matchsearching.recent.RecentMatchesUiState
-import com.foss.foss.feature.matchsearching.recent.RecentMatchesViewModel
+import com.foss.foss.feature.matchsearching.recent.RecentMatchEvent
+import com.foss.foss.feature.matchsearching.recent.RecentMatchUiState
+import com.foss.foss.feature.matchsearching.recent.RecentMatchViewModel
 import com.foss.foss.model.Match
 import com.foss.foss.model.MatchMapper.toUiModel
 import com.foss.foss.model.Nickname
@@ -16,21 +16,21 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-class RecentMatchesViewModelTest {
+class RecentMatchViewModelTest {
 
     private lateinit var matchRepository: MatchRepository
-    private lateinit var recentMatchesViewModel: RecentMatchesViewModel
+    private lateinit var recentMatchViewModel: RecentMatchViewModel
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setUp() {
         Dispatchers.setMain(Dispatchers.Unconfined)
         matchRepository = mockk()
-        recentMatchesViewModel = RecentMatchesViewModel(matchRepository)
+        recentMatchViewModel = RecentMatchViewModel(matchRepository)
     }
 
     fun `최근전적 기록을 요청하면`() {
-        recentMatchesViewModel.fetchMatches("이름")
+        recentMatchViewModel.fetchMatches("이름")
     }
 
     fun `최근전적 기록 요청에 대한 결과가 다음과 같을 때`(result: Result<List<Match>>) {
@@ -49,10 +49,10 @@ class RecentMatchesViewModelTest {
         // when
         `최근전적 기록을 요청하면`()
 
-        val actual = recentMatchesViewModel.uiState.value
+        val actual = recentMatchViewModel.uiState.value
 
         // then
-        val expected = RecentMatchesUiState.RecentMatches(matches.map { it.toUiModel() })
+        val expected = RecentMatchUiState.RecentMatch(matches.map { it.toUiModel() })
 
         assertEquals(expected, actual)
     }
@@ -62,13 +62,13 @@ class RecentMatchesViewModelTest {
         // given
         `최근전적 기록 요청에 대한 결과가 다음과 같을 때`(Result.failure(Throwable()))
 
-        recentMatchesViewModel.event.test {
+        recentMatchViewModel.event.test {
             // when
             `최근전적 기록을 요청하면`()
             val actual = awaitItem()
 
             // then
-            val expected = RecentMatchesEvent.Failed
+            val expected = RecentMatchEvent.Failed
 
             assertEquals(expected, actual)
         }

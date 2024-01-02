@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.foss.foss.R
-import com.foss.foss.databinding.ItemRelativeMatchesBinding
+import com.foss.foss.databinding.ItemRelativeMatchBinding
 import com.foss.foss.model.RelativeMatchUiModel
 import java.time.format.DateTimeFormatter
 
-class RelativeMatchesViewHolder private constructor(
-    private val binding: ItemRelativeMatchesBinding,
+class RelativeMatchViewHolder private constructor(
+    private val binding: ItemRelativeMatchBinding,
     private val onClick: (Int) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     init {
@@ -44,14 +44,14 @@ class RelativeMatchesViewHolder private constructor(
 
     companion object {
 
-        fun from(parent: ViewGroup, onClick: (Int) -> Unit): RelativeMatchesViewHolder {
+        fun from(parent: ViewGroup, onClick: (Int) -> Unit): RelativeMatchViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
-            val binding = ItemRelativeMatchesBinding.inflate(
+            val binding = ItemRelativeMatchBinding.inflate(
                 layoutInflater,
                 parent,
                 false
             )
-            return RelativeMatchesViewHolder(binding, onClick)
+            return RelativeMatchViewHolder(binding, onClick)
         }
     }
 }

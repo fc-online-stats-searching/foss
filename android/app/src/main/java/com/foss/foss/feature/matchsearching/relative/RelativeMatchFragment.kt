@@ -13,24 +13,24 @@ import com.boogiwoogi.woogidi.fragment.DiFragment
 import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Module
 import com.foss.foss.R
-import com.foss.foss.databinding.FragmentRelativeMatchesBinding
-import com.foss.foss.feature.matchsearching.relative.detail.RelativeDetailMatchesFragment
+import com.foss.foss.databinding.FragmentRelativeMatchBinding
+import com.foss.foss.feature.matchsearching.relative.detail.RelativeDetailMatchFragment
 import com.foss.foss.util.lifecycle.repeatOnStarted
 
-class RelativeMatchesFragment : DiFragment() {
+class RelativeMatchFragment : DiFragment() {
 
     override val module: Module = DefaultModule()
 
-    private var _binding: FragmentRelativeMatchesBinding? = null
+    private var _binding: FragmentRelativeMatchBinding? = null
     private val binding get() = _binding!!
 
-    private val relativeMatchesViewModel: RelativeMatchesViewModel by activityViewModels()
+    private val relativeMatchViewModel: RelativeMatchViewModel by activityViewModels()
 
     private val relativeMatchesAdapter: RelativeMatchAdapter by lazy {
         RelativeMatchAdapter { opponentName ->
-            relativeMatchesViewModel.updateOpponentName(opponentName)
+            relativeMatchViewModel.updateOpponentName(opponentName)
             parentFragmentManager.commit {
-                replace<RelativeDetailMatchesFragment>(R.id.home_fcv_match)
+                replace<RelativeDetailMatchFragment>(R.id.home_fcv_match)
                 setReorderingAllowed(true)
                 addToBackStack(null)
             }
@@ -42,7 +42,7 @@ class RelativeMatchesFragment : DiFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRelativeMatchesBinding.inflate(inflater, container, false)
+        _binding = FragmentRelativeMatchBinding.inflate(inflater, container, false)
 
         return _binding!!.root
     }
@@ -61,7 +61,7 @@ class RelativeMatchesFragment : DiFragment() {
 
     private fun setupRelativeMatchesUiStateObserver() {
         repeatOnStarted {
-            relativeMatchesViewModel.relativeMatches.collect { relativeMatches ->
+            relativeMatchViewModel.relativeMatches.collect { relativeMatches ->
                 relativeMatchesAdapter.submitList(relativeMatches)
             }
         }
@@ -69,9 +69,9 @@ class RelativeMatchesFragment : DiFragment() {
 
     private fun setupRelativeMatchesEventObserver() {
         repeatOnStarted {
-            relativeMatchesViewModel.event.collect { event ->
+            relativeMatchViewModel.event.collect { event ->
                 when (event) {
-                    RelativeMatchesEvent.Failed -> Toast.makeText(
+                    RelativeMatchEvent.Failed -> Toast.makeText(
                         requireContext(),
                         getString(R.string.relative_matches_failed_fetching_data),
                         Toast.LENGTH_SHORT

@@ -9,27 +9,27 @@ import androidx.fragment.app.activityViewModels
 import com.boogiwoogi.woogidi.fragment.DiFragment
 import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Module
-import com.foss.foss.databinding.FragmentRecentMatchesBinding
+import com.foss.foss.databinding.FragmentRecentMatchBinding
 import com.foss.foss.util.lifecycle.repeatOnStarted
 
-class RecentMatchesFragment : DiFragment() {
+class RecentMatchFragment : DiFragment() {
 
     override val module: Module by lazy { DefaultModule() }
 
-    private var _binding: FragmentRecentMatchesBinding? = null
-    private val binding: FragmentRecentMatchesBinding
+    private var _binding: FragmentRecentMatchBinding? = null
+    private val binding: FragmentRecentMatchBinding
         get() = _binding!!
 
-    private val viewModel: RecentMatchesViewModel by activityViewModels()
+    private val viewModel: RecentMatchViewModel by activityViewModels()
 
-    private val adapter: RecentMatchesAdapter by lazy { RecentMatchesAdapter() }
+    private val adapter: RecentMatchAdapter by lazy { RecentMatchAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRecentMatchesBinding.inflate(layoutInflater)
+        _binding = FragmentRecentMatchBinding.inflate(layoutInflater)
 
         return binding.root
     }
@@ -50,14 +50,14 @@ class RecentMatchesFragment : DiFragment() {
         repeatOnStarted {
             viewModel.uiState.collect { uiState ->
                 when (uiState) {
-                    is RecentMatchesUiState.Empty -> {
+                    is RecentMatchUiState.Empty -> {
                     }
 
-                    is RecentMatchesUiState.Loading -> {
+                    is RecentMatchUiState.Loading -> {
                         binding.recentMatchPbLoadingBar.isVisible = true
                     }
 
-                    is RecentMatchesUiState.RecentMatches -> {
+                    is RecentMatchUiState.RecentMatch -> {
                         binding.recentMatchPbLoadingBar.isVisible = false
                         adapter.submitList(uiState.matches)
                     }
@@ -70,7 +70,7 @@ class RecentMatchesFragment : DiFragment() {
         repeatOnStarted {
             viewModel.event.collect { event ->
                 when (event) {
-                    RecentMatchesEvent.Failed -> {
+                    RecentMatchEvent.Failed -> {
                         binding.recentMatchPbLoadingBar.isVisible = false
                     }
                 }
