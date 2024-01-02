@@ -14,6 +14,7 @@ import com.foss.foss.feature.matchsearching.relative.RelativeMatchesViewModel
 import com.foss.foss.util.lifecycle.repeatOnStarted
 
 class RelativeDetailMatchesFragment : DiFragment() {
+
     override val module: Module by lazy { DefaultModule() }
 
     private var _binding: FragmentRelativeMatchesDetailBinding? = null
@@ -46,10 +47,10 @@ class RelativeDetailMatchesFragment : DiFragment() {
     override fun onResume() {
         super.onResume()
 
-        setupData()
+        fetchRelativeMatchesDetail()
     }
 
-    private fun setupData() {
+    private fun fetchRelativeMatchesDetail() {
         relativeMatchesViewModel.fetchRelativeMatchesBetweenUsers()
     }
 
