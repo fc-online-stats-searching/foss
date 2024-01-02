@@ -8,5 +8,5 @@ enum class MatchTypeUiModel(
     val resId: Int
 ) {
     OFFICIAL(R.string.common_official_description),
-    CLASSIC_ONE_TO_ONE(R.string.common_classic_one_to_one),
+    CLASSIC_ONE_TO_ONE(R.string.common_classic_one_to_one)
 }

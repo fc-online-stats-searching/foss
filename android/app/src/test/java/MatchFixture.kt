@@ -10,7 +10,7 @@ object MatchFixture {
     fun create() = List(3) {
         Match(
             date = LocalDate.of(2023, 12, 18),
-            matchType = MatchType.DIRECTOR,
+            matchType = MatchType.OFFICIAL,
             opponentName = Nickname("신공학관캣대디"),
             manOfTheMatch = 1,
             winDrawLose = WinDrawLose.WIN,
