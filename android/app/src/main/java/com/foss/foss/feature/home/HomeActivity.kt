@@ -102,10 +102,6 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
             is RecentMatchFragment -> {
                 fragment.changeVisibility()
             }
-
-            is RelativeMatchFragment -> {
-                fragment.changeVisibility()
-            }
         }
     }
 }

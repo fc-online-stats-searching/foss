@@ -51,13 +51,16 @@ class RecentMatchFragment : DiFragment() {
             viewModel.uiState.collect { uiState ->
                 when (uiState) {
                     is RecentMatchUiState.Empty -> {
+                        binding.recentTvInfo.isVisible = true
                     }
 
                     is RecentMatchUiState.Loading -> {
+                        binding.recentTvInfo.isVisible = false
                         binding.recentMatchPbLoadingBar.isVisible = true
                     }
 
                     is RecentMatchUiState.RecentMatch -> {
+                        binding.recentTvInfo.isVisible = false
                         binding.recentMatchPbLoadingBar.isVisible = false
                         adapter.submitList(uiState.matches)
                     }
