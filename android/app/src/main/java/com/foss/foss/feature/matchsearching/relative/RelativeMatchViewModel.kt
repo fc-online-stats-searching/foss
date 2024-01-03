@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.foss.foss.model.MatchMapper.toUiModel
 import com.foss.foss.model.MatchUiModel
-import com.foss.foss.model.Nickname
 import com.foss.foss.model.RelativeMatchMapper.toUiModel
 import com.foss.foss.model.RelativeMatchUiModel
 import com.foss.foss.repository.MatchRepository
@@ -22,8 +21,8 @@ class RelativeMatchViewModel(
     private val relativeMatchRepository: RelativeMatchRepository
 ) : ViewModel() {
 
-    private lateinit var _nickname: Nickname
-    private lateinit var _opponentName: Nickname
+    private lateinit var _nickname: String
+    private lateinit var _opponentName: String
 
     private val _relativeMatches: MutableStateFlow<List<RelativeMatchUiModel>> =
         MutableStateFlow(emptyList())
@@ -41,7 +40,7 @@ class RelativeMatchViewModel(
 
     fun fetchRelativeMatches(nickname: String) {
         runCatching {
-            _nickname = Nickname(nickname)
+            _nickname = nickname
             viewModelScope.launch {
                 relativeMatchRepository.fetchRelativeMatches(_nickname)
                     .onSuccess { relativeMatches ->
@@ -70,6 +69,6 @@ class RelativeMatchViewModel(
     }
 
     fun updateOpponentName(opponentNickname: String) {
-        _opponentName = Nickname(opponentNickname)
+        _opponentName = opponentNickname
     }
 }

@@ -6,7 +6,7 @@ import com.foss.foss.model.Nickname
 
 interface MatchRepository {
 
-    fun fetchMatches(nickname: Nickname, matchType: MatchType = MatchType.OFFICIAL): Result<List<Match>>
+    fun fetchMatches(nickname: String, matchType: MatchType = MatchType.OFFICIAL): Result<List<Match>>
 
-    fun fetchMatchesBetweenUsers(nickname: Nickname, opponentNickname: Nickname): Result<List<Match>>
+    fun fetchMatchesBetweenUsers(nickname: String, opponentNickname: String): Result<List<Match>>
 }
