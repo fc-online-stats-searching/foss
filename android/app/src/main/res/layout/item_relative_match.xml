@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/common_dark_gray"
+    android:padding="14dp">
+
+    <TextView
+        android:id="@+id/item_relative_tv_result"
+        android:layout_width="10dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_white_4_right"
+        android:backgroundTint="#D5E3FE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/item_relative_iv_rank"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/item_relative_iv_rank"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="16dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_launcher_foreground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toEndOf="@id/item_relative_tv_result"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/item_relative_tv_name"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/item_relative_tv_matches"
+        app:layout_constraintStart_toEndOf="@id/item_relative_iv_rank"
+        app:layout_constraintTop_toTopOf="@id/item_relative_iv_rank"
+        tools:text="크롱크롱 크로롱" />
+
+    <TextView
+        android:id="@+id/item_relative_tv_matches"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/item_relative_iv_rank"
+        app:layout_constraintStart_toStartOf="@id/item_relative_tv_name"
+        app:layout_constraintTop_toTopOf="@+id/item_relative_tv_name"
+        tools:text="5전 3승 3무 2패" />
+
+    <TextView
+        android:layout_marginStart="8dp"
+        android:id="@+id/item_relative_tv_last_match"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/item_relative_tv_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/item_relative_tv_name"
+        app:layout_constraintTop_toTopOf="@id/item_relative_tv_name"
+        app:layout_constraintVertical_bias="0.625"
+        tools:text="최근 경기 2023.12.02" />
+
+    <TextView
+        android:id="@+id/item_relative_tv_goal_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/item_relative_matches_goal_title"
+        app:layout_constraintEnd_toStartOf="@id/item_relative_tv_goal"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="@+id/item_relative_tv_last_match"
+        app:layout_constraintTop_toBottomOf="@id/item_relative_tv_last_match" />
+
+    <TextView
+        android:id="@+id/item_relative_tv_goal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/item_relative_tv_goal_title"
+        app:layout_constraintEnd_toStartOf="@id/item_relative_tv_conceded_title"
+        app:layout_constraintStart_toEndOf="@id/item_relative_tv_goal_title"
+        app:layout_constraintTop_toBottomOf="@id/item_relative_tv_last_match"
+        tools:text="5" />
+
+    <TextView
+        android:id="@+id/item_relative_tv_conceded_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/item_relative_matches_conceded_title"
+        app:layout_constraintBottom_toBottomOf="@id/item_relative_tv_goal_title"
+        app:layout_constraintEnd_toStartOf="@id/item_relative_tv_conceded"
+        app:layout_constraintStart_toEndOf="@id/item_relative_tv_goal"
+        app:layout_constraintTop_toBottomOf="@id/item_relative_tv_last_match" />
+
+    <TextView
+        android:id="@+id/item_relative_tv_conceded"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/item_relative_tv_goal_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/item_relative_tv_conceded_title"
+        app:layout_constraintTop_toBottomOf="@id/item_relative_tv_last_match"
+        tools:text="3" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

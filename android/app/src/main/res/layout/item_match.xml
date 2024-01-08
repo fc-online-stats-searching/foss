@@ -77,7 +77,7 @@
         tools:src="@drawable/ic_player_example" />
 
     <TextView
-        android:id="@+id/item_match_tv_other_side_nickname"
+        android:id="@+id/item_match_tv_opponent_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="54dp"
@@ -97,8 +97,8 @@
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@id/item_match_tv_win_draw_lose"
-        app:layout_constraintEnd_toEndOf="@id/item_match_tv_other_side_nickname"
-        app:layout_constraintStart_toStartOf="@id/item_match_tv_other_side_nickname"
+        app:layout_constraintEnd_toEndOf="@id/item_match_tv_opponent_nickname"
+        app:layout_constraintStart_toStartOf="@id/item_match_tv_opponent_nickname"
         app:layout_constraintTop_toTopOf="@id/item_match_tv_date"
         tools:text="1:0" />
 

@@ -1,6 +1,8 @@
 package com.foss.foss.feature.home
 
 import android.os.Bundle
+import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import androidx.fragment.app.commit
 import com.boogiwoogi.woogidi.activity.DiActivity
 import com.boogiwoogi.woogidi.pure.DefaultModule
@@ -8,12 +10,12 @@ import com.boogiwoogi.woogidi.pure.Module
 import com.boogiwoogi.woogidi.viewmodel.diViewModels
 import com.foss.foss.R
 import com.foss.foss.databinding.ActivityHomeBinding
-import com.foss.foss.feature.statsearching.recent.RecentMatchesFragment
-import com.foss.foss.feature.statsearching.recent.RecentMatchesViewModel
-import com.foss.foss.feature.statsearching.relative.RelativeStatsFragment
-import com.foss.foss.feature.statsearching.relative.RelativeStatsViewModel
+import com.foss.foss.feature.matchsearching.recent.RecentMatchFragment
+import com.foss.foss.feature.matchsearching.recent.RecentMatchViewModel
+import com.foss.foss.feature.matchsearching.relative.RelativeMatchFragment
+import com.foss.foss.feature.matchsearching.relative.RelativeMatchViewModel
+import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.util.OnChangeVisibilityListener
-import com.foss.foss.util.lifecycle.repeatOnStarted
 
 class HomeActivity : DiActivity(), OnChangeVisibilityListener {
 
@@ -21,17 +23,15 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
 
     override val module: Module by lazy { DefaultModule() }
 
-    private val recentMatchesViewModel: RecentMatchesViewModel by diViewModels()
-    private val relativeStatsViewModel: RelativeStatsViewModel by diViewModels()
+    private val recentMatchViewModel: RecentMatchViewModel by diViewModels()
+    private val relativeMatchViewModel: RelativeMatchViewModel by diViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setupBinding()
         setupHomeView()
-        setupRecentMatchesObserver()
-        setupRelativeStatsObserver()
-        setSearchingRecentMatchesButtonClickListener()
+        setSearchingMatchesButtonClickListener()
     }
 
     private fun setupBinding() {
@@ -42,23 +42,28 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
 
     private fun setupHomeView() {
         setupBottomNavigationView()
+        setupMatchTypeSpinnerAdapter()
     }
 
     private fun setupBottomNavigationView() {
+        /**
+         * todo: 현재 woogi-di를 사용함으로써 발생하는 문제를 해결하기 위한 코드
+         */
+        recentMatchViewModel.fetchEmptyMatches()
         binding.homeBnvMenu.setOnItemSelectedListener { item ->
-            setSearchingMatchesButtonClickListener(item.itemId)
-
             when (item.itemId) {
-                R.id.item_recent_stats -> {
+                R.id.item_recent_matches -> {
+                    binding.homeSpinnerMatchType.isVisible = true
                     supportFragmentManager.commit {
-                        replace(R.id.home_fcv_stats, RecentMatchesFragment())
+                        replace(R.id.home_fcv_match, RecentMatchFragment())
                     }
                     return@setOnItemSelectedListener true
                 }
 
-                R.id.item_relative_stats -> {
+                R.id.item_relative_matches -> {
+                    binding.homeSpinnerMatchType.isVisible = false
                     supportFragmentManager.commit {
-                        replace(R.id.home_fcv_stats, RelativeStatsFragment())
+                        replace(R.id.home_fcv_match, RelativeMatchFragment())
                     }
                     return@setOnItemSelectedListener true
                 }
@@ -66,49 +71,35 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
                 else -> return@setOnItemSelectedListener false
             }
         }
-        binding.homeBnvMenu.selectedItemId = R.id.item_recent_stats
+        binding.homeBnvMenu.selectedItemId = R.id.item_recent_matches
     }
 
-    private fun setupRecentMatchesObserver() {
-        repeatOnStarted {
-        }
+    private fun setupMatchTypeSpinnerAdapter() {
+        binding.homeSpinnerMatchType.adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            MatchTypeUiModel.values().map { getString(it.resId) }
+        )
     }
 
-    private fun setupRelativeStatsObserver() {
-        repeatOnStarted {
-            relativeStatsViewModel.relativeStats.collect {
+    private fun setSearchingMatchesButtonClickListener() {
+        with(binding) {
+            homeIvFossLogo.setOnClickListener {
+                onChangeVisibility()
+                recentMatchViewModel.fetchMatches(
+                    homeEtNicknameSearching.text.toString(),
+                    MatchTypeUiModel.values()[homeSpinnerMatchType.selectedItemPosition]
+                )
+                relativeMatchViewModel.fetchRelativeMatches(homeEtNicknameSearching.text.toString())
             }
-        }
-    }
-
-    private fun setSearchingMatchesButtonClickListener(id: Int) {
-        when (id) {
-            R.id.item_recent_stats -> setSearchingRecentMatchesButtonClickListener()
-            R.id.item_relative_stats -> setSearchingRelativeStatsButtonClickListener()
-        }
-    }
-
-    private fun setSearchingRecentMatchesButtonClickListener() {
-        binding.homeIvFossLogo.setOnClickListener {
-            recentMatchesViewModel.fetchMatches(binding.homeEtNicknameSearching.text.toString())
-        }
-    }
-
-    private fun setSearchingRelativeStatsButtonClickListener() {
-        binding.homeIvFossLogo.setOnClickListener {
-            relativeStatsViewModel.fetchRelativeStats(binding.homeEtNicknameSearching.text.toString())
-            onChangeVisibility()
         }
     }
 
     override fun onChangeVisibility() {
-        val fragment = supportFragmentManager.findFragmentById(R.id.home_fcv_stats)
-        when (fragment) {
-            is RecentMatchesFragment -> {
-                fragment.changeVisibility()
-            }
+        val fragment = supportFragmentManager.findFragmentById(R.id.home_fcv_match)
 
-            is RelativeStatsFragment -> {
+        when (fragment) {
+            is RecentMatchFragment -> {
                 fragment.changeVisibility()
             }
         }

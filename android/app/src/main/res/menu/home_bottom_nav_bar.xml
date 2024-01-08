@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/item_recent_stats"
+        android:id="@+id/item_recent_matches"
         android:enabled="true"
-        android:icon="@drawable/ic_recent_stats"
-        android:title="@string/common_recent_stats" />
+        android:icon="@drawable/ic_recent_matches"
+        android:title="@string/common_recent_matches" />
 
     <item
-        android:id="@+id/item_relative_stats"
+        android:id="@+id/item_relative_matches"
         android:enabled="true"
-        android:icon="@drawable/ic_relative_stats"
-        android:title="@string/common_relative_stats" />
+        android:icon="@drawable/ic_relative_matches"
+        android:title="@string/common_relative_matches" />
 </menu>

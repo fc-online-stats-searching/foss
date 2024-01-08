@@ -32,14 +32,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/home_iv_foss_logo" />
 
+    <Spinner
+        android:id="@+id/home_spinner_match_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/custom_match_type_spinner"
+        android:elevation="1dp"
+        android:popupBackground="@drawable/custom_match_type_spinner"
+        app:layout_constraintEnd_toEndOf="@id/home_et_nickname_searching"
+        app:layout_constraintTop_toBottomOf="@id/home_et_nickname_searching" />
+
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/home_fcv_stats"
+        android:id="@+id/home_fcv_match"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@id/home_bnv_menu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_et_nickname_searching" />
+        app:layout_constraintTop_toBottomOf="@id/home_spinner_match_type" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/home_bnv_menu"
