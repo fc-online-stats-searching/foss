@@ -61,8 +61,17 @@ class RelativeMatchFragment : DiFragment() {
 
     private fun setupRelativeMatchesUiStateObserver() {
         repeatOnStarted {
-            relativeMatchViewModel.relativeMatches.collect { relativeMatches ->
-                relativeMatchesAdapter.submitList(relativeMatches)
+            relativeMatchViewModel.uiState.collect { uiState ->
+                when (uiState) {
+                    is RelativeMatchUiState.Empty -> binding.relativeTvInfo.isVisible = true
+
+                    is RelativeMatchUiState.Loading -> binding.relativeTvInfo.isVisible = false
+
+                    is RelativeMatchUiState.RelativeMatches -> {
+                        binding.relativeTvInfo.isVisible = false
+                        relativeMatchesAdapter.submitList(uiState.relativeMatches)
+                    }
+                }
             }
         }
     }
@@ -78,12 +87,6 @@ class RelativeMatchFragment : DiFragment() {
                     ).show()
                 }
             }
-        }
-    }
-
-    fun changeVisibility() {
-        if (binding.relativeTvInfo.isVisible) {
-            binding.relativeTvInfo.visibility = View.GONE
         }
     }
 

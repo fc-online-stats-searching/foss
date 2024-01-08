@@ -15,9 +15,8 @@ import com.foss.foss.feature.matchsearching.recent.RecentMatchViewModel
 import com.foss.foss.feature.matchsearching.relative.RelativeMatchFragment
 import com.foss.foss.feature.matchsearching.relative.RelativeMatchViewModel
 import com.foss.foss.model.MatchTypeUiModel
-import com.foss.foss.util.OnChangeVisibilityListener
 
-class HomeActivity : DiActivity(), OnChangeVisibilityListener {
+class HomeActivity : DiActivity() {
 
     private lateinit var binding: ActivityHomeBinding
 
@@ -85,22 +84,11 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
     private fun setSearchingMatchesButtonClickListener() {
         with(binding) {
             homeIvFossLogo.setOnClickListener {
-                onChangeVisibility()
                 recentMatchViewModel.fetchMatches(
                     homeEtNicknameSearching.text.toString(),
                     MatchTypeUiModel.values()[homeSpinnerMatchType.selectedItemPosition]
                 )
                 relativeMatchViewModel.fetchRelativeMatches(homeEtNicknameSearching.text.toString())
-            }
-        }
-    }
-
-    override fun onChangeVisibility() {
-        val fragment = supportFragmentManager.findFragmentById(R.id.home_fcv_match)
-
-        when (fragment) {
-            is RecentMatchFragment -> {
-                fragment.changeVisibility()
             }
         }
     }
