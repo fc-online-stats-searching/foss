@@ -8,7 +8,7 @@ import com.foss.foss.R
 import com.foss.foss.databinding.ActivityRelativeMatchDetailsBinding
 import com.foss.foss.feature.matchsearching.recent.RecentMatchAdapter
 import com.foss.foss.model.MatchUiModel
-import com.foss.foss.util.parcelableArrayListCompat
+import com.foss.foss.util.putParcelableArrayListCompat
 
 class RelativeMatchDetailsActivity : AppCompatActivity() {
 
@@ -36,7 +36,7 @@ class RelativeMatchDetailsActivity : AppCompatActivity() {
             getString(R.string.relative_match_details_title).format(
                 intent.getStringExtra(OPPONENT_NICKNAME_KEY)
             )
-        relativeMatchDetailsAdapter.submitList(intent.parcelableArrayListCompat(RELATIVE_DETAILS_KEY))
+        relativeMatchDetailsAdapter.submitList(intent.putParcelableArrayListCompat(RELATIVE_DETAILS_KEY))
     }
 
     private fun setupRelativeMatchDetailsButtonListener() {
