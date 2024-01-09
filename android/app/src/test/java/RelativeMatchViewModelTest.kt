@@ -32,7 +32,7 @@ class RelativeMatchViewModelTest {
         Dispatchers.setMain(UnconfinedTestDispatcher())
         matchRepository = mockk()
         relativeMatchRepository = mockk()
-        relativeMatchViewModel = RelativeMatchViewModel(matchRepository, relativeMatchRepository)
+        relativeMatchViewModel = RelativeMatchViewModel(relativeMatchRepository)
     }
 
     fun `상대전적 기록 요청에 대한 결과가 다음과 같을 때`(result: Result<List<RelativeMatch>>) {
@@ -41,26 +41,8 @@ class RelativeMatchViewModelTest {
         } returns result
     }
 
-    fun `특정 유저와의 상대 전적 요청 결과가 다음과 같을 때`(result: Result<List<Match>>) {
-        coEvery {
-            matchRepository.fetchMatchesBetweenUsers(any(), any())
-        } returns result
-    }
-
-    fun `특정 유저와의 상대 전적을 초기화 하면`() {
-        relativeMatchViewModel.resetRelativeMatchesDetails()
-    }
-
-    fun `특정 유저와의 상대 전적 요청을 하면`() {
-        relativeMatchViewModel.fetchRelativeMatchesBetweenUsers()
-    }
-
     fun `상대 전적 기록 요청을 하면`() {
         relativeMatchViewModel.fetchRelativeMatches("신공학관캣대디")
-    }
-
-    fun `상대방 닉네임을 초기화 하면`() {
-        relativeMatchViewModel.updateOpponentName("신공학관캣대디")
     }
 
     @Test
@@ -126,50 +108,5 @@ class RelativeMatchViewModelTest {
 
             assertEquals(expected, actual)
         }
-    }
-
-    @Test
-    fun `상대 전적을 불러온 뒤 특정 유저와의 전적을 받아온 경우 빈 리스트가 아니다`() {
-        // given
-        `상대전적 기록 요청에 대한 결과가 다음과 같을 때`(Result.success(RelativeMatchesFixture.create()))
-        `특정 유저와의 상대 전적 요청 결과가 다음과 같을 때`(Result.success(MatchFixture.create()))
-
-        // when
-        `상대 전적 기록 요청을 하면`()
-        `상대방 닉네임을 초기화 하면`()
-        `특정 유저와의 상대 전적 요청을 하면`()
-
-        val actual = relativeMatchViewModel.relativeMatchesDetails.value
-
-        // then
-        val expected = MatchFixture.create().map { it.toUiModel() }
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `특정 유저와의 상대 전적을 초기화 하면 특정 유저와의 상대 전적을 저장하는 리스트의 길이는 0이다`() {
-        // given
-        `상대전적 기록 요청에 대한 결과가 다음과 같을 때`(Result.success(RelativeMatchesFixture.create()))
-        `특정 유저와의 상대 전적 요청 결과가 다음과 같을 때`(Result.success(MatchFixture.create()))
-
-        // when
-        `상대 전적 기록 요청을 하면`()
-        `상대방 닉네임을 초기화 하면`()
-        `특정 유저와의 상대 전적 요청을 하면`()
-
-        val actual = relativeMatchViewModel.relativeMatchesDetails.value
-
-        // then
-        val expected = MatchFixture.create().map { it.toUiModel() }
-
-        assertEquals(expected, actual)
-
-        // and
-        `특정 유저와의 상대 전적을 초기화 하면`()
-
-        // then
-        val actualAfterReset = relativeMatchViewModel.relativeMatchesDetails.value
-        assertEquals(0, actualAfterReset.size)
     }
 }

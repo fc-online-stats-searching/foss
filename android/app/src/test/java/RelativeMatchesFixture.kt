@@ -22,7 +22,8 @@ object RelativeMatchesFixture {
                     WinDrawLose.DRAW
                 )
             ),
-            totalScore = Score(point = 31, otherPoint = 23)
+            totalScore = Score(point = 31, otherPoint = 23),
+            matchDetails = listOf()
         ),
         RelativeMatch(
             "신공학관캣대디",
@@ -38,7 +39,8 @@ object RelativeMatchesFixture {
                     WinDrawLose.DRAW
                 )
             ),
-            totalScore = Score(point = 31, otherPoint = 23)
+            totalScore = Score(point = 31, otherPoint = 23),
+            matchDetails = listOf()
         ),
         RelativeMatch(
             "신공학관캣맘",
@@ -54,7 +56,8 @@ object RelativeMatchesFixture {
                     WinDrawLose.DRAW
                 )
             ),
-            totalScore = Score(point = 31, otherPoint = 23)
+            totalScore = Score(point = 31, otherPoint = 23),
+            matchDetails = listOf()
         )
     )
 }
