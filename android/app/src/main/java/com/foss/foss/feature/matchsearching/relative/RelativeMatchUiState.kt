@@ -8,5 +8,5 @@ sealed interface RelativeMatchUiState {
 
     object Loading : RelativeMatchUiState
 
-    class RelativeMatches(val relativeMatches: List<RelativeMatchUiModel>) : RelativeMatchUiState
+    data class RelativeMatches(val relativeMatches: List<RelativeMatchUiModel>) : RelativeMatchUiState
 }
