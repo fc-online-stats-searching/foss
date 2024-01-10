@@ -48,6 +48,7 @@ class HomeActivity : DiActivity() {
         /**
          * todo: 현재 woogi-di를 사용함으로써 발생하는 문제를 해결하기 위한 코드
          */
+        relativeMatchViewModel.fetchEmptyRelativeMatches()
         recentMatchViewModel.fetchEmptyMatches()
         binding.homeBnvMenu.setOnItemSelectedListener { item ->
             when (item.itemId) {

@@ -2,7 +2,6 @@ package com.foss.foss.feature.matchsearching.relative
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.foss.foss.model.MatchMapper.toUiModel
 import com.foss.foss.model.RelativeMatchMapper.toUiModel
 import com.foss.foss.repository.RelativeMatchRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -23,6 +22,10 @@ class RelativeMatchViewModel(private val relativeMatchRepository: RelativeMatchR
     private val _event: MutableSharedFlow<RelativeMatchEvent> = MutableSharedFlow()
     val event: SharedFlow<RelativeMatchEvent>
         get() = _event.asSharedFlow()
+
+    fun fetchEmptyRelativeMatches() {
+        _uiState.value = RelativeMatchUiState.Empty
+    }
 
     fun fetchRelativeMatches(nickname: String) {
         viewModelScope.launch {
