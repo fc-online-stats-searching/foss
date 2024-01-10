@@ -26,10 +26,12 @@ class RelativeMatchFragment : DiFragment() {
 
     private val relativeMatchesAdapter: RelativeMatchAdapter by lazy {
         RelativeMatchAdapter { opponentNickname, matchDetails ->
-            RelativeMatchDetailsActivity.start(
-                context = requireContext(),
-                opponentNickname = opponentNickname,
-                relativeMatchDetails = matchDetails
+            requireContext().startActivity(
+                RelativeMatchDetailsActivity.getIntent(
+                    context = requireContext(),
+                    opponentNickname = opponentNickname,
+                    relativeMatchDetails = matchDetails
+                )
             )
         }
     }

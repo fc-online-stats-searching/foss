@@ -36,7 +36,11 @@ class RelativeMatchDetailsActivity : AppCompatActivity() {
             getString(R.string.relative_match_details_title).format(
                 intent.getStringExtra(OPPONENT_NICKNAME_KEY)
             )
-        relativeMatchDetailsAdapter.submitList(intent.putParcelableArrayListCompat(RELATIVE_DETAILS_KEY))
+        relativeMatchDetailsAdapter.submitList(
+            intent.putParcelableArrayListCompat(
+                RELATIVE_DETAILS_KEY
+            )
+        )
     }
 
     private fun setupRelativeMatchDetailsButtonListener() {
@@ -48,17 +52,15 @@ class RelativeMatchDetailsActivity : AppCompatActivity() {
         private const val RELATIVE_DETAILS_KEY = "relative_details"
         private const val OPPONENT_NICKNAME_KEY = "opponent_nickname"
 
-        fun start(
+        fun getIntent(
             context: Context,
             opponentNickname: String,
             relativeMatchDetails: ArrayList<MatchUiModel>
-        ) {
-            val intent = Intent(context, RelativeMatchDetailsActivity::class.java).apply {
+        ): Intent {
+            return Intent(context, RelativeMatchDetailsActivity::class.java).apply {
                 putExtra(OPPONENT_NICKNAME_KEY, opponentNickname)
                 putParcelableArrayListExtra(RELATIVE_DETAILS_KEY, relativeMatchDetails)
             }
-
-            context.startActivity(intent)
         }
     }
 }
