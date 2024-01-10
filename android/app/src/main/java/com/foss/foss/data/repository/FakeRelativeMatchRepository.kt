@@ -1,4 +1,4 @@
-package com.foss.foss.data
+package com.foss.foss.data.repository
 
 import com.foss.foss.model.Nickname
 import com.foss.foss.model.RelativeMatch
@@ -23,10 +23,10 @@ class FakeRelativeMatchRepository : RelativeMatchRepository {
                         WinDrawLose.WIN,
                         WinDrawLose.DRAW,
                         WinDrawLose.WIN,
-                        WinDrawLose.DRAW
-                    )
+                        WinDrawLose.DRAW,
+                    ),
                 ),
-                totalScore = Score(point = 31, otherPoint = 23)
+                totalScore = Score(point = 31, otherPoint = 23),
             ),
             RelativeMatch(
                 Nickname("신공학관캣대디"),
@@ -39,10 +39,10 @@ class FakeRelativeMatchRepository : RelativeMatchRepository {
                         WinDrawLose.WIN,
                         WinDrawLose.DRAW,
                         WinDrawLose.WIN,
-                        WinDrawLose.DRAW
-                    )
+                        WinDrawLose.DRAW,
+                    ),
                 ),
-                totalScore = Score(point = 31, otherPoint = 23)
+                totalScore = Score(point = 31, otherPoint = 23),
             ),
             RelativeMatch(
                 Nickname("신공학관캣맘"),
@@ -55,11 +55,11 @@ class FakeRelativeMatchRepository : RelativeMatchRepository {
                         WinDrawLose.WIN,
                         WinDrawLose.DRAW,
                         WinDrawLose.WIN,
-                        WinDrawLose.DRAW
-                    )
+                        WinDrawLose.DRAW,
+                    ),
                 ),
-                totalScore = Score(point = 31, otherPoint = 23)
-            )
+                totalScore = Score(point = 31, otherPoint = 23),
+            ),
         )
     }
 }

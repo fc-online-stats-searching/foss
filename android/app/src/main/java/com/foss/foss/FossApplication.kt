@@ -2,8 +2,8 @@ package com.foss.foss
 
 import com.boogiwoogi.woogidi.application.DiApplication
 import com.boogiwoogi.woogidi.pure.Instance
-import com.foss.foss.data.FakeMatchRepository
-import com.foss.foss.data.FakeRelativeMatchRepository
+import com.foss.foss.data.repository.FakeMatchRepository
+import com.foss.foss.data.repository.FakeRelativeMatchRepository
 import com.foss.foss.repository.MatchRepository
 import com.foss.foss.repository.RelativeMatchRepository
 
@@ -15,14 +15,14 @@ class FossApplication : DiApplication() {
         with(injector) {
             applicationContainer.add(
                 Instance<MatchRepository>(
-                    FakeMatchRepository()
-                )
+                    FakeMatchRepository(),
+                ),
             )
 
             applicationContainer.add(
                 Instance<RelativeMatchRepository>(
-                    FakeRelativeMatchRepository()
-                )
+                    FakeRelativeMatchRepository(),
+                ),
             )
 
 //            applicationContainer.add(
