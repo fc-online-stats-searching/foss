@@ -18,6 +18,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".feature.matchsearching.relative.detail.RelativeMatchDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".feature.home.HomeActivity"
             android:exported="true">
             <intent-filter>

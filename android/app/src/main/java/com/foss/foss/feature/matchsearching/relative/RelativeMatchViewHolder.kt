@@ -5,46 +5,58 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.foss.foss.R
 import com.foss.foss.databinding.ItemRelativeMatchBinding
+import com.foss.foss.model.MatchUiModel
 import com.foss.foss.model.RelativeMatchUiModel
 import java.time.format.DateTimeFormatter
 
 class RelativeMatchViewHolder private constructor(
     private val binding: ItemRelativeMatchBinding,
-    private val onClick: (Int) -> Unit
+    private val onClick: (opponentNickname: String, matchDetails: ArrayList<MatchUiModel>) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
+
+    private var matchDetails: ArrayList<MatchUiModel>? = null
+    private var opponentNickname: String? = null
+
     init {
         binding.root.setOnClickListener {
-            onClick(adapterPosition)
+            if (matchDetails != null && opponentNickname != null) {
+                onClick(opponentNickname!!, matchDetails!!)
+            }
         }
     }
 
-    fun bind(relativeStat: RelativeMatchUiModel) {
+    fun bind(relativeMatch: RelativeMatchUiModel) {
         with(binding) {
-            itemRelativeTvName.text = relativeStat.opponentName
+            itemRelativeTvName.text = relativeMatch.opponentName
             itemRelativeTvMatches.text = itemView.context.getString(
                 R.string.item_relative_matches_win_draw_loses_format,
-                relativeStat.numberOfGames,
-                relativeStat.numberOfWins,
-                relativeStat.numberOfDraws,
-                relativeStat.numberOfLoses
+                relativeMatch.numberOfGames,
+                relativeMatch.numberOfWins,
+                relativeMatch.numberOfDraws,
+                relativeMatch.numberOfLoses
             )
-            itemRelativeTvLastMatch.text = relativeStat.recentMatchDate.format(
+            itemRelativeTvLastMatch.text = relativeMatch.recentMatchDate.format(
                 DateTimeFormatter.ofPattern(itemView.context.getString(R.string.common_date_format))
             )
             itemRelativeTvGoal.text = itemView.context.getString(
                 R.string.item_relative_matches_score,
-                relativeStat.goal
+                relativeMatch.goal
             )
             itemRelativeTvConceded.text = itemView.context.getString(
                 R.string.item_relative_matches_score,
-                relativeStat.conceded
+                relativeMatch.conceded
             )
         }
+        matchDetails = ArrayList(relativeMatch.matchDetails)
+        opponentNickname = relativeMatch.opponentName
     }
 
     companion object {
 
-        fun from(parent: ViewGroup, onClick: (Int) -> Unit): RelativeMatchViewHolder {
+        fun from(
+            parent: ViewGroup,
+            onClick: (opponentNickname: String, matchDetails: ArrayList<MatchUiModel>) -> Unit
+        ): RelativeMatchViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             val binding = ItemRelativeMatchBinding.inflate(
                 layoutInflater,
