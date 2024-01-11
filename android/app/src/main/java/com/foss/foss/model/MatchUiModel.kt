@@ -1,7 +1,10 @@
 package com.foss.foss.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import java.time.LocalDate
 
+@Parcelize
 data class MatchUiModel(
     val date: LocalDate,
     val matchType: MatchTypeUiModel,
@@ -10,4 +13,4 @@ data class MatchUiModel(
     val winDrawLose: WinDrawLoseUiModel,
     val point: Int,
     val otherPoint: Int
-)
+) : Parcelable

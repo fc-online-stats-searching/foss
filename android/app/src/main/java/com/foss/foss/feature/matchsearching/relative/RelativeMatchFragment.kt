@@ -7,14 +7,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import com.boogiwoogi.woogidi.fragment.DiFragment
 import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Module
 import com.foss.foss.R
 import com.foss.foss.databinding.FragmentRelativeMatchBinding
-import com.foss.foss.feature.matchsearching.relative.detail.RelativeDetailMatchFragment
+import com.foss.foss.feature.matchsearching.relative.detail.RelativeMatchDetailsActivity
 import com.foss.foss.util.lifecycle.repeatOnStarted
 
 class RelativeMatchFragment : DiFragment() {
@@ -27,13 +25,14 @@ class RelativeMatchFragment : DiFragment() {
     private val relativeMatchViewModel: RelativeMatchViewModel by activityViewModels()
 
     private val relativeMatchesAdapter: RelativeMatchAdapter by lazy {
-        RelativeMatchAdapter { opponentName ->
-            relativeMatchViewModel.updateOpponentName(opponentName)
-            parentFragmentManager.commit {
-                replace<RelativeDetailMatchFragment>(R.id.home_fcv_match)
-                setReorderingAllowed(true)
-                addToBackStack(null)
-            }
+        RelativeMatchAdapter { opponentNickname, matchDetails ->
+            requireContext().startActivity(
+                RelativeMatchDetailsActivity.getIntent(
+                    context = requireContext(),
+                    opponentNickname = opponentNickname,
+                    relativeMatchDetails = matchDetails
+                )
+            )
         }
     }
 
@@ -61,8 +60,17 @@ class RelativeMatchFragment : DiFragment() {
 
     private fun setupRelativeMatchesUiStateObserver() {
         repeatOnStarted {
-            relativeMatchViewModel.relativeMatches.collect { relativeMatches ->
-                relativeMatchesAdapter.submitList(relativeMatches)
+            relativeMatchViewModel.uiState.collect { uiState ->
+                when (uiState) {
+                    is RelativeMatchUiState.Empty -> binding.relativeTvInfo.isVisible = true
+
+                    is RelativeMatchUiState.Loading -> binding.relativeTvInfo.isVisible = false
+
+                    is RelativeMatchUiState.RelativeMatches -> {
+                        binding.relativeTvInfo.isVisible = false
+                        relativeMatchesAdapter.submitList(uiState.relativeMatches)
+                    }
+                }
             }
         }
     }
@@ -78,12 +86,6 @@ class RelativeMatchFragment : DiFragment() {
                     ).show()
                 }
             }
-        }
-    }
-
-    fun changeVisibility() {
-        if (binding.relativeTvInfo.isVisible) {
-            binding.relativeTvInfo.visibility = View.GONE
         }
     }
 

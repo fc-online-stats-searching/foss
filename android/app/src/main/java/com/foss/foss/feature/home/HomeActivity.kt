@@ -15,9 +15,8 @@ import com.foss.foss.feature.matchsearching.recent.RecentMatchViewModel
 import com.foss.foss.feature.matchsearching.relative.RelativeMatchFragment
 import com.foss.foss.feature.matchsearching.relative.RelativeMatchViewModel
 import com.foss.foss.model.MatchTypeUiModel
-import com.foss.foss.util.OnChangeVisibilityListener
 
-class HomeActivity : DiActivity(), OnChangeVisibilityListener {
+class HomeActivity : DiActivity() {
 
     private lateinit var binding: ActivityHomeBinding
 
@@ -49,6 +48,7 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
         /**
          * todo: 현재 woogi-di를 사용함으로써 발생하는 문제를 해결하기 위한 코드
          */
+        relativeMatchViewModel.fetchEmptyRelativeMatches()
         recentMatchViewModel.fetchEmptyMatches()
         binding.homeBnvMenu.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -85,22 +85,11 @@ class HomeActivity : DiActivity(), OnChangeVisibilityListener {
     private fun setSearchingMatchesButtonClickListener() {
         with(binding) {
             homeIvFossLogo.setOnClickListener {
-                onChangeVisibility()
                 recentMatchViewModel.fetchMatches(
                     homeEtNicknameSearching.text.toString(),
                     MatchTypeUiModel.values()[homeSpinnerMatchType.selectedItemPosition]
                 )
                 relativeMatchViewModel.fetchRelativeMatches(homeEtNicknameSearching.text.toString())
-            }
-        }
-    }
-
-    override fun onChangeVisibility() {
-        val fragment = supportFragmentManager.findFragmentById(R.id.home_fcv_match)
-
-        when (fragment) {
-            is RecentMatchFragment -> {
-                fragment.changeVisibility()
             }
         }
     }

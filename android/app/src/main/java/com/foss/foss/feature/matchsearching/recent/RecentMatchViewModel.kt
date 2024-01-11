@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.foss.foss.model.MatchMapper.toDomainModel
 import com.foss.foss.model.MatchMapper.toUiModel
 import com.foss.foss.model.MatchTypeUiModel
-import com.foss.foss.model.Nickname
 import com.foss.foss.repository.MatchRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,20 +36,12 @@ class RecentMatchViewModel(
         searchingMatchType: MatchTypeUiModel = MatchTypeUiModel.OFFICIAL
     ) {
         viewModelScope.launch {
-            runCatching {
-                _uiState.value = RecentMatchUiState.Loading
-                matchRepository.fetchMatches(
-                    nickname = Nickname(nickname),
-                    matchType = searchingMatchType.toDomainModel()
-                ).onSuccess { matchResults ->
-                    _uiState.value = RecentMatchUiState.RecentMatch(
-                        matchResults.map { matchResult ->
-                            matchResult.toUiModel()
-                        }
-                    )
-                }.onFailure {
-                    _event.emit(RecentMatchEvent.Failed)
-                }
+            _uiState.value = RecentMatchUiState.Loading
+            matchRepository.fetchMatches(
+                nickname = nickname,
+                matchType = searchingMatchType.toDomainModel()
+            ).onSuccess { matchResults ->
+                _uiState.value = RecentMatchUiState.RecentMatch(matchResults.map { it.toUiModel() })
             }.onFailure {
                 _event.emit(RecentMatchEvent.Failed)
             }
