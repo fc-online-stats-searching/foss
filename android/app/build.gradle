@@ -26,6 +26,7 @@ android {
 
         buildConfigField "String", "AUTHORIZATION_KEY", properties.getProperty("server.authorization")
         buildConfigField "String", "SERVER_URL", properties.getProperty("server.url")
+        buildConfigField "String", "BASE_URL", properties.getProperty("base_url")
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
