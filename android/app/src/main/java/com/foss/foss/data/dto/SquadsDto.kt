@@ -11,4 +11,6 @@ data class SquadsDto(
     val position: Int,
     @SerialName("grade")
     val grade: Int,
+    @SerialName("spRating")
+    val spRating: Double,
 )
