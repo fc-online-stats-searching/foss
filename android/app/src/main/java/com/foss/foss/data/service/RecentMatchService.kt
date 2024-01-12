@@ -2,6 +2,7 @@ package com.foss.foss.data.service
 
 import com.foss.foss.data.dto.MatchesDto
 import com.foss.foss.data.dto.RefreshDto
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -11,7 +12,7 @@ interface RecentMatchService {
     @POST("/api/refresh")
     suspend fun requestRefresh(
         @Body nickname: String,
-    ): Result<RefreshDto>
+    ): Response<RefreshDto>
 
     @GET("/api/matches")
     suspend fun fetchMatches(

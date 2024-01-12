@@ -9,12 +9,12 @@ import java.time.LocalDate
 
 class FakeMatchRepository : MatchRepository {
 
-    override fun fetchMatches(
+    override suspend fun fetchMatches(
         nickname: String,
-        matchType: MatchType
+        matchType: MatchType,
     ): Result<List<Match>> = runCatching { recentMatches }
 
-    override fun fetchMatchesBetweenUsers(
+    override suspend fun fetchMatchesBetweenUsers(
         nickname: String,
         opponentNickname: String,
     ): Result<List<Match>> = runCatching {
@@ -118,7 +118,7 @@ class FakeMatchRepository : MatchRepository {
                 opponentName = "신공학관캣맘",
                 winDrawLose = WinDrawLose.LOSE,
                 score = Score(point = 0, otherPoint = 1),
-            )
+            ),
         )
     }
 }
