@@ -16,18 +16,26 @@ fun MatchDto.toDomain(nickname: String): Match {
     return Match(
         date = LocalDate.parse(timestamp),
         manOfTheMatch = matchDetail.squads.maxBy { it.spRating }.pid,
-        matchType = when (matchType) {
-            40 -> MatchType.CLASSIC_ONE_TO_ONE
-            50 -> MatchType.OFFICIAL
-            else -> throw IllegalStateException()
-        },
+        matchType = matchType.divide(),
         opponentName = opponentNickname,
-        winDrawLose = when (result) {
-            "승" -> WinDrawLose.WIN
-            "무" -> WinDrawLose.DRAW
-            "패" -> WinDrawLose.LOSE
-            else -> throw IllegalStateException()
-        },
+        winDrawLose = result.divide(),
         score = Score(goals[nickname]!!, goals[opponentNickname]!!),
     )
+}
+
+private fun Int.divide(): MatchType {
+    return when (this) {
+        40 -> MatchType.CLASSIC_ONE_TO_ONE
+        50 -> MatchType.OFFICIAL
+        else -> throw IllegalStateException()
+    }
+}
+
+private fun String.divide(): WinDrawLose {
+    return when (this) {
+        "승" -> WinDrawLose.WIN
+        "무" -> WinDrawLose.DRAW
+        "패" -> WinDrawLose.LOSE
+        else -> throw IllegalStateException()
+    }
 }
