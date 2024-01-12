@@ -3,7 +3,6 @@ package com.foss.foss
 import com.boogiwoogi.woogidi.application.DiApplication
 import com.boogiwoogi.woogidi.pure.Instance
 import com.foss.foss.data.repository.DefaultMatchRepository
-import com.foss.foss.data.repository.FakeMatchRepository
 import com.foss.foss.data.repository.FakeRelativeMatchRepository
 import com.foss.foss.di.auto.ServiceModule
 import com.foss.foss.repository.MatchRepository
@@ -16,25 +15,11 @@ class FossApplication : DiApplication() {
 
         with(injector) {
             applicationContainer.add(
-                Instance<MatchRepository>(
-                    FakeMatchRepository(),
-                ),
-            )
-
-            applicationContainer.add(
                 Instance<RelativeMatchRepository>(
                     FakeRelativeMatchRepository(),
                 ),
             )
 
-//            applicationContainer.add(
-//                Instance<UserRepository>(
-//                    DefaultUserRepository(
-//                        inject(module = RemoteDataSourceModule)
-//                    )
-//                )
-//            )
-//
             applicationContainer.add(
                 Instance<MatchRepository>(
                     DefaultMatchRepository(
