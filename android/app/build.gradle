@@ -10,7 +10,7 @@ android {
     namespace "com.foss.foss"
     compileSdk 33
 
-    buildFeatures{
+    buildFeatures {
         buildConfig true
     }
 
@@ -26,6 +26,7 @@ android {
 
         buildConfigField "String", "AUTHORIZATION_KEY", properties.getProperty("server.authorization")
         buildConfigField "String", "SERVER_URL", properties.getProperty("server.url")
+        buildConfigField "String", "BASE_URL", properties.getProperty("base.url")
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -75,6 +76,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1'
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 
     // test
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3'
