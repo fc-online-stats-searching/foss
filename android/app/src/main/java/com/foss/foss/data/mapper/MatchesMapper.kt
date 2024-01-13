@@ -2,6 +2,7 @@ package com.foss.foss.data.mapper
 
 import com.foss.foss.data.dto.MatchDto
 import com.foss.foss.data.dto.MatchesDto
+import com.foss.foss.data.dto.SquadsDto
 import com.foss.foss.model.Match
 import com.foss.foss.model.MatchType
 import com.foss.foss.model.Score
@@ -17,12 +18,16 @@ fun MatchesDto.toDomain(): List<Match> {
 fun MatchDto.toDomain(nickname: String): Match {
     return Match(
         date = timestamp.toLocalDate(),
-        manOfTheMatch = matchDetail.squads.maxBy { it.spRating }.pid,
+        manOfTheMatch = matchDetail.squads.getLastSixDigitsOfMaxSpRatingPid(),
         matchType = matchType.divide(),
         opponentName = opponentNickname,
         winDrawLose = result.divide(),
         score = Score(goals[nickname]!!, goals[opponentNickname]!!),
     )
+}
+
+private fun List<SquadsDto>.getLastSixDigitsOfMaxSpRatingPid(): Int {
+    return maxBy { it.spRating }.pid % 1_000_000
 }
 
 private fun Int.divide(): MatchType {
