@@ -13,12 +13,13 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 object RelativeMatchDtoMapper {
+
     fun MatchResponse.toDomainModel(): Match = Match(
         date = stringToLocalDate(timestamp),
         matchType = determineMatchType(matchType),
         manOfTheMatch = 1,
         opponentName = opponentNickname,
-        winDrawLose = determineMatchResult(goals, nickName, opponentNickname),
+        winDrawLose = determineWinDrawLose(goals, nickName, opponentNickname),
         score = makeScores(goals, nickName, opponentNickname)
     )
 
@@ -54,7 +55,7 @@ object RelativeMatchDtoMapper {
         return resultList
     }
 
-    private fun determineMatchResult(
+    private fun determineWinDrawLose(
         goals: Map<String, Int>,
         myName: String,
         opponentName: String
@@ -81,5 +82,4 @@ object RelativeMatchDtoMapper {
         goals[myName]!!,
         goals[opponentName]!!
     )
-
 }
