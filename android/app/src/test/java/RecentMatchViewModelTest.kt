@@ -4,6 +4,8 @@ import com.foss.foss.feature.matchsearching.recent.RecentMatchUiState
 import com.foss.foss.feature.matchsearching.recent.RecentMatchViewModel
 import com.foss.foss.model.Match
 import com.foss.foss.model.MatchMapper.toUiModel
+import com.foss.foss.model.MatchType
+import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.repository.MatchRepository
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -29,12 +31,12 @@ class RecentMatchViewModelTest {
     }
 
     fun `최근전적 기록을 요청하면`() {
-        recentMatchViewModel.fetchMatches("이름")
+        recentMatchViewModel.fetchMatches("이름", MatchTypeUiModel.ALL)
     }
 
     fun `최근전적 기록 요청에 대한 결과가 다음과 같을 때`(result: Result<List<Match>>) {
         coEvery {
-            matchRepository.fetchMatches("이름")
+            matchRepository.fetchMatches("이름", MatchType.ALL)
         } returns result
     }
 
