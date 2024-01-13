@@ -7,6 +7,8 @@ import com.foss.foss.model.MatchType
 import com.foss.foss.model.Score
 import com.foss.foss.model.WinDrawLose
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 fun MatchesDto.toDomain(): List<Match> {
     return matchResponse.map { it.toDomain(memberInfo.nickname) }
@@ -14,7 +16,7 @@ fun MatchesDto.toDomain(): List<Match> {
 
 fun MatchDto.toDomain(nickname: String): Match {
     return Match(
-        date = LocalDate.parse(timestamp),
+        date = timestamp.toLocalDate(),
         manOfTheMatch = matchDetail.squads.maxBy { it.spRating }.pid,
         matchType = matchType.divide(),
         opponentName = opponentNickname,
@@ -38,4 +40,9 @@ private fun String.divide(): WinDrawLose {
         "패" -> WinDrawLose.LOSE
         else -> throw IllegalStateException()
     }
+}
+
+private fun String.toLocalDate(): LocalDate {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+    return LocalDateTime.parse(this, formatter).toLocalDate()
 }
