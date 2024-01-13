@@ -30,7 +30,7 @@ class RelativeMatchViewModel(private val relativeMatchRepository: RelativeMatchR
     fun fetchRelativeMatches(nickname: String) {
         viewModelScope.launch {
             _uiState.value = RelativeMatchUiState.Loading
-            relativeMatchRepository.fetchRelativeMatches("신공학관캣대디")
+            relativeMatchRepository.fetchRelativeMatches(nickname)
                 .onSuccess { relativeMatches ->
                     _uiState.value = RelativeMatchUiState.RelativeMatches(
                         relativeMatches.map { it.toUiModel() }
