@@ -1,15 +1,15 @@
-//package com.foss.foss.data
+// package com.foss.foss.data
 //
-//import com.foss.foss.model.Match
-//import com.foss.foss.model.MatchType
-//import com.foss.foss.model.RelativeMatch
-//import com.foss.foss.model.Score
-//import com.foss.foss.model.WinDrawLose
-//import com.foss.foss.model.WinDrawLoses
-//import com.foss.foss.repository.RelativeMatchRepository
-//import java.time.LocalDate
+// import com.foss.foss.model.Match
+// import com.foss.foss.model.MatchType
+// import com.foss.foss.model.RelativeMatch
+// import com.foss.foss.model.Score
+// import com.foss.foss.model.WinDrawLose
+// import com.foss.foss.model.WinDrawLoses
+// import com.foss.foss.repository.RelativeMatchRepository
+// import java.time.LocalDate
 //
-//class FakeRelativeMatchRepository : RelativeMatchRepository {
+// class FakeRelativeMatchRepository : RelativeMatchRepository {
 //
 //    override fun fetchRelativeMatches(nickname: String): Result<List<RelativeMatch>> = runCatching {
 //        listOf(
@@ -358,4 +358,4 @@
 //            )
 //        )
 //    }
-//}
+// }
