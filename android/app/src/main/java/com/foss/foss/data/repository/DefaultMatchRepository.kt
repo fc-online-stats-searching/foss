@@ -12,10 +12,6 @@ class DefaultMatchRepository(
     override suspend fun fetchMatches(nickname: String, matchType: MatchType): Result<List<Match>> {
         return runCatching {
             recentMatchDataSource.fetchMatches(nickname, matchType).getOrThrow().toDomain()
-        }.onSuccess {
-            Result.success(it)
-        }.onFailure {
-            Result.failure<Throwable>(it)
         }
     }
 
