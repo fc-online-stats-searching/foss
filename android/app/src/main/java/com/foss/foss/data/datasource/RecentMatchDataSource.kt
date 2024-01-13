@@ -17,7 +17,7 @@ class RecentMatchDataSource(
                 else -> 10
             }
 
-            val response = service.fetchMatches(1, nickname, type)
+            val response = service.fetchMatches(0, nickname, type)
 
             if (response.isSuccessful) {
                 val body = response.body()
