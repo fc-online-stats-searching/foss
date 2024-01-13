@@ -33,7 +33,7 @@ class RecentMatchViewModel(
 
     fun fetchMatches(
         nickname: String,
-        searchingMatchType: MatchTypeUiModel = MatchTypeUiModel.OFFICIAL,
+        searchingMatchType: MatchTypeUiModel,
     ) {
         viewModelScope.launch {
             _uiState.value = RecentMatchUiState.Loading

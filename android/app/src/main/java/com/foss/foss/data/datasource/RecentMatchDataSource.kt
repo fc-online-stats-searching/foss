@@ -12,10 +12,11 @@ class RecentMatchDataSource(
         val type = when (matchType) {
             MatchType.OFFICIAL -> 50
             MatchType.CLASSIC_ONE_TO_ONE -> 40
+            MatchType.ALL -> 10
             else -> 10
         }
         try {
-            val response = service.fetchMatches(1, nickname, 10)
+            val response = service.fetchMatches(1, nickname, type)
 
             return if (response.isSuccessful) {
                 val body = response.body()

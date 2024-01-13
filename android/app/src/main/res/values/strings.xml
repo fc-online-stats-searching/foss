@@ -14,6 +14,7 @@
     <string name="home_searching_description">검색</string>
 
 
+    <string name="common_all">전체 경기</string>
     <string name="common_league_friendly_description">리그 친선</string>
     <string name="common_classic_one_to_one">클래식 1on1</string>
     <string name="common_official_description">공식 경기</string>

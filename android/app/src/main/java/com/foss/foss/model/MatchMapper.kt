@@ -9,17 +9,19 @@ object MatchMapper {
         opponentName = opponentName,
         winDrawLose = winDrawLose.toUiModel(),
         point = score.point,
-        otherPoint = score.otherPoint
+        otherPoint = score.otherPoint,
     )
 
     fun MatchType.toUiModel() = when (this) {
         MatchType.CLASSIC_ONE_TO_ONE -> MatchTypeUiModel.CLASSIC_ONE_TO_ONE
         MatchType.OFFICIAL -> MatchTypeUiModel.OFFICIAL
+        MatchType.ALL -> MatchTypeUiModel.ALL
     }
 
     fun MatchTypeUiModel.toDomainModel() = when (this) {
         MatchTypeUiModel.CLASSIC_ONE_TO_ONE -> MatchType.CLASSIC_ONE_TO_ONE
         MatchTypeUiModel.OFFICIAL -> MatchType.OFFICIAL
+        MatchTypeUiModel.ALL -> MatchType.ALL
     }
 
     fun WinDrawLose.toUiModel() = when (this) {
