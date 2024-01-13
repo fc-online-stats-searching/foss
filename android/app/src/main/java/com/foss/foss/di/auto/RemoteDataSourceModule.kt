@@ -12,7 +12,7 @@ object RemoteDataSourceModule : DefaultModule() {
 
     private val retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
+            .baseUrl(BuildConfig.SERVER_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
