@@ -5,11 +5,6 @@ import com.boogiwoogi.woogidi.pure.Provides
 import com.boogiwoogi.woogidi.pure.Singleton
 import com.foss.foss.BuildConfig
 import com.foss.foss.data.service.RelativeMatchService
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import kotlinx.serialization.json.Json
-import okhttp3.Interceptor
-import okhttp3.MediaType
-import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
