@@ -9,27 +9,22 @@ class RecentMatchDataSource(
     private val service: RecentMatchService,
 ) {
     suspend fun fetchMatches(nickname: String, matchType: MatchType): Result<MatchesDto> {
-        val type = when (matchType) {
-            MatchType.OFFICIAL -> 50
-            MatchType.CLASSIC_ONE_TO_ONE -> 40
-            MatchType.ALL -> 10
-            else -> 10
-        }
-        try {
+        return runCatching {
+            val type = when (matchType) {
+                MatchType.OFFICIAL -> 50
+                MatchType.CLASSIC_ONE_TO_ONE -> 40
+                MatchType.ALL -> 10
+                else -> 10
+            }
+
             val response = service.fetchMatches(1, nickname, type)
 
-            return if (response.isSuccessful) {
+            if (response.isSuccessful) {
                 val body = response.body()
-                if (body != null) {
-                    Result.success(body)
-                } else {
-                    Result.failure(Exception("Response body is null"))
-                }
+                body ?: throw Exception("Response body is null")
             } else {
-                Result.failure(IOException("Request failed with code: ${response.code()}"))
+                throw IOException("Request failed with code: ${response.code()}")
             }
-        } catch (e: Exception) {
-            return Result.failure(e)
         }
     }
 }
