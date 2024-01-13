@@ -24,6 +24,7 @@ jobs:
         touch local.properties
         echo "server.url=\"secret\"" >> local.properties
         echo "server.authorization=\"secret\"" >> local.properties
+        echo "base.url=\"secret\"" >> local.properties
 
     - name: Make gradlew executable
       working-directory: ./android
