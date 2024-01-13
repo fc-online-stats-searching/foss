@@ -12,7 +12,7 @@ import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 
-object ServiceModule : DefaultModule() {
+object RemoteDataSource : DefaultModule() {
 
     private val interceptor by lazy {
         Interceptor { chain ->

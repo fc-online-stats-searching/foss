@@ -19,5 +19,5 @@ interface RecentMatchService {
         @Query("page") page: Int,
         @Query("nickname") nickname: String,
         @Query("matchType") matchType: Int,
-    ): Result<MatchesDto>
+    ): Response<MatchesDto>
 }
