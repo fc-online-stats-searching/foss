@@ -26,7 +26,7 @@ object RelativeMatchDtoMapper {
     fun RelativeMatchDTO.toDomainModel(): RelativeMatch = RelativeMatch(
         opponentName = opponentNickname,
         recentMatchDate = stringToLocalDate(lastDate),
-        winDrawLoses = WinDrawLoses(makeWinDrawLoseList(win, tie, lose)),
+        winDrawLoses = WinDrawLoses(makeWinDrawLose(win, tie, lose)),
         totalScore = Score(gain, lose),
         matchDetails = matchResponse.map { it.toDomainModel() }
     )
@@ -37,22 +37,8 @@ object RelativeMatchDtoMapper {
         return localDateTime.toLocalDate()
     }
 
-    private fun makeWinDrawLoseList(win: Int, tie: Int, lose: Int): List<WinDrawLose> {
-        val resultList = mutableListOf<WinDrawLose>()
-
-        repeat(win) {
-            resultList.add(WinDrawLose.WIN)
-        }
-
-        repeat(tie) {
-            resultList.add(WinDrawLose.DRAW)
-        }
-
-        repeat(lose) {
-            resultList.add(WinDrawLose.LOSE)
-        }
-
-        return resultList
+    private fun makeWinDrawLose(win: Int, tie: Int, lose: Int): List<WinDrawLose> {
+        return List(win) { WinDrawLose.WIN } + List(tie) { WinDrawLose.DRAW } + List(lose) { WinDrawLose.LOSE }
     }
 
     private fun determineWinDrawLose(
