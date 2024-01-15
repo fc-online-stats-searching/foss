@@ -8,7 +8,7 @@ data class RelativeMatchesDTO(
     @SerialName("memberInfo")
     val memberInfo: MemberInfo,
     @SerialName("relativeMatchResponse")
-    val relativeMatchDTO: List<RelativeMatchDTO>
+    val relativeMatchResponse: List<RelativeMatchDTO>
 )
 
 @Serializable
@@ -38,7 +38,7 @@ data class RelativeMatchDTO(
     @SerialName("loss")
     val loss: Int,
     @SerialName("matchResponse")
-    val matchDTO: List<MatchDTO>
+    val matchResponse: List<MatchDTO>
 )
 
 @Serializable

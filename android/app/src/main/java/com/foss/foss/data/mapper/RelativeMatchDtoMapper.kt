@@ -1,6 +1,6 @@
 package com.foss.foss.data.mapper
 
-import com.foss.foss.data.dto.MatchResponse
+import com.foss.foss.data.dto.MatchDTO
 import com.foss.foss.data.dto.RelativeMatchDTO
 import com.foss.foss.model.Match
 import com.foss.foss.model.MatchType
@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter
 
 object RelativeMatchDtoMapper {
 
-    fun MatchResponse.toDomainModel(): Match = Match(
+    fun MatchDTO.toDomainModel(): Match = Match(
         date = stringToLocalDate(timestamp),
         matchType = determineMatchType(matchType),
         manOfTheMatch = 1,
