@@ -5,7 +5,7 @@ import com.foss.foss.data.mapper.RelativeMatchDtoMapper.toDomainModel
 import com.foss.foss.model.RelativeMatch
 import com.foss.foss.repository.RelativeMatchRepository
 
-class RelativeMatchRepositoryImpl(
+class DefaultRelativeMatchRepository(
     private val relativeMatchDataSource: RelativeMatchDataSource
 ) : RelativeMatchRepository {
 
