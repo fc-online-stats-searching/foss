@@ -10,21 +10,9 @@ class RelativeMatchRepositoryImpl(
 ) : RelativeMatchRepository {
 
     override suspend fun fetchRelativeMatches(nickname: String): Result<List<RelativeMatch>> {
-        try {
-            val relativeMatchDTOResult = relativeMatchDataSource.fetchRelativeMatches(nickname)
-
-            return relativeMatchDTOResult.fold(
-                onSuccess = { relativeMatchDTO ->
-                    val relativeMatchDtoToDomainModel =
-                        relativeMatchDTO.relativeMatchResponse.map { it.toDomainModel() }
-                    Result.success(relativeMatchDtoToDomainModel)
-                },
-                onFailure = { e ->
-                    Result.failure(e)
-                }
-            )
-        } catch (e: Exception) {
-            return Result.failure(e)
+        return runCatching {
+            relativeMatchDataSource.fetchRelativeMatches(nickname)
+                .getOrThrow().relativeMatchResponse.map { it.toDomainModel() }
         }
     }
 }

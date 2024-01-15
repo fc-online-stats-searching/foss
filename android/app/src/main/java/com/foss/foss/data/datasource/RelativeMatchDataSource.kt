@@ -9,21 +9,14 @@ class RelativeMatchDataSource(
 ) {
 
     suspend fun fetchRelativeMatches(nickname: String): Result<RelativeMatchesDTO> {
-        try {
+        return runCatching {
             val response = relativeMatchService.fetchRelativeMatches(nickname)
-
             if (response.isSuccessful) {
                 val body = response.body()
-                if (body != null) {
-                    return Result.success(body)
-                } else {
-                    return Result.failure(Exception("Response body is null"))
-                }
+                body ?: throw Exception("Response body is null")
             } else {
-                return Result.failure(IOException("Request failed with code: ${response.code()}"))
+                throw IOException("Request failed with code: ${response.code()}")
             }
-        } catch (e: Exception) {
-            return Result.failure(e)
         }
     }
 }
