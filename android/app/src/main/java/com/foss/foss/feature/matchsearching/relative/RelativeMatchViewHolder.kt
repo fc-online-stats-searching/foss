@@ -46,9 +46,29 @@ class RelativeMatchViewHolder private constructor(
                 R.string.item_relative_matches_score,
                 relativeMatch.conceded
             )
+            itemRelativeViewResult.setBackgroundColor(
+                setTextColor(
+                    relativeMatch.numberOfGames,
+                    relativeMatch.numberOfWins
+                )
+            )
         }
         matchDetails = ArrayList(relativeMatch.matchDetails)
         opponentNickname = relativeMatch.opponentName
+    }
+
+    private fun setTextColor(
+        numberOfGames: Int,
+        numberOfWins: Int
+    ): Int {
+        val rate = (numberOfWins.toDouble() / numberOfGames) * 100.0
+        val colorResource = if (rate >= 50.0) {
+            R.color.item_relative_match_win_color
+        } else {
+            R.color.item_relative_match_lose_color
+        }
+
+        return binding.root.context.getColor(colorResource)
     }
 
     companion object {
