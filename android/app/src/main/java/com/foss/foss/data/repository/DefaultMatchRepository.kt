@@ -14,11 +14,4 @@ class DefaultMatchRepository(
             recentMatchDataSource.fetchMatches(nickname, matchType).getOrThrow().toDomain()
         }
     }
-
-    override suspend fun fetchMatchesBetweenUsers(
-        nickname: String,
-        opponentNickname: String,
-    ): Result<List<Match>> {
-        TODO("Not yet implemented")
-    }
 }
