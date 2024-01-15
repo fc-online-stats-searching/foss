@@ -29,4 +29,11 @@ object MatchMapper {
         WinDrawLose.DRAW -> WinDrawLoseUiModel.DRAW
         WinDrawLose.LOSE -> WinDrawLoseUiModel.LOSE
     }
+
+    fun MatchType.toIntType() = when (this) {
+        MatchType.OFFICIAL -> 50
+        MatchType.CLASSIC_ONE_TO_ONE -> 40
+        MatchType.ALL -> 10
+        else -> 10
+    }
 }
