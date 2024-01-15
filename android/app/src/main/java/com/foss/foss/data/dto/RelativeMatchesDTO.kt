@@ -4,11 +4,11 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RelativeMatchDTO(
+data class RelativeMatchesDTO(
     @SerialName("memberInfo")
     val memberInfo: MemberInfo,
     @SerialName("relativeMatchResponse")
-    val relativeMatchResponse: List<RelativeMatchResponse>
+    val relativeMatchResponse: List<RelativeMatchDTO>
 )
 
 @Serializable
@@ -22,7 +22,7 @@ data class MemberInfo(
 )
 
 @Serializable
-data class RelativeMatchResponse(
+data class RelativeMatchDTO(
     @SerialName("lastDate")
     val lastDate: String,
     @SerialName("opponentNickname")

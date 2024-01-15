@@ -1,7 +1,7 @@
 package com.foss.foss.data.mapper
 
 import com.foss.foss.data.dto.MatchResponse
-import com.foss.foss.data.dto.RelativeMatchResponse
+import com.foss.foss.data.dto.RelativeMatchDTO
 import com.foss.foss.model.Match
 import com.foss.foss.model.MatchType
 import com.foss.foss.model.RelativeMatch
@@ -23,7 +23,7 @@ object RelativeMatchDtoMapper {
         score = makeScores(goals, nickName, opponentNickname)
     )
 
-    fun RelativeMatchResponse.toDomainModel(): RelativeMatch = RelativeMatch(
+    fun RelativeMatchDTO.toDomainModel(): RelativeMatch = RelativeMatch(
         opponentName = opponentNickname,
         recentMatchDate = stringToLocalDate(lastDate),
         winDrawLoses = WinDrawLoses(makeWinDrawLoseList(win, tie, lose)),

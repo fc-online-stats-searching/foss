@@ -1,6 +1,6 @@
 package com.foss.foss.data.datasource
 
-import com.foss.foss.data.dto.RelativeMatchDTO
+import com.foss.foss.data.dto.RelativeMatchesDTO
 import com.foss.foss.data.service.RelativeMatchService
 import java.io.IOException
 
@@ -8,7 +8,7 @@ class RelativeMatchDataSource(
     private val relativeMatchService: RelativeMatchService
 ) {
 
-    suspend fun fetchRelativeMatches(nickname: String): Result<RelativeMatchDTO> {
+    suspend fun fetchRelativeMatches(nickname: String): Result<RelativeMatchesDTO> {
         try {
             val response = relativeMatchService.fetchRelativeMatches(nickname)
 
