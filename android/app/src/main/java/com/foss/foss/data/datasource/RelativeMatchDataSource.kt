@@ -11,6 +11,7 @@ class RelativeMatchDataSource(
     suspend fun fetchRelativeMatches(nickname: String): Result<RelativeMatchesDTO> {
         return runCatching {
             val response = relativeMatchService.fetchRelativeMatches(nickname)
+
             if (response.isSuccessful) {
                 val body = response.body()
                 body ?: throw Exception("Response body is null")

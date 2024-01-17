@@ -2,9 +2,9 @@ package com.foss.foss
 
 import com.boogiwoogi.woogidi.application.DiApplication
 import com.boogiwoogi.woogidi.pure.Instance
-import com.foss.foss.data.FakeMatchRepository
+import com.foss.foss.data.repository.DefaultMatchRepository
 import com.foss.foss.data.repository.DefaultRelativeMatchRepository
-import com.foss.foss.di.auto.RemoteDataSourceModule
+import com.foss.foss.di.auto.RetrofitModule
 import com.foss.foss.repository.MatchRepository
 import com.foss.foss.repository.RelativeMatchRepository
 
@@ -16,39 +16,19 @@ class FossApplication : DiApplication() {
         with(injector) {
             applicationContainer.add(
                 Instance<MatchRepository>(
-                    FakeMatchRepository()
-                )
-            )
-
-//            applicationContainer.add(
-//                Instance<RelativeMatchRepository>(
-//                    FakeRelativeMatchRepository()
-//                )
-//            )
-
-            applicationContainer.add(
-                Instance<RelativeMatchRepository>(
-                    DefaultRelativeMatchRepository(
-                        injector.inject(module = RemoteDataSourceModule)
+                    DefaultMatchRepository(
+                        injector.inject(module = RetrofitModule)
                     )
                 )
             )
 
-//            applicationContainer.add(
-//                Instance<UserRepository>(
-//                    DefaultUserRepository(
-//                        inject(module = RemoteDataSourceModule)
-//                    )
-//                )
-//            )
-//
-//            applicationContainer.add(
-//                Instance<MatchRepository>(
-//                    DefaultMatchRepository(
-//                        inject(module = RemoteDataSourceModule)
-//                    )
-//                )
-//            )
+            applicationContainer.add(
+                Instance<RelativeMatchRepository>(
+                    DefaultRelativeMatchRepository(
+                        injector.inject(module = RetrofitModule)
+                    )
+                )
+            )
         }
     }
 }

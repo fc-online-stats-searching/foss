@@ -18,5 +18,5 @@ data class MatchDto(
     @SerialName("opponentNickname")
     val opponentNickname: String,
     @SerialName("matchDetail")
-    val matchDetail: MatchDetailDto,
+    val matchDetail: MatchDetailDto
 )

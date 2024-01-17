@@ -11,13 +11,13 @@ import retrofit2.http.Query
 interface RecentMatchService {
     @POST("/api/refresh")
     suspend fun requestRefresh(
-        @Body nickname: String,
+        @Body nickname: String
     ): Response<RefreshDto>
 
     @GET("/api/matches")
     suspend fun fetchMatches(
         @Query("page") page: Int,
         @Query("nickname") nickname: String,
-        @Query("matchType") matchType: Int,
+        @Query("matchType") matchType: Int
     ): Response<MatchesDto>
 }

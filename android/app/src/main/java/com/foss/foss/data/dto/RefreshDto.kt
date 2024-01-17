@@ -12,5 +12,5 @@ data class RefreshDto(
     @SerialName("msg")
     val msg: String,
     @SerialName("data")
-    val memberInfo: MemberInfoDto,
+    val memberInfo: MemberInfoDto
 )

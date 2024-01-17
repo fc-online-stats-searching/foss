@@ -8,5 +8,5 @@ data class MatchesDto(
     @SerialName("memberInfo")
     val memberInfo: MemberInfoDto,
     @SerialName("matchResponse")
-    val matchResponse: List<MatchDto>,
+    val matchResponse: List<MatchDto>
 )

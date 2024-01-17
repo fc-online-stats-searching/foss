@@ -12,7 +12,9 @@ class DefaultRelativeMatchRepository(
     override suspend fun fetchRelativeMatches(nickname: String): Result<List<RelativeMatch>> {
         return runCatching {
             relativeMatchDataSource.fetchRelativeMatches(nickname)
-                .getOrThrow().relativeMatchResponse.map { it.toDomainModel() }
+                .getOrThrow()
+                .relativeMatches
+                .map { it.toDomainModel(nickname) }
         }
     }
 }

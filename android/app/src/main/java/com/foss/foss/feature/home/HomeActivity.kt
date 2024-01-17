@@ -78,7 +78,7 @@ class HomeActivity : DiActivity() {
         binding.homeSpinnerMatchType.adapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
-            MatchTypeUiModel.values().map { getString(it.resId) },
+            MatchTypeUiModel.values().map { getString(it.resId) }
         )
     }
 
@@ -87,7 +87,7 @@ class HomeActivity : DiActivity() {
             homeIvFossLogo.setOnClickListener {
                 recentMatchViewModel.fetchMatches(
                     homeEtNicknameSearching.text.toString(),
-                    MatchTypeUiModel.values()[homeSpinnerMatchType.selectedItemPosition],
+                    MatchTypeUiModel.values()[homeSpinnerMatchType.selectedItemPosition]
                 )
                 relativeMatchViewModel.fetchRelativeMatches(homeEtNicknameSearching.text.toString())
             }

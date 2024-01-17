@@ -16,5 +16,5 @@ data class MatchDetailDto(
     @SerialName("passSuccessRate")
     val passSuccessRate: Int,
     @SerialName("squads")
-    val squads: List<SquadsDto>,
+    val squads: List<SquadDto>
 )
