@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class RecentMatchViewModel(
-    private val matchRepository: MatchRepository
+    private val matchRepository: MatchRepository,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<RecentMatchUiState> =
@@ -33,13 +33,13 @@ class RecentMatchViewModel(
 
     fun fetchMatches(
         nickname: String,
-        searchingMatchType: MatchTypeUiModel = MatchTypeUiModel.OFFICIAL
+        searchingMatchType: MatchTypeUiModel,
     ) {
         viewModelScope.launch {
             _uiState.value = RecentMatchUiState.Loading
             matchRepository.fetchMatches(
                 nickname = nickname,
-                matchType = searchingMatchType.toDomainModel()
+                matchType = searchingMatchType.toDomainModel(),
             ).onSuccess { matchResults ->
                 _uiState.value = RecentMatchUiState.RecentMatch(matchResults.map { it.toUiModel() })
             }.onFailure {

@@ -1,4 +1,4 @@
-package com.foss.foss.data
+package com.foss.foss.data.repository
 
 import com.foss.foss.model.Match
 import com.foss.foss.model.MatchType
@@ -24,8 +24,8 @@ class FakeRelativeMatchRepository : RelativeMatchRepository {
                         WinDrawLose.WIN,
                         WinDrawLose.DRAW,
                         WinDrawLose.WIN,
-                        WinDrawLose.DRAW
-                    )
+                        WinDrawLose.DRAW,
+                    ),
                 ),
                 totalScore = Score(point = 31, otherPoint = 23),
                 matchDetails = listOf(
@@ -138,8 +138,8 @@ class FakeRelativeMatchRepository : RelativeMatchRepository {
                         WinDrawLose.WIN,
                         WinDrawLose.DRAW,
                         WinDrawLose.WIN,
-                        WinDrawLose.DRAW
-                    )
+                        WinDrawLose.DRAW,
+                    ),
                 ),
                 totalScore = Score(point = 31, otherPoint = 23),
                 matchDetails = listOf(
@@ -253,8 +253,8 @@ class FakeRelativeMatchRepository : RelativeMatchRepository {
                         WinDrawLose.WIN,
                         WinDrawLose.DRAW,
                         WinDrawLose.WIN,
-                        WinDrawLose.DRAW
-                    )
+                        WinDrawLose.DRAW,
+                    ),
                 ),
                 totalScore = Score(point = 31, otherPoint = 23),
                 matchDetails = listOf(

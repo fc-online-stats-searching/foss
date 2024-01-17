@@ -34,12 +34,12 @@ class RelativeMatchDetailsActivity : AppCompatActivity() {
         binding.relativeMatchDetailsRvMatches.adapter = relativeMatchDetailsAdapter
         binding.relativeMatchDetailsTvTitle.text =
             getString(R.string.relative_match_details_title).format(
-                intent.getStringExtra(OPPONENT_NICKNAME_KEY)
+                intent.getStringExtra(OPPONENT_NICKNAME_KEY),
             )
         relativeMatchDetailsAdapter.submitList(
             intent.putParcelableArrayListCompat(
-                RELATIVE_DETAILS_KEY
-            )
+                RELATIVE_DETAILS_KEY,
+            ),
         )
     }
 
@@ -55,7 +55,7 @@ class RelativeMatchDetailsActivity : AppCompatActivity() {
         fun getIntent(
             context: Context,
             opponentNickname: String,
-            relativeMatchDetails: ArrayList<MatchUiModel>
+            relativeMatchDetails: ArrayList<MatchUiModel>,
         ): Intent {
             return Intent(context, RelativeMatchDetailsActivity::class.java).apply {
                 putExtra(OPPONENT_NICKNAME_KEY, opponentNickname)
