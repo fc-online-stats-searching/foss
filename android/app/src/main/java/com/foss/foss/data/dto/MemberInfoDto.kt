@@ -10,5 +10,5 @@ data class MemberInfoDto(
     @SerialName("level")
     val level: Int,
     @SerialName("renewal")
-    val renewal: String,
+    val renewal: String
 )

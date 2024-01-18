@@ -7,5 +7,5 @@ data class RelativeMatch(
     val recentMatchDate: LocalDate,
     val winDrawLoses: WinDrawLoses,
     val totalScore: Score,
-    val matchDetails: List<Match>,
+    val matchDetails: List<Match>
 )

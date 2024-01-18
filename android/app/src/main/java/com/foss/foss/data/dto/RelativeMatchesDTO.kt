@@ -4,9 +4,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MatchesDto(
+data class RelativeMatchesDTO(
     @SerialName("memberInfo")
     val memberInfo: MemberInfoDto,
-    @SerialName("matchResponse")
-    val matchResponse: List<MatchDto>
+    @SerialName("relativeMatchResponse")
+    val relativeMatches: List<RelativeMatchDTO>
 )

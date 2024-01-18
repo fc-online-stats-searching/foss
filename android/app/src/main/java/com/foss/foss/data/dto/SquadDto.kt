@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SquadsDto(
+data class SquadDto(
     @SerialName("pid")
     val pid: Int,
     @SerialName("position")
@@ -12,5 +12,5 @@ data class SquadsDto(
     @SerialName("grade")
     val grade: Int,
     @SerialName("spRating")
-    val spRating: Double,
+    val spRating: Double
 )

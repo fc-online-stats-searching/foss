@@ -7,7 +7,7 @@ import com.foss.foss.model.MatchType
 import java.io.IOException
 
 class RecentMatchDataSource(
-    private val service: RecentMatchService,
+    private val service: RecentMatchService
 ) {
     suspend fun fetchMatches(nickname: String, matchType: MatchType): Result<MatchesDto> {
         return runCatching {

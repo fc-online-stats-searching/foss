@@ -111,13 +111,4 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:background="@color/item_match_blue_side_bar" />
 
-    <ImageView
-        android:id="@+id/item_match_iv_arrow_down"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_arrow_down"
-        app:layout_constraintBottom_toBottomOf="@id/item_match_view_side_bar"
-        app:layout_constraintEnd_toEndOf="@id/item_match_view_side_bar"
-        app:layout_constraintStart_toStartOf="@id/item_match_view_side_bar" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -37,6 +37,7 @@ class RelativeMatchViewModel(private val relativeMatchRepository: RelativeMatchR
                     )
                 }.onFailure {
                     _event.emit(RelativeMatchEvent.Failed)
+                    _uiState.value = RelativeMatchUiState.Empty
                 }
         }
     }

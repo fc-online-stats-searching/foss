@@ -34,7 +34,6 @@ class MatchViewHolder(
                 match.otherPoint
             )
             itemMatchViewSideBar.setBackgroundColor(getSideBarColor(match.winDrawLose))
-            itemMatchIvArrowDown.setColorFilter(getDropDownArrowColor(match.winDrawLose))
             itemMatchTvMatchType.setTextColor(getTextColor(match.winDrawLose))
             itemMatchTvWinDrawLose.setTextColor(getTextColor(match.winDrawLose))
             setManOfTheMatchImage(

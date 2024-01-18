@@ -4,5 +4,5 @@ import com.foss.foss.model.RelativeMatch
 
 interface RelativeMatchRepository {
 
-    fun fetchRelativeMatches(nickname: String): Result<List<RelativeMatch>>
+    suspend fun fetchRelativeMatches(nickname: String): Result<List<RelativeMatch>>
 }

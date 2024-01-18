@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter
 
 class RelativeMatchViewHolder private constructor(
     private val binding: ItemRelativeMatchBinding,
-    private val onClick: (opponentNickname: String, matchDetails: ArrayList<MatchUiModel>) -> Unit,
+    private val onClick: (opponentNickname: String, matchDetails: ArrayList<MatchUiModel>) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private var matchDetails: ArrayList<MatchUiModel>? = null
@@ -33,35 +33,55 @@ class RelativeMatchViewHolder private constructor(
                 relativeMatch.numberOfGames,
                 relativeMatch.numberOfWins,
                 relativeMatch.numberOfDraws,
-                relativeMatch.numberOfLoses,
+                relativeMatch.numberOfLoses
             )
             itemRelativeTvLastMatch.text = relativeMatch.recentMatchDate.format(
-                DateTimeFormatter.ofPattern(itemView.context.getString(R.string.common_date_format)),
+                DateTimeFormatter.ofPattern(itemView.context.getString(R.string.common_date_format))
             )
             itemRelativeTvGoal.text = itemView.context.getString(
                 R.string.item_relative_matches_score,
-                relativeMatch.goal,
+                relativeMatch.goal
             )
             itemRelativeTvConceded.text = itemView.context.getString(
                 R.string.item_relative_matches_score,
-                relativeMatch.conceded,
+                relativeMatch.conceded
+            )
+            itemRelativeViewResult.setBackgroundColor(
+                setTextColor(
+                    relativeMatch.numberOfGames,
+                    relativeMatch.numberOfWins
+                )
             )
         }
         matchDetails = ArrayList(relativeMatch.matchDetails)
         opponentNickname = relativeMatch.opponentName
     }
 
+    private fun setTextColor(
+        numberOfGames: Int,
+        numberOfWins: Int
+    ): Int {
+        val rate = (numberOfWins.toDouble() / numberOfGames) * 100.0
+        val colorResource = if (rate >= 50.0) {
+            R.color.item_relative_match_win_color
+        } else {
+            R.color.item_relative_match_lose_color
+        }
+
+        return binding.root.context.getColor(colorResource)
+    }
+
     companion object {
 
         fun from(
             parent: ViewGroup,
-            onClick: (opponentNickname: String, matchDetails: ArrayList<MatchUiModel>) -> Unit,
+            onClick: (opponentNickname: String, matchDetails: ArrayList<MatchUiModel>) -> Unit
         ): RelativeMatchViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             val binding = ItemRelativeMatchBinding.inflate(
                 layoutInflater,
                 parent,
-                false,
+                false
             )
             return RelativeMatchViewHolder(binding, onClick)
         }

@@ -2,6 +2,7 @@ package com.foss.foss.feature.home
 
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.commit
 import com.boogiwoogi.woogidi.activity.DiActivity
@@ -75,11 +76,16 @@ class HomeActivity : DiActivity() {
     }
 
     private fun setupMatchTypeSpinnerAdapter() {
-        binding.homeSpinnerMatchType.adapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            MatchTypeUiModel.values().map { getString(it.resId) },
-        )
+        with(binding.homeSpinnerMatchType) {
+            adapter = ArrayAdapter(
+                this@HomeActivity,
+                R.layout.custom_spinner_item_match_type,
+                MatchTypeUiModel.values().map { getString(it.resId) }
+            )
+            viewTreeObserver.addOnGlobalLayoutListener {
+                (selectedView as TextView).setBackgroundResource(R.drawable.custom_match_type_spinner_background)
+            }
+        }
     }
 
     private fun setSearchingMatchesButtonClickListener() {
@@ -87,7 +93,7 @@ class HomeActivity : DiActivity() {
             homeIvFossLogo.setOnClickListener {
                 recentMatchViewModel.fetchMatches(
                     homeEtNicknameSearching.text.toString(),
-                    MatchTypeUiModel.values()[homeSpinnerMatchType.selectedItemPosition],
+                    MatchTypeUiModel.values()[homeSpinnerMatchType.selectedItemPosition]
                 )
                 relativeMatchViewModel.fetchRelativeMatches(homeEtNicknameSearching.text.toString())
             }
