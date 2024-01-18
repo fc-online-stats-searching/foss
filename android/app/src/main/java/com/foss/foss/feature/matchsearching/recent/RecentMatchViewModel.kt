@@ -41,9 +41,12 @@ class RecentMatchViewModel(
                 nickname = nickname,
                 matchType = searchingMatchType.toDomainModel()
             ).onSuccess { matchResults ->
-                _uiState.value = RecentMatchUiState.RecentMatch(matchResults.map { it.toUiModel() })
+                _uiState.value = RecentMatchUiState.RecentMatch(
+                    matchResults.map { it.toUiModel() }
+                )
             }.onFailure {
                 _event.emit(RecentMatchEvent.Failed)
+                _uiState.value = RecentMatchUiState.Empty
             }
         }
     }

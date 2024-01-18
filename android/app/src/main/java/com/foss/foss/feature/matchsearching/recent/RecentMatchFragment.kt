@@ -52,6 +52,7 @@ class RecentMatchFragment : DiFragment() {
                 when (uiState) {
                     is RecentMatchUiState.Empty -> {
                         binding.recentTvInfo.isVisible = true
+                        binding.recentMatchPbLoadingBar.isVisible = false
                     }
 
                     is RecentMatchUiState.Loading -> {
@@ -91,5 +92,10 @@ class RecentMatchFragment : DiFragment() {
         super.onDestroyView()
 
         _binding = null
+    }
+
+    companion object {
+
+        const val TAG = "RECENT_MATCH_FRAGMENT"
     }
 }
