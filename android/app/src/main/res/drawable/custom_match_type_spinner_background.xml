@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape>
+            <solid android:color="#1C2023" />
+            <corners android:radius="5dp" />
+        </shape>
+    </item>
+
+    <item android:gravity="center_vertical|right"
+        android:left="6dp"
+        android:right="3dp">
+        <layer-list>
+            <item  android:gravity="right" android:width="24dp" android:height="24dp" >
+                <bitmap android:src="@drawable/ic_arrow_down"/>
+            </item>
+        </layer-list>
+    </item>
+</layer-list>
