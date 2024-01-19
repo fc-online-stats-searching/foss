@@ -24,7 +24,7 @@ class RecentMatchFragment : DiFragment() {
 
     private val viewModel: RecentMatchViewModel by activityViewModels()
 
-    private val adapter: RecentMatchAdapter by lazy { RecentMatchAdapter() }
+    private val recentMatchesAdapter: RecentMatchAdapter by lazy { RecentMatchAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +45,7 @@ class RecentMatchFragment : DiFragment() {
     }
 
     private fun setupRecentMatchesView() {
-        binding.recentMatchRvMatches.adapter = adapter
+        binding.recentMatchRvMatches.adapter = recentMatchesAdapter
     }
 
     private fun setupRecentMatchesUiStateObserver() {
@@ -56,13 +56,14 @@ class RecentMatchFragment : DiFragment() {
                         binding.recentTvInfo.text = getString(R.string.common_request_searching_nickname)
                         binding.recentTvInfo.isVisible = true
                         binding.recentMatchPbLoadingBar.isVisible = false
+                        recentMatchesAdapter.submitList(emptyList())
                     }
 
                     is RecentMatchUiState.Empty -> {
                         binding.recentTvInfo.text = getString(R.string.common_empty_matches)
                         binding.recentTvInfo.isVisible = true
                         binding.recentMatchPbLoadingBar.isVisible = false
-                        adapter.submitList(emptyList())
+                        recentMatchesAdapter.submitList(emptyList())
                     }
 
                     is RecentMatchUiState.Loading -> {
@@ -73,7 +74,7 @@ class RecentMatchFragment : DiFragment() {
                     is RecentMatchUiState.RecentMatch -> {
                         binding.recentTvInfo.isVisible = false
                         binding.recentMatchPbLoadingBar.isVisible = false
-                        adapter.submitList(uiState.matches)
+                        recentMatchesAdapter.submitList(uiState.matches)
                     }
                 }
             }

@@ -66,6 +66,7 @@ class RelativeMatchFragment : DiFragment() {
                         binding.relativeTvInfo.text = getString(R.string.common_request_searching_nickname)
                         binding.relativeTvInfo.isVisible = true
                         binding.relativeMatchPbLoadingBar.isVisible = false
+                        relativeMatchesAdapter.submitList(emptyList())
                     }
 
                     is RelativeMatchUiState.Empty -> {
@@ -96,7 +97,7 @@ class RelativeMatchFragment : DiFragment() {
                 when (event) {
                     RelativeMatchEvent.Failed -> Toast.makeText(
                         requireContext(),
-                        getString(R.string.relative_matches_failed_fetching_data),
+                        getString(R.string.common_failed_fetching_matches),
                         Toast.LENGTH_SHORT
                     ).show()
 
