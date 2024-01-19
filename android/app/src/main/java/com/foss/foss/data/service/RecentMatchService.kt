@@ -9,6 +9,7 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface RecentMatchService {
+
     @POST("/api/refresh")
     suspend fun requestRefresh(
         @Body nickname: String

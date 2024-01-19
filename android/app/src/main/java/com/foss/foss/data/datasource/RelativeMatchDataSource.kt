@@ -8,6 +8,18 @@ class RelativeMatchDataSource(
     private val relativeMatchService: RelativeMatchService
 ) {
 
+    suspend fun requestRefresh(nickname: String): Result<Unit> {
+        return runCatching {
+            val response = relativeMatchService.requestRefresh(nickname)
+
+            if (response.isSuccessful) {
+                Unit
+            } else {
+                throw IOException("Request failed with code: ${response.code()}")
+            }
+        }
+    }
+
     suspend fun fetchRelativeMatches(nickname: String): Result<RelativeMatchesDTO> {
         return runCatching {
             val response = relativeMatchService.fetchRelativeMatches(nickname)

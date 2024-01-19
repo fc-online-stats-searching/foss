@@ -7,11 +7,24 @@ import com.foss.foss.model.MatchType
 import java.io.IOException
 
 class RecentMatchDataSource(
-    private val service: RecentMatchService
+    private val recentMatchService: RecentMatchService
 ) {
+
+    suspend fun requestRefresh(nickname: String): Result<Unit> {
+        return runCatching {
+            val response = recentMatchService.requestRefresh(nickname)
+
+            if (response.isSuccessful) {
+                Unit
+            } else {
+                throw IOException("Request failed with code: ${response.code()}")
+            }
+        }
+    }
+
     suspend fun fetchMatches(nickname: String, matchType: MatchType): Result<MatchesDto> {
         return runCatching {
-            val response = service.fetchMatches(0, nickname, matchType.toIntType())
+            val response = recentMatchService.fetchMatches(0, nickname, matchType.toIntType())
 
             if (response.isSuccessful) {
                 val body = response.body()
