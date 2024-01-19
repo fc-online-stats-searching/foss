@@ -5,4 +5,6 @@ sealed interface RecentMatchEvent {
     object Failed : RecentMatchEvent
 
     object RefreshFailed : RecentMatchEvent
+
+    object RefreshSucceed : RecentMatchEvent
 }

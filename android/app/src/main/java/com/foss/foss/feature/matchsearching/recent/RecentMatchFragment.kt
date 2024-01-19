@@ -52,7 +52,7 @@ class RecentMatchFragment : DiFragment() {
         repeatOnStarted {
             viewModel.uiState.collect { uiState ->
                 when (uiState) {
-                    is RecentMatchUiState.Default->{
+                    is RecentMatchUiState.Default -> {
                         binding.recentTvInfo.text = getString(R.string.common_request_searching_nickname)
                         binding.recentTvInfo.isVisible = true
                         binding.recentMatchPbLoadingBar.isVisible = false
