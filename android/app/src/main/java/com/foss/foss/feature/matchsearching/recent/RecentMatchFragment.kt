@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import com.boogiwoogi.woogidi.fragment.DiFragment
@@ -77,14 +78,14 @@ class RecentMatchFragment : DiFragment() {
                     RecentMatchEvent.Failed -> {
                         binding.recentMatchPbLoadingBar.isVisible = false
                     }
+
+                    RecentMatchEvent.RefreshFailed -> Toast.makeText(
+                        requireContext(),
+                        "전적 갱신에 실패했습니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
-        }
-    }
-
-    fun changeVisibility() {
-        if (binding.recentTvInfo.isVisible) {
-            binding.recentTvInfo.visibility = View.GONE
         }
     }
 
@@ -92,10 +93,5 @@ class RecentMatchFragment : DiFragment() {
         super.onDestroyView()
 
         _binding = null
-    }
-
-    companion object {
-
-        const val TAG = "RECENT_MATCH_FRAGMENT"
     }
 }

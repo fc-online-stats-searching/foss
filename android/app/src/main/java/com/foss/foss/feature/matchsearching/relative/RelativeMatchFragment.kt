@@ -84,6 +84,12 @@ class RelativeMatchFragment : DiFragment() {
                         getString(R.string.relative_matches_failed_fetching_data),
                         Toast.LENGTH_SHORT
                     ).show()
+
+                    RelativeMatchEvent.RefreshFailed -> Toast.makeText(
+                        requireContext(),
+                        "전적 갱신에 실패했습니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }

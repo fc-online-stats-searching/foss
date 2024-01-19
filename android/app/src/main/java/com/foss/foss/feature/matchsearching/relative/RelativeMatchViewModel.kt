@@ -10,9 +10,14 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-class RelativeMatchViewModel(private val relativeMatchRepository: RelativeMatchRepository) : ViewModel() {
+class RelativeMatchViewModel(private val relativeMatchRepository: RelativeMatchRepository) :
+    ViewModel() {
 
     private val _uiState: MutableStateFlow<RelativeMatchUiState> =
         MutableStateFlow(RelativeMatchUiState.Empty)
@@ -39,6 +44,20 @@ class RelativeMatchViewModel(private val relativeMatchRepository: RelativeMatchR
                     _event.emit(RelativeMatchEvent.Failed)
                     _uiState.value = RelativeMatchUiState.Empty
                 }
+        }
+    }
+
+    fun refreshMatches(nickname: String) {
+        viewModelScope.launch {
+            flow {
+                emit(relativeMatchRepository.requestRefresh(nickname))
+            }.onStart {
+                _uiState.value = RelativeMatchUiState.Loading
+            }.catch {
+                _event.emit(RelativeMatchEvent.RefreshFailed)
+            }.onCompletion {
+                _uiState.value = RelativeMatchUiState.Empty
+            }
         }
     }
 }

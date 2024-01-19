@@ -12,6 +12,10 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 class RecentMatchViewModel(
@@ -46,6 +50,20 @@ class RecentMatchViewModel(
                 )
             }.onFailure {
                 _event.emit(RecentMatchEvent.Failed)
+                _uiState.value = RecentMatchUiState.Empty
+            }
+        }
+    }
+
+    fun refreshMatches(nickname: String) {
+        viewModelScope.launch {
+            flow {
+                emit(matchRepository.requestRefresh(nickname))
+            }.onStart {
+                _uiState.value = RecentMatchUiState.Loading
+            }.catch {
+                _event.emit(RecentMatchEvent.RefreshFailed)
+            }.onCompletion {
                 _uiState.value = RecentMatchUiState.Empty
             }
         }
