@@ -35,14 +35,28 @@
     <Spinner
         android:id="@+id/home_spinner_match_type"
         android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_height="30dp"
         android:background="@drawable/custom_match_type_spinner_background"
         android:overlapAnchor="false"
         android:popupElevation="10dp"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@id/home_et_nickname_searching"
-        app:layout_constraintTop_toBottomOf="@id/home_et_nickname_searching" />
+        app:layout_constraintTop_toTopOf="@id/home_tv_refresh" />
+
+    <TextView
+        android:id="@+id/home_tv_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/bg_gray_5_no_stroke"
+        android:padding="4dp"
+        android:paddingEnd="6dp"
+        android:text="@string/home_refresh_stats"
+        app:drawableLeftCompat="@drawable/ic_refresh"
+        app:layout_constraintStart_toStartOf="@id/home_et_nickname_searching"
+        app:layout_constraintTop_toBottomOf="@id/home_et_nickname_searching"
+        tools:ignore="RtlSymmetry" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/home_fcv_match"
@@ -52,15 +66,15 @@
         app:layout_constraintBottom_toTopOf="@id/home_bnv_menu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/home_spinner_match_type" />
+        app:layout_constraintTop_toBottomOf="@id/home_tv_refresh" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/home_bnv_menu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:itemTextColor="@color/selector_bottom_nav_item"
         android:background="@drawable/bg_gray_20_top"
         app:itemIconTint="@color/selector_bottom_nav_item"
+        app:itemTextColor="@color/selector_bottom_nav_item"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

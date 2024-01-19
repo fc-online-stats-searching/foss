@@ -31,7 +31,7 @@ class HomeActivity : DiActivity() {
 
         setupBinding()
         setupHomeView()
-        setSearchingMatchesButtonClickListener()
+        setupSearchingMatchesButtonClickListener()
     }
 
     private fun setupBinding() {
@@ -55,6 +55,9 @@ class HomeActivity : DiActivity() {
             when (item.itemId) {
                 R.id.item_recent_matches -> {
                     binding.homeSpinnerMatchType.isVisible = true
+                    binding.homeTvRefresh.setOnClickListener {
+                        recentMatchViewModel.refreshMatches(binding.homeEtNicknameSearching.text.toString())
+                    }
                     supportFragmentManager.commit {
                         replace(R.id.home_fcv_match, RecentMatchFragment())
                     }
@@ -63,6 +66,9 @@ class HomeActivity : DiActivity() {
 
                 R.id.item_relative_matches -> {
                     binding.homeSpinnerMatchType.isVisible = false
+                    binding.homeTvRefresh.setOnClickListener {
+                        relativeMatchViewModel.refreshMatches(binding.homeEtNicknameSearching.text.toString())
+                    }
                     supportFragmentManager.commit {
                         replace(R.id.home_fcv_match, RelativeMatchFragment())
                     }
@@ -88,7 +94,7 @@ class HomeActivity : DiActivity() {
         }
     }
 
-    private fun setSearchingMatchesButtonClickListener() {
+    private fun setupSearchingMatchesButtonClickListener() {
         with(binding) {
             homeIvFossLogo.setOnClickListener {
                 recentMatchViewModel.fetchMatches(
