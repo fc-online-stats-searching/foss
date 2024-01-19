@@ -9,10 +9,8 @@ class DefaultRelativeMatchRepository(
     private val relativeMatchDataSource: RelativeMatchDataSource
 ) : RelativeMatchRepository {
 
-    override suspend fun requestRefresh(nickname: String): Result<Unit> {
-        return runCatching {
-            relativeMatchDataSource.requestRefresh(nickname).getOrThrow()
-        }
+    override suspend fun requestRefresh(nickname: String) {
+        relativeMatchDataSource.requestRefresh(nickname).getOrThrow()
     }
 
     override suspend fun fetchRelativeMatches(nickname: String): Result<List<RelativeMatch>> {

@@ -4,6 +4,8 @@ import com.foss.foss.model.RelativeMatchUiModel
 
 sealed interface RelativeMatchUiState {
 
+    object Default : RelativeMatchUiState
+
     object Empty : RelativeMatchUiState
 
     object Loading : RelativeMatchUiState

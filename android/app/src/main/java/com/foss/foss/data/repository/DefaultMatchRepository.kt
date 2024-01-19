@@ -11,7 +11,7 @@ class DefaultMatchRepository(
 ) : MatchRepository {
 
     override suspend fun requestRefresh(nickname: String) {
-        return recentMatchDataSource.requestRefresh(nickname).getOrThrow()
+        recentMatchDataSource.requestRefresh(nickname).getOrThrow()
     }
 
     override suspend fun fetchMatches(nickname: String, matchType: MatchType): List<Match> {

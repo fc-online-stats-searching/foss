@@ -20,7 +20,7 @@ class RelativeMatchViewModel(private val relativeMatchRepository: RelativeMatchR
     ViewModel() {
 
     private val _uiState: MutableStateFlow<RelativeMatchUiState> =
-        MutableStateFlow(RelativeMatchUiState.Empty)
+        MutableStateFlow(RelativeMatchUiState.Default)
     val uiState: StateFlow<RelativeMatchUiState>
         get() = _uiState.asStateFlow()
 
@@ -28,8 +28,8 @@ class RelativeMatchViewModel(private val relativeMatchRepository: RelativeMatchR
     val event: SharedFlow<RelativeMatchEvent>
         get() = _event.asSharedFlow()
 
-    fun fetchEmptyRelativeMatches() {
-        _uiState.value = RelativeMatchUiState.Empty
+    fun fetchDefaultRelativeMatches() {
+        _uiState.value = RelativeMatchUiState.Default
     }
 
     fun fetchRelativeMatches(nickname: String) {
@@ -37,12 +37,14 @@ class RelativeMatchViewModel(private val relativeMatchRepository: RelativeMatchR
             _uiState.value = RelativeMatchUiState.Loading
             relativeMatchRepository.fetchRelativeMatches(nickname)
                 .onSuccess { relativeMatches ->
-                    _uiState.value = RelativeMatchUiState.RelativeMatches(
-                        relativeMatches.map { it.toUiModel() }
-                    )
+                    _uiState.value = if (relativeMatches.isEmpty()) {
+                        RelativeMatchUiState.Empty
+                    } else {
+                        RelativeMatchUiState.RelativeMatches(relativeMatches.map { it.toUiModel() })
+                    }
                 }.onFailure {
                     _event.emit(RelativeMatchEvent.Failed)
-                    _uiState.value = RelativeMatchUiState.Empty
+                    _uiState.value = RelativeMatchUiState.Default
                 }
         }
     }
@@ -56,7 +58,9 @@ class RelativeMatchViewModel(private val relativeMatchRepository: RelativeMatchR
             }.catch {
                 _event.emit(RelativeMatchEvent.RefreshFailed)
             }.onCompletion {
-                _uiState.value = RelativeMatchUiState.Empty
+                _uiState.value = RelativeMatchUiState.Default
+            }.collect {
+                _event.emit(RelativeMatchEvent.RefreshSucceed)
             }
         }
     }

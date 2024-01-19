@@ -11,10 +11,8 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import net.bytebuddy.implementation.bytecode.Throw
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -44,9 +42,11 @@ class RecentMatchViewModelTest {
             coEvery {
                 matchRepository.fetchMatches("이름", MatchType.ALL)
             } throws error
-        } ?: (coEvery {
-            matchRepository.fetchMatches("이름", MatchType.ALL)
-        } returns matches)
+        } ?: (
+            coEvery {
+                matchRepository.fetchMatches("이름", MatchType.ALL)
+            } returns matches
+            )
     }
 
     fun `전적 갱신 요청이 성공할 때`() {
@@ -137,7 +137,6 @@ class RecentMatchViewModelTest {
     fun `전적 갱신이 성공한 경우 RefreshSucceed 이벤트가 발생한다`() = runTest {
         // given
         `전적 갱신 요청이 성공할 때`()
-
 
         recentMatchViewModel.event.test {
             // when
