@@ -10,17 +10,13 @@ class DefaultMatchRepository(
     private val recentMatchDataSource: RecentMatchDataSource
 ) : MatchRepository {
 
-    override suspend fun requestRefresh(nickname: String): Result<Unit> {
-        return runCatching {
-            recentMatchDataSource.requestRefresh(nickname).getOrThrow()
-        }
+    override suspend fun requestRefresh(nickname: String) {
+        return recentMatchDataSource.requestRefresh(nickname).getOrThrow()
     }
 
-    override suspend fun fetchMatches(nickname: String, matchType: MatchType): Result<List<Match>> {
-        return runCatching {
-            recentMatchDataSource.fetchMatches(nickname, matchType)
-                .getOrThrow()
-                .toDomainModel()
-        }
+    override suspend fun fetchMatches(nickname: String, matchType: MatchType): List<Match> {
+        return recentMatchDataSource.fetchMatches(nickname, matchType)
+            .getOrThrow()
+            .toDomainModel()
     }
 }
