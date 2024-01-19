@@ -4,6 +4,8 @@ import com.foss.foss.model.MatchUiModel
 
 sealed interface RecentMatchUiState {
 
+    object Default : RecentMatchUiState
+
     object Empty : RecentMatchUiState
 
     object Loading : RecentMatchUiState
