@@ -4,7 +4,7 @@ object MatchMapper {
 
     fun Match.toUiModel() = MatchUiModel(
         date = date,
-        manOfTheMatch = "https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/players/p$manOfTheMatch.png",
+        manOfTheMatch = manOfTheMatch?.run { "https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/players/p$this.png" },
         matchType = matchType.toUiModel(),
         opponentName = opponentName,
         winDrawLose = winDrawLose.toUiModel(),
