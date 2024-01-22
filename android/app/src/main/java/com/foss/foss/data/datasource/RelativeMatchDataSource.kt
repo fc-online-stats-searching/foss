@@ -1,5 +1,6 @@
 package com.foss.foss.data.datasource
 
+import com.foss.foss.data.dto.NicknameDto
 import com.foss.foss.data.dto.RelativeMatchesDTO
 import com.foss.foss.data.service.RelativeMatchService
 import java.io.IOException
@@ -10,7 +11,7 @@ class RelativeMatchDataSource(
 
     suspend fun requestRefresh(nickname: String): Result<Unit> {
         return runCatching {
-            val response = relativeMatchService.requestRefresh(nickname)
+            val response = relativeMatchService.requestRefresh(NicknameDto(nickname))
 
             if (response.isSuccessful) {
                 Unit

@@ -1,5 +1,6 @@
 package com.foss.foss.data.service
 
+import com.foss.foss.data.dto.NicknameDto
 import com.foss.foss.data.dto.RefreshDto
 import com.foss.foss.data.dto.RelativeMatchesDTO
 import retrofit2.Response
@@ -12,7 +13,7 @@ interface RelativeMatchService {
 
     @POST("/api/refresh")
     suspend fun requestRefresh(
-        @Body nickname: String
+        @Body nickname: NicknameDto
     ): Response<RefreshDto>
 
     @GET("api/matches/relative")

@@ -1,6 +1,7 @@
 package com.foss.foss.data.datasource
 
 import com.foss.foss.data.dto.MatchesDto
+import com.foss.foss.data.dto.NicknameDto
 import com.foss.foss.data.service.RecentMatchService
 import com.foss.foss.model.MatchMapper.toIntType
 import com.foss.foss.model.MatchType
@@ -12,7 +13,7 @@ class RecentMatchDataSource(
 
     suspend fun requestRefresh(nickname: String): Result<Unit> {
         return runCatching {
-            val response = recentMatchService.requestRefresh(nickname)
+            val response = recentMatchService.requestRefresh(NicknameDto(nickname))
 
             if (response.isSuccessful) {
                 Unit
