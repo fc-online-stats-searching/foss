@@ -42,7 +42,6 @@ class HomeActivity : DiActivity() {
 
     private fun setupHomeView() {
         setupBottomNavigationView()
-        setupMatchTypeSpinnerAdapter()
     }
 
     private fun setupBottomNavigationView() {
@@ -53,17 +52,6 @@ class HomeActivity : DiActivity() {
         recentMatchViewModel.fetchDefaultMatches()
         binding.homeBnvMenu.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.item_recent_matches -> {
-                    binding.homeSpinnerMatchType.isVisible = true
-                    binding.homeTvRefresh.setOnClickListener {
-                        recentMatchViewModel.refreshMatches(binding.homeEtNicknameSearching.text.toString())
-                    }
-                    supportFragmentManager.commit {
-                        replace(R.id.home_fcv_match, RecentMatchFragment())
-                    }
-                    return@setOnItemSelectedListener true
-                }
-
                 R.id.item_relative_matches -> {
                     binding.homeSpinnerMatchType.isVisible = false
                     binding.homeTvRefresh.setOnClickListener {
@@ -75,10 +63,22 @@ class HomeActivity : DiActivity() {
                     return@setOnItemSelectedListener true
                 }
 
+                R.id.item_recent_matches -> {
+                    setupMatchTypeSpinnerAdapter()
+                    binding.homeSpinnerMatchType.isVisible = true
+                    binding.homeTvRefresh.setOnClickListener {
+                        recentMatchViewModel.refreshMatches(binding.homeEtNicknameSearching.text.toString())
+                    }
+                    supportFragmentManager.commit {
+                        replace(R.id.home_fcv_match, RecentMatchFragment())
+                    }
+                    return@setOnItemSelectedListener true
+                }
+
                 else -> return@setOnItemSelectedListener false
             }
         }
-        binding.homeBnvMenu.selectedItemId = R.id.item_recent_matches
+        binding.homeBnvMenu.selectedItemId = R.id.item_relative_matches
     }
 
     private fun setupMatchTypeSpinnerAdapter() {

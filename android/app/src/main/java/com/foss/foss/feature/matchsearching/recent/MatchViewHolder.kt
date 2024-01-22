@@ -36,10 +36,12 @@ class MatchViewHolder(
             itemMatchViewSideBar.setBackgroundColor(getSideBarColor(match.winDrawLose))
             itemMatchTvMatchType.setTextColor(getTextColor(match.winDrawLose))
             itemMatchTvWinDrawLose.setTextColor(getTextColor(match.winDrawLose))
-            setManOfTheMatchImage(
-                imageView = itemMatchIvManOfTheMatch,
-                manOfTheMatch = match.manOfTheMatch
-            )
+            match.manOfTheMatch?.let {
+                setManOfTheMatchImage(
+                    imageView = itemMatchIvManOfTheMatch,
+                    manOfTheMatch = it
+                )
+            }
         }
     }
 
