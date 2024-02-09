@@ -17,26 +17,32 @@ public class Match {
 
   @Id
   private String id;
-  private String matchType; // 경기 종류
+
+  private boolean validation;
+  private int matchType; // 경기 종류
   private LocalDateTime timestamp; // 경기 일자
-  private String winner; // 승리 팀의 팀 구분자 (participants 에서 사용하는 key)
-  private String mvpPlayer; // MVP 선수 id
+  private Map<String,String> result; // 승리 팀의 팀 구분자 (participants 에서 사용하는 key)
   private Map<String, Integer> goals; // 유저 별 득점 횟수
-  private Map<String, List<String>> participants; // 팀 별 유저 accessId { key = 팀 구분자 ( ex) team1, team2 ... ), val = 해당 팀의 소속 유저 accessId list }
+
+  private Map<String,String> nickname;
+
+  private List<String> team1;
+  private List<String> team2;
   private Map<String, MatchDetail> matchDetails; // 유저 별 매치 상세 정보 { key = 유저 accessId, val = 매치 상세 정보 }
 
   @Builder
-  public Match(String id, String matchType, LocalDateTime timestamp, String winner,
-      String mvpPlayer,
-      Map<String, Integer> goals, Map<String, List<String>> participants,
-      Map<String, MatchDetail> matchDetails) {
+  public Match(String id, int matchType,boolean validation, LocalDateTime timestamp, Map<String, String> result,
+               Map<String, Integer> goals, List<String> team1, List<String> team2,
+               Map<String, MatchDetail> matchDetails, Map<String, String> nickname) {
     this.id = id;
     this.matchType = matchType;
     this.timestamp = timestamp;
-    this.winner = winner;
-    this.mvpPlayer = mvpPlayer;
+    this.validation = validation;
+    this.result = result;
     this.goals = goals;
-    this.participants = participants;
+    this.team1 = team1;
+    this.team2 = team2;
     this.matchDetails = matchDetails;
+    this.nickname = nickname;
   }
 }

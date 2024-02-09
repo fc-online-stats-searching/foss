@@ -8,21 +8,19 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
-@Document(collection = "players")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Player {
 
-  @Id
-  private String pid; // 선수 고유 id
-  private String position; // 선수 포지션
-  private String grade; // 선수 강화 등급
-  private Float score; // 평점
+  private int pid; // 선수 고유 id
+  private int position; // 선수 포지션
+  private int grade; // 선수 강화 등급
+  private double spRating;
 
   @Builder
-  public Player(String pid, String position, String grade, Float score) {
+  public Player(int pid, int position, int grade,double spRating) {
     this.pid = pid;
     this.position = position;
     this.grade = grade;
-    this.score = score;
+    this.spRating = spRating;
   }
 }
