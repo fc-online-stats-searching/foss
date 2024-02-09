@@ -14,6 +14,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Entity
 @Table(name = "members")
@@ -39,8 +41,13 @@ public class Member {
   @Column(name = "mb_level", nullable = false)
   private Integer level;
 
+  @Column(name = "mb_renewal", nullable = false)
+  @Setter(AccessLevel.PUBLIC)
+  private LocalDateTime renewal;
+
   @Builder
-  public Member(String username, String accessId, Integer level) {
+  public Member(String username, String accessId, Integer level, LocalDateTime renewal) {
+    this.renewal = renewal;
     this.username = username;
     this.accessId = accessId;
     this.level = level;
