@@ -47,9 +47,15 @@ public class Member {
 
   @Builder
   public Member(String username, String accessId, Integer level, LocalDateTime renewal) {
-    this.renewal = renewal;
     this.username = username;
     this.accessId = accessId;
     this.level = level;
+    this.renewal = renewal;
+  }
+
+  public void updateMember(String username, Integer level, LocalDateTime renewal) {
+    this.username = username;
+    this.level = level;
+    this.renewal = renewal;
   }
 }
