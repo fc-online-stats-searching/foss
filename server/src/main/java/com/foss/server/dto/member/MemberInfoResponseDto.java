@@ -13,12 +13,15 @@ public class MemberInfoResponseDto {
     private String nickname;
     private int level;
     private LocalDateTime renewal;
+    private String ouid;
 
     public static MemberInfoResponseDto from(Member member) {
         return new MemberInfoResponseDto(
                 member.getUsername(),
                 member.getLevel(),
-                member.getRenewal()
+                member.getRenewal(),
+                member.getAccessId()
         );
     }
+
 }
