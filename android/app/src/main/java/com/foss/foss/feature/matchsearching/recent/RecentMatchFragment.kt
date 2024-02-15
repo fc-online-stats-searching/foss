@@ -1,6 +1,7 @@
 package com.foss.foss.feature.matchsearching.recent
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ class RecentMatchFragment : DiFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d("woogi", "onCreateView: hi")
         _binding = FragmentRecentMatchBinding.inflate(layoutInflater)
 
         return binding.root

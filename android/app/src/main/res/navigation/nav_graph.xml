@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph">
+
+    <fragment
+        tools:layout="@layout/fragment_recent_match"
+        android:name="com.foss.foss.feature.matchsearching.recent.RecentMatchFragment"
+        android:id="@+id/recent_match_fragment">
+        <action
+            android:id="@+id/action_recent_match_fragment_to_relative_match_fragment"
+            app:destination="@id/relative_match_fragment" />
+    </fragment>
+
+    <fragment
+        tools:layout="@layout/fragment_relative_match"
+        android:name="com.foss.foss.feature.matchsearching.recent.RecentMatchFragment"
+        android:id="@+id/relative_match_fragment">
+        <action
+            android:id="@+id/action_relative_match_fragment_to_recent_match_fragment"
+            app:destination="@id/recent_match_fragment" />
+    </fragment>
+
+
+</navigation>
