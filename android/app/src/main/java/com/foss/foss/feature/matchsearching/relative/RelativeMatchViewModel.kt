@@ -10,12 +10,17 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-class RelativeMatchViewModel(private val relativeMatchRepository: RelativeMatchRepository) : ViewModel() {
+class RelativeMatchViewModel(private val relativeMatchRepository: RelativeMatchRepository) :
+    ViewModel() {
 
     private val _uiState: MutableStateFlow<RelativeMatchUiState> =
-        MutableStateFlow(RelativeMatchUiState.Empty)
+        MutableStateFlow(RelativeMatchUiState.Default)
     val uiState: StateFlow<RelativeMatchUiState>
         get() = _uiState.asStateFlow()
 
@@ -23,8 +28,8 @@ class RelativeMatchViewModel(private val relativeMatchRepository: RelativeMatchR
     val event: SharedFlow<RelativeMatchEvent>
         get() = _event.asSharedFlow()
 
-    fun fetchEmptyRelativeMatches() {
-        _uiState.value = RelativeMatchUiState.Empty
+    fun fetchDefaultRelativeMatches() {
+        _uiState.value = RelativeMatchUiState.Default
     }
 
     fun fetchRelativeMatches(nickname: String) {
@@ -32,13 +37,31 @@ class RelativeMatchViewModel(private val relativeMatchRepository: RelativeMatchR
             _uiState.value = RelativeMatchUiState.Loading
             relativeMatchRepository.fetchRelativeMatches(nickname)
                 .onSuccess { relativeMatches ->
-                    _uiState.value = RelativeMatchUiState.RelativeMatches(
-                        relativeMatches.map { it.toUiModel() }
-                    )
+                    _uiState.value = if (relativeMatches.isEmpty()) {
+                        RelativeMatchUiState.Empty
+                    } else {
+                        RelativeMatchUiState.RelativeMatches(relativeMatches.map { it.toUiModel() })
+                    }
                 }.onFailure {
                     _event.emit(RelativeMatchEvent.Failed)
-                    _uiState.value = RelativeMatchUiState.Empty
+                    _uiState.value = RelativeMatchUiState.Default
                 }
+        }
+    }
+
+    fun refreshMatches(nickname: String) {
+        viewModelScope.launch {
+            flow {
+                emit(relativeMatchRepository.requestRefresh(nickname))
+            }.onStart {
+                _uiState.value = RelativeMatchUiState.Loading
+            }.catch {
+                _event.emit(RelativeMatchEvent.RefreshFailed)
+            }.onCompletion {
+                _uiState.value = RelativeMatchUiState.Default
+            }.collect {
+                _event.emit(RelativeMatchEvent.RefreshSucceed)
+            }
         }
     }
 }

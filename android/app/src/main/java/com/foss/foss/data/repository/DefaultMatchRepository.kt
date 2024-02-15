@@ -9,11 +9,14 @@ import com.foss.foss.repository.MatchRepository
 class DefaultMatchRepository(
     private val recentMatchDataSource: RecentMatchDataSource
 ) : MatchRepository {
-    override suspend fun fetchMatches(nickname: String, matchType: MatchType): Result<List<Match>> {
-        return runCatching {
-            recentMatchDataSource.fetchMatches(nickname, matchType)
-                .getOrThrow()
-                .toDomainModel()
-        }
+
+    override suspend fun requestRefresh(nickname: String) {
+        recentMatchDataSource.requestRefresh(nickname).getOrThrow()
+    }
+
+    override suspend fun fetchMatches(nickname: String, matchType: MatchType): List<Match> {
+        return recentMatchDataSource.fetchMatches(nickname, matchType)
+            .getOrThrow()
+            .toDomainModel()
     }
 }

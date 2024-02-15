@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import com.boogiwoogi.woogidi.fragment.DiFragment
 import com.boogiwoogi.woogidi.pure.DefaultModule
 import com.boogiwoogi.woogidi.pure.Module
+import com.foss.foss.R
 import com.foss.foss.databinding.FragmentRecentMatchBinding
 import com.foss.foss.util.lifecycle.repeatOnStarted
 
@@ -22,7 +24,7 @@ class RecentMatchFragment : DiFragment() {
 
     private val viewModel: RecentMatchViewModel by activityViewModels()
 
-    private val adapter: RecentMatchAdapter by lazy { RecentMatchAdapter() }
+    private val recentMatchesAdapter: RecentMatchAdapter by lazy { RecentMatchAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,16 +45,25 @@ class RecentMatchFragment : DiFragment() {
     }
 
     private fun setupRecentMatchesView() {
-        binding.recentMatchRvMatches.adapter = adapter
+        binding.recentMatchRvMatches.adapter = recentMatchesAdapter
     }
 
     private fun setupRecentMatchesUiStateObserver() {
         repeatOnStarted {
             viewModel.uiState.collect { uiState ->
                 when (uiState) {
-                    is RecentMatchUiState.Empty -> {
+                    is RecentMatchUiState.Default -> {
+                        binding.recentTvInfo.text = getString(R.string.common_request_searching_nickname)
                         binding.recentTvInfo.isVisible = true
                         binding.recentMatchPbLoadingBar.isVisible = false
+                        recentMatchesAdapter.submitList(emptyList())
+                    }
+
+                    is RecentMatchUiState.Empty -> {
+                        binding.recentTvInfo.text = getString(R.string.common_empty_matches)
+                        binding.recentTvInfo.isVisible = true
+                        binding.recentMatchPbLoadingBar.isVisible = false
+                        recentMatchesAdapter.submitList(emptyList())
                     }
 
                     is RecentMatchUiState.Loading -> {
@@ -63,7 +74,7 @@ class RecentMatchFragment : DiFragment() {
                     is RecentMatchUiState.RecentMatch -> {
                         binding.recentTvInfo.isVisible = false
                         binding.recentMatchPbLoadingBar.isVisible = false
-                        adapter.submitList(uiState.matches)
+                        recentMatchesAdapter.submitList(uiState.matches)
                     }
                 }
             }
@@ -74,17 +85,25 @@ class RecentMatchFragment : DiFragment() {
         repeatOnStarted {
             viewModel.event.collect { event ->
                 when (event) {
-                    RecentMatchEvent.Failed -> {
-                        binding.recentMatchPbLoadingBar.isVisible = false
-                    }
+                    RecentMatchEvent.Failed -> Toast.makeText(
+                        requireContext(),
+                        getString(R.string.common_failed_fetching_matches),
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    RecentMatchEvent.RefreshFailed -> Toast.makeText(
+                        requireContext(),
+                        getString(R.string.common_refresh_failed_message),
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    RecentMatchEvent.RefreshSucceed -> Toast.makeText(
+                        requireContext(),
+                        getString(R.string.common_refresh_succeed_message),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
-        }
-    }
-
-    fun changeVisibility() {
-        if (binding.recentTvInfo.isVisible) {
-            binding.recentTvInfo.visibility = View.GONE
         }
     }
 
@@ -92,10 +111,5 @@ class RecentMatchFragment : DiFragment() {
         super.onDestroyView()
 
         _binding = null
-    }
-
-    companion object {
-
-        const val TAG = "RECENT_MATCH_FRAGMENT"
     }
 }

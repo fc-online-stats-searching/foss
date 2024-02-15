@@ -31,7 +31,7 @@ class HomeActivity : DiActivity() {
 
         setupBinding()
         setupHomeView()
-        setSearchingMatchesButtonClickListener()
+        setupSearchingMatchesButtonClickListener()
     }
 
     private fun setupBinding() {
@@ -42,29 +42,35 @@ class HomeActivity : DiActivity() {
 
     private fun setupHomeView() {
         setupBottomNavigationView()
-        setupMatchTypeSpinnerAdapter()
     }
 
     private fun setupBottomNavigationView() {
         /**
          * todo: 현재 woogi-di를 사용함으로써 발생하는 문제를 해결하기 위한 코드
          */
-        relativeMatchViewModel.fetchEmptyRelativeMatches()
-        recentMatchViewModel.fetchEmptyMatches()
+        relativeMatchViewModel.fetchDefaultRelativeMatches()
+        recentMatchViewModel.fetchDefaultMatches()
         binding.homeBnvMenu.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.item_recent_matches -> {
-                    binding.homeSpinnerMatchType.isVisible = true
+                R.id.item_relative_matches -> {
+                    binding.homeSpinnerMatchType.isVisible = false
+                    binding.homeTvRefresh.setOnClickListener {
+                        relativeMatchViewModel.refreshMatches(binding.homeEtNicknameSearching.text.toString())
+                    }
                     supportFragmentManager.commit {
-                        replace(R.id.home_fcv_match, RecentMatchFragment())
+                        replace(R.id.home_fcv_match, RelativeMatchFragment())
                     }
                     return@setOnItemSelectedListener true
                 }
 
-                R.id.item_relative_matches -> {
-                    binding.homeSpinnerMatchType.isVisible = false
+                R.id.item_recent_matches -> {
+                    setupMatchTypeSpinnerAdapter()
+                    binding.homeSpinnerMatchType.isVisible = true
+                    binding.homeTvRefresh.setOnClickListener {
+                        recentMatchViewModel.refreshMatches(binding.homeEtNicknameSearching.text.toString())
+                    }
                     supportFragmentManager.commit {
-                        replace(R.id.home_fcv_match, RelativeMatchFragment())
+                        replace(R.id.home_fcv_match, RecentMatchFragment())
                     }
                     return@setOnItemSelectedListener true
                 }
@@ -72,7 +78,7 @@ class HomeActivity : DiActivity() {
                 else -> return@setOnItemSelectedListener false
             }
         }
-        binding.homeBnvMenu.selectedItemId = R.id.item_recent_matches
+        binding.homeBnvMenu.selectedItemId = R.id.item_relative_matches
     }
 
     private fun setupMatchTypeSpinnerAdapter() {
@@ -88,7 +94,7 @@ class HomeActivity : DiActivity() {
         }
     }
 
-    private fun setSearchingMatchesButtonClickListener() {
+    private fun setupSearchingMatchesButtonClickListener() {
         with(binding) {
             homeIvFossLogo.setOnClickListener {
                 recentMatchViewModel.fetchMatches(

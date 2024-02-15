@@ -62,12 +62,28 @@ class RelativeMatchFragment : DiFragment() {
         repeatOnStarted {
             relativeMatchViewModel.uiState.collect { uiState ->
                 when (uiState) {
-                    is RelativeMatchUiState.Empty -> binding.relativeTvInfo.isVisible = true
+                    is RelativeMatchUiState.Default -> {
+                        binding.relativeTvInfo.text = getString(R.string.common_request_searching_nickname)
+                        binding.relativeTvInfo.isVisible = true
+                        binding.relativeMatchPbLoadingBar.isVisible = false
+                        relativeMatchesAdapter.submitList(emptyList())
+                    }
 
-                    is RelativeMatchUiState.Loading -> binding.relativeTvInfo.isVisible = false
+                    is RelativeMatchUiState.Empty -> {
+                        binding.relativeTvInfo.text = getString(R.string.common_empty_matches)
+                        binding.relativeTvInfo.isVisible = true
+                        binding.relativeMatchPbLoadingBar.isVisible = false
+                        relativeMatchesAdapter.submitList(emptyList())
+                    }
+
+                    is RelativeMatchUiState.Loading -> {
+                        binding.relativeMatchPbLoadingBar.isVisible = true
+                        binding.relativeTvInfo.isVisible = false
+                    }
 
                     is RelativeMatchUiState.RelativeMatches -> {
                         binding.relativeTvInfo.isVisible = false
+                        binding.relativeMatchPbLoadingBar.isVisible = false
                         relativeMatchesAdapter.submitList(uiState.relativeMatches)
                     }
                 }
@@ -81,7 +97,19 @@ class RelativeMatchFragment : DiFragment() {
                 when (event) {
                     RelativeMatchEvent.Failed -> Toast.makeText(
                         requireContext(),
-                        getString(R.string.relative_matches_failed_fetching_data),
+                        getString(R.string.common_failed_fetching_matches),
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    RelativeMatchEvent.RefreshFailed -> Toast.makeText(
+                        requireContext(),
+                        getString(R.string.common_refresh_failed_message),
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    RelativeMatchEvent.RefreshSucceed -> Toast.makeText(
+                        requireContext(),
+                        getString(R.string.common_refresh_succeed_message),
                         Toast.LENGTH_SHORT
                     ).show()
                 }

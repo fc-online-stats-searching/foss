@@ -12,6 +12,11 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 class RecentMatchViewModel(
@@ -19,7 +24,7 @@ class RecentMatchViewModel(
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<RecentMatchUiState> =
-        MutableStateFlow(RecentMatchUiState.Empty)
+        MutableStateFlow(RecentMatchUiState.Default)
     val uiState: StateFlow<RecentMatchUiState>
         get() = _uiState.asStateFlow()
 
@@ -27,8 +32,8 @@ class RecentMatchViewModel(
     val event: SharedFlow<RecentMatchEvent>
         get() = _event.asSharedFlow()
 
-    fun fetchEmptyMatches() {
-        _uiState.value = RecentMatchUiState.Empty
+    fun fetchDefaultMatches() {
+        _uiState.value = RecentMatchUiState.Default
     }
 
     fun fetchMatches(
@@ -36,17 +41,37 @@ class RecentMatchViewModel(
         searchingMatchType: MatchTypeUiModel
     ) {
         viewModelScope.launch {
-            _uiState.value = RecentMatchUiState.Loading
-            matchRepository.fetchMatches(
-                nickname = nickname,
-                matchType = searchingMatchType.toDomainModel()
-            ).onSuccess { matchResults ->
-                _uiState.value = RecentMatchUiState.RecentMatch(
-                    matchResults.map { it.toUiModel() }
-                )
-            }.onFailure {
+            flow {
+                emit(matchRepository.fetchMatches(nickname, searchingMatchType.toDomainModel()))
+            }.onStart {
+                _uiState.value = RecentMatchUiState.Loading
+            }.catch {
                 _event.emit(RecentMatchEvent.Failed)
-                _uiState.value = RecentMatchUiState.Empty
+                _uiState.value = RecentMatchUiState.Default
+            }.map { matches ->
+                if (matches.isNotEmpty()) {
+                    RecentMatchUiState.RecentMatch(matches.map { it.toUiModel() })
+                } else {
+                    RecentMatchUiState.Empty
+                }
+            }.collect { uiState ->
+                _uiState.value = uiState
+            }
+        }
+    }
+
+    fun refreshMatches(nickname: String) {
+        viewModelScope.launch {
+            flow {
+                emit(matchRepository.requestRefresh(nickname))
+            }.onStart {
+                _uiState.value = RecentMatchUiState.Loading
+            }.catch {
+                _event.emit(RecentMatchEvent.RefreshFailed)
+            }.onCompletion {
+                _uiState.value = RecentMatchUiState.Default
+            }.collect {
+                _event.emit(RecentMatchEvent.RefreshSucceed)
             }
         }
     }

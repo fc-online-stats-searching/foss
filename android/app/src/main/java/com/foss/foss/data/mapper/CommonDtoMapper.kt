@@ -9,7 +9,8 @@ import java.time.format.DateTimeFormatter
 
 class CommonDtoMapper {
 
-    fun mapToManOfTheMatch(squads: List<SquadDto>): Int {
+    fun mapToManOfTheMatch(squads: List<SquadDto>): Int? {
+        if (squads.isEmpty()) return null
         return squads.maxBy { it.spRating }.pid % 1_000_000
     }
 

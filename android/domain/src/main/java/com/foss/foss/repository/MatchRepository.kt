@@ -5,5 +5,7 @@ import com.foss.foss.model.MatchType
 
 interface MatchRepository {
 
-    suspend fun fetchMatches(nickname: String, matchType: MatchType): Result<List<Match>>
+    suspend fun requestRefresh(nickname: String)
+
+    suspend fun fetchMatches(nickname: String, matchType: MatchType): List<Match>
 }
