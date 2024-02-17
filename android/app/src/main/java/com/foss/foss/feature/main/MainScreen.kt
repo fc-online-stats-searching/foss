@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -38,6 +38,7 @@ fun MainScreen() {
     Column(modifier = Modifier.background(colorResource(id = R.color.foss_bk))) {
         MainAppLogo()
         MainSlogan()
+        MainEventBanner()
     }
 }
 
@@ -84,9 +85,9 @@ fun MainSlogan(modifier: Modifier = Modifier) {
                     startY = 0f,
                     endY = 1000f
 
-                ),
-            ),
-        ) {
+                )
+            )
+    ) {
         Text(
             fontSize = 20.sp,
             modifier = modifier.padding(
@@ -119,9 +120,21 @@ fun MainSlogan(modifier: Modifier = Modifier) {
                 .height(160.dp)
                 .align(Alignment.BottomEnd),
             painter = painterResource(id = R.drawable.ic_joystick),
-            contentDescription = "image of slogan",
+            contentDescription = "image of slogan"
         )
     }
+}
+
+@Composable
+fun MainEventBanner(modifier: Modifier = Modifier) {
+    Image(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(start = 20.dp, end = 20.dp, top = 24.dp),
+        contentScale = ContentScale.Crop,
+        painter = painterResource(id = R.drawable.ic_example_event_banner),
+        contentDescription = "image of event banner"
+    )
 }
 
 @Preview(widthDp = 360, heightDp = 640)
@@ -130,6 +143,7 @@ fun DefaultPreview() {
     Column(modifier = Modifier.background(colorResource(id = R.color.foss_bk))) {
         MainAppLogo()
         MainSlogan()
+        MainEventBanner()
     }
 }
 
