@@ -14,7 +14,15 @@
 
     <color name="foss_bk">#121214</color>
     <color name="foss_navy">#202027</color>
+    <color name="foss_red">#D21613</color>
     <color name="foss_green">#07F468</color>
+    <color name="foss_gray900">#202027</color>
+    <color name="foss_gray800">#2C2C34</color>
+    <color name="foss_gray700">#42424A</color>
+    <color name="foss_gray300">#84838D</color>
+    <color name="foss_gray200">#9897A1</color>
+    <color name="foss_gray50">#F9F9FD</color>
+    <color name="foss_wt">#F9F9FD</color>
 
     <color name="common_darkest_gray">#1C2023</color>
     <color name="common_dark_gray">#272D31</color>
