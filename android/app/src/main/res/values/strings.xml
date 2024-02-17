@@ -42,5 +42,6 @@
     <string name="common_refresh_succeed_message">전적 갱신에 성공했습니다. \n전적을 검색해보세요!</string>
     <string name="common_failed_fetching_matches">전적 검색에 실패했습니다. \n닉네임을 확인해주세요.</string>
     <string name="common_empty_matches">최근 기록된 전적이 없습니다.</string>
+    <string name="title_activity_main">MainActivity</string>
 
 </resources>
