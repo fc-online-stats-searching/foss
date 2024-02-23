@@ -12,13 +12,19 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,9 +46,54 @@ class NewRecentMatchActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MatchCardColumn(recentMatch)
+            RecentMatchScreen()
         }
     }
+}
+
+@Composable
+fun RecentMatchScreen() {
+    Column {
+        SearchBar()
+        MatchCardColumn(recentMatch)
+    }
+}
+
+@Composable
+fun SearchBar(
+    modifier: Modifier = Modifier,
+) {
+    TextField(
+        shape = RoundedCornerShape(corner = CornerSize(5.dp)),
+        value = "",
+        onValueChange = {},
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = null,
+            )
+        },
+        colors = TextFieldDefaults.colors(
+            focusedLeadingIconColor = colorResource(id = R.color.foss_wt),
+            unfocusedLeadingIconColor = colorResource(id = R.color.foss_wt),
+            focusedContainerColor = colorResource(id = R.color.foss_gray800),
+            unfocusedContainerColor = colorResource(id = R.color.foss_gray800),
+            focusedPlaceholderColor = colorResource(id = R.color.foss_gray100),
+            unfocusedPlaceholderColor = colorResource(id = R.color.foss_wt),
+            focusedTextColor = colorResource(id = R.color.foss_wt),
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+        ),
+        placeholder = { Text(text = stringResource(id = R.string.common_request_searching_nickname)) },
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)
+            .heightIn(44.dp)
+            .background(
+                color = colorResource(id = R.color.foss_gray800),
+                shape = RoundedCornerShape(corner = CornerSize(5.dp)),
+            ),
+    )
 }
 
 @Composable
@@ -236,9 +287,17 @@ fun MatchType(
     ) {
         Text(
             text = when (matchType) {
-                MatchTypeUiModel.OFFICIAL -> { "공식 경기" }
-                MatchTypeUiModel.CLASSIC_ONE_TO_ONE -> { "클래식 1on1" }
-                else -> { "전체 경기" }
+                MatchTypeUiModel.OFFICIAL -> {
+                    "공식 경기"
+                }
+
+                MatchTypeUiModel.CLASSIC_ONE_TO_ONE -> {
+                    "클래식 1on1"
+                }
+
+                else -> {
+                    "전체 경기"
+                }
             },
             fontSize = 12.sp,
             color = colorResource(id = R.color.foss_wt),
@@ -254,6 +313,6 @@ fun MatchType(
 
 @Preview(showBackground = true)
 @Composable
-fun MatchCardColumnPreview() {
-    MatchCardColumn(recentMatch)
+fun RecentMatchScreenPreview() {
+    RecentMatchScreen()
 }
