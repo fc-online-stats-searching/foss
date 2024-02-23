@@ -8,7 +8,7 @@ import java.time.LocalDate
 object MockData {
     val recentMatch = listOf<MatchUiModel>(
         MatchUiModel(
-            date = LocalDate.now(),
+            date = LocalDate.now().minusDays(1),
             matchType = MatchTypeUiModel.OFFICIAL,
             manOfTheMatch = null,
             opponentName = "신공학관캣맘",
@@ -17,7 +17,7 @@ object MockData {
             otherPoint = 0,
         ),
         MatchUiModel(
-            date = LocalDate.now(),
+            date = LocalDate.now().minusWeeks(1),
             matchType = MatchTypeUiModel.OFFICIAL,
             manOfTheMatch = null,
             opponentName = "똥찔긴형",

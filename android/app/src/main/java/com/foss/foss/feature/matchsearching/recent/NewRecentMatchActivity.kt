@@ -34,6 +34,7 @@ import com.foss.foss.R
 import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.model.MatchUiModel
 import com.foss.foss.util.MockData.recentMatch
+import java.time.LocalDate
 
 class NewRecentMatchActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +65,7 @@ fun MatchCardColumn(
 fun MatchResult(
     point: Int,
     otherPoint: Int,
-    time: String,
+    time: LocalDate,
     modifier: Modifier = Modifier,
 ) {
     val color: Color = if (point > otherPoint) {
@@ -74,9 +75,9 @@ fun MatchResult(
     }
 
     val result: String = if (point > otherPoint) {
-        "승"
+        stringResource(id = R.string.recent_match_win)
     } else {
-        "패"
+        stringResource(id = R.string.recent_match_lose)
     }
 
     Column(
@@ -104,7 +105,7 @@ fun MatchResult(
             modifier = Modifier.padding(top = 4.dp),
         )
         Text(
-            text = time,
+            text = time.toString(),
             color = colorResource(id = R.color.foss_wt),
             fontSize = 8.sp,
             modifier = Modifier.padding(top = 4.dp, bottom = 18.dp, start = 6.dp, end = 6.dp),
@@ -132,7 +133,7 @@ fun MatchCard(
         MatchResult(
             point = matchUiModel.point,
             otherPoint = matchUiModel.otherPoint,
-            time = "",
+            time = matchUiModel.date,
         )
         MatchMvp(image = matchMvp)
         MatchOpponent(
@@ -150,7 +151,7 @@ fun MatchCard(
         ) {
             MatchType(
                 matchType = matchUiModel.matchType,
-                matchTime = 15,
+                matchTime = matchUiModel.date,
             )
         }
     }
@@ -225,7 +226,7 @@ fun MatchOpponent(
 @Composable
 fun MatchType(
     matchType: MatchTypeUiModel,
-    matchTime: Int,
+    matchTime: LocalDate,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -244,7 +245,7 @@ fun MatchType(
 
         )
         Text(
-            text = "${matchTime}분전",
+            text = matchTime.toString(),
             fontSize = 10.sp,
             color = colorResource(id = R.color.foss_gray100),
         )
