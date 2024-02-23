@@ -14,39 +14,76 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.foss.foss.R
+import com.foss.foss.model.MatchTypeUiModel
+import com.foss.foss.model.MatchUiModel
+import com.foss.foss.util.MockData.recentMatch
 
 class NewRecentMatchActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MatchCard()
+            MatchCardColumn(recentMatch)
+        }
+    }
+}
+
+@Composable
+fun MatchCardColumn(
+    data: List<MatchUiModel>,
+    modifier: Modifier = Modifier,
+) {
+    LazyColumn(modifier = modifier) {
+        items(data) { matchUiModel ->
+            MatchCard(
+                matchUiModel = matchUiModel,
+                matchMvp = R.drawable.ic_player_example,
+                opponentTier = R.drawable.twenty,
+            )
         }
     }
 }
 
 @Composable
 fun MatchResult(
+    point: Int,
+    otherPoint: Int,
+    time: String,
     modifier: Modifier = Modifier,
-    color: Int,
 ) {
+    val color: Color = if (point > otherPoint) {
+        colorResource(id = R.color.foss_blue)
+    } else {
+        colorResource(id = R.color.foss_red)
+    }
+
+    val result: String = if (point > otherPoint) {
+        "승"
+    } else {
+        "패"
+    }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .background(
-                color = colorResource(id = color),
+                color = color,
                 shape = RoundedCornerShape(
                     topStart = CornerSize(5.dp),
                     topEnd = CornerSize(0.dp),
@@ -56,7 +93,7 @@ fun MatchResult(
             ),
     ) {
         Text(
-            text = "승",
+            text = result,
             color = colorResource(id = R.color.foss_wt),
             fontSize = 12.sp,
             modifier = Modifier.padding(top = 18.dp),
@@ -67,7 +104,7 @@ fun MatchResult(
             modifier = Modifier.padding(top = 4.dp),
         )
         Text(
-            text = "08:00",
+            text = time,
             color = colorResource(id = R.color.foss_wt),
             fontSize = 8.sp,
             modifier = Modifier.padding(top = 4.dp, bottom = 18.dp, start = 6.dp, end = 6.dp),
@@ -76,7 +113,12 @@ fun MatchResult(
 }
 
 @Composable
-fun MatchCard(modifier: Modifier = Modifier) {
+fun MatchCard(
+    matchUiModel: MatchUiModel,
+    matchMvp: Int,
+    opponentTier: Int,
+    modifier: Modifier = Modifier,
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
@@ -87,18 +129,29 @@ fun MatchCard(modifier: Modifier = Modifier) {
                 shape = RoundedCornerShape(corner = CornerSize(5.dp)),
             ),
     ) {
-        MatchResult(color = R.color.foss_blue)
-        MatchMvp(image = R.drawable.ic_player_example)
-        MatchOpponent()
-        // MatchType을 포함하는 Column
+        MatchResult(
+            point = matchUiModel.point,
+            otherPoint = matchUiModel.otherPoint,
+            time = "",
+        )
+        MatchMvp(image = matchMvp)
+        MatchOpponent(
+            opponentName = matchUiModel.opponentName,
+            opponentTier = opponentTier,
+            point = matchUiModel.point,
+            otherPoint = matchUiModel.otherPoint,
+        )
         Column(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.End,
             modifier = Modifier
                 .weight(1f)
-                .padding(end = 12.dp), // 오른쪽 패딩 추가
+                .padding(end = 12.dp),
         ) {
-            MatchType()
+            MatchType(
+                matchType = matchUiModel.matchType,
+                matchTime = 15,
+            )
         }
     }
 }
@@ -113,23 +166,29 @@ fun MatchMvp(
         contentDescription = null,
         contentScale = ContentScale.Crop,
         alignment = Alignment.Center,
-        modifier = Modifier
+        modifier = modifier
             .padding(start = 12.dp, top = 8.dp, bottom = 8.dp, end = 15.dp),
     )
 }
 
 @Composable
-fun MatchOpponent(modifier: Modifier = Modifier) {
+fun MatchOpponent(
+    opponentName: String,
+    @DrawableRes opponentTier: Int,
+    point: Int,
+    otherPoint: Int,
+    modifier: Modifier = Modifier,
+) {
     Column(modifier = modifier) {
         Text(
-            text = "상대 구단주",
+            text = stringResource(id = R.string.recent_match_opponent),
             fontSize = 12.sp,
             color = colorResource(id = R.color.foss_gray100),
         )
         Spacer(modifier = modifier.padding(vertical = 2.dp))
         Row {
             Image(
-                painter = painterResource(id = R.drawable.twenty),
+                painter = painterResource(id = opponentTier),
                 contentScale = ContentScale.Crop,
                 contentDescription = null,
                 modifier = Modifier
@@ -138,7 +197,7 @@ fun MatchOpponent(modifier: Modifier = Modifier) {
             )
             Spacer(modifier = modifier.padding(horizontal = 1.dp))
             Text(
-                text = "신공학관캣맘",
+                text = opponentName,
                 maxLines = 1,
                 fontSize = 12.sp,
                 color = colorResource(id = R.color.foss_wt),
@@ -147,14 +206,14 @@ fun MatchOpponent(modifier: Modifier = Modifier) {
         Spacer(modifier = modifier.padding(vertical = 2.dp))
         Row {
             Text(
-                text = "매치 스코어",
+                text = stringResource(id = R.string.recent_match_match_score),
                 fontSize = 10.sp,
                 color = colorResource(id = R.color.foss_gray100),
 
             )
             Spacer(modifier = modifier.padding(horizontal = 2.dp))
             Text(
-                text = "1 : 0",
+                text = "$point : $otherPoint",
                 fontSize = 10.sp,
                 color = colorResource(id = R.color.foss_wt),
 
@@ -164,19 +223,28 @@ fun MatchOpponent(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun MatchType(modifier: Modifier = Modifier) {
+fun MatchType(
+    matchType: MatchTypeUiModel,
+    matchTime: Int,
+    modifier: Modifier = Modifier,
+) {
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.End,
+        modifier = modifier,
     ) {
         Text(
-            text = "공식경기",
+            text = when (matchType) {
+                MatchTypeUiModel.OFFICIAL -> { "공식 경기" }
+                MatchTypeUiModel.CLASSIC_ONE_TO_ONE -> { "클래식 1on1" }
+                else -> { "전체 경기" }
+            },
             fontSize = 12.sp,
             color = colorResource(id = R.color.foss_wt),
 
         )
         Text(
-            text = "15분전",
+            text = "${matchTime}분전",
             fontSize = 10.sp,
             color = colorResource(id = R.color.foss_gray100),
         )
@@ -185,12 +253,6 @@ fun MatchType(modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
-fun Preview() {
-    MatchType()
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MatchCardPreview() {
-    MatchCard()
+fun MatchCardColumnPreview() {
+    MatchCardColumn(recentMatch)
 }

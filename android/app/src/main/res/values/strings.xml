@@ -44,4 +44,7 @@
     <string name="common_empty_matches">최근 기록된 전적이 없습니다.</string>
     <string name="title_activity_new_recent_match">NewRecentMatchActivity</string>
 
+    <string name="recent_match_opponent">상대 구단주</string>
+    <string name="recent_match_match_score">매치 스코어</string>
+
 </resources>
