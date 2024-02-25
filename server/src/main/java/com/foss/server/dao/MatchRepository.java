@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
 
-public interface MatchRepository extends MongoRepository<Match, String> {
+public interface MatchRepository extends MongoRepository<Match, String>, MatchCustomRepository {
     @Query("{ 'validation': true, 'matchType': { '$in': ?0 }, $or: [ { 'team1': ?1 }, { 'team2': ?2 } ] }")
     Page<Match> findAllMatches(List<Integer> matchTypes, String ouid1, String ouid2, Pageable pageable);
 }
