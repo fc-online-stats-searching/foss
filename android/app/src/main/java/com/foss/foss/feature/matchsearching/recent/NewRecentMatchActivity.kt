@@ -1,13 +1,14 @@
 package com.foss.foss.feature.matchsearching.recent
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,17 +17,24 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -34,6 +42,10 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -56,8 +68,14 @@ class NewRecentMatchActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             RecentMatchScreen {
-                Column {
+                Column(modifier = it) {
                     SearchBar()
+                    val type = listOf("공식 경기", "1on1 클래식 경기", "친선 경기")
+                    MatchTypeSpinner(
+                        list = type,
+                        preselected = type.first(),
+                        onSelectionChanged = { selected -> /* do something with selected */ },
+                    )
                     MatchCardColumn(recentMatch)
                 }
             }
@@ -65,10 +83,11 @@ class NewRecentMatchActivity : ComponentActivity() {
     }
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecentMatchScreen(content: @Composable () -> Unit) {
+fun RecentMatchScreen(
+    content: @Composable (modifier: Modifier) -> Unit,
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -100,7 +119,7 @@ fun RecentMatchScreen(content: @Composable () -> Unit) {
             )
         },
     ) {
-        content()
+        content(modifier = Modifier.padding(it))
     }
 }
 
@@ -357,12 +376,88 @@ private fun LocalDateTime.toTimeDiff(): String {
     }
 }
 
+@Composable
+fun MatchTypeSpinner(
+    list: List<String>,
+    preselected: String,
+    onSelectionChanged: (selection: String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    var selected by remember { mutableStateOf(preselected) }
+    var expanded by remember { mutableStateOf(false) }
+
+    Box(modifier = modifier) {
+        Column(
+            horizontalAlignment = Alignment.End,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            OutlinedTextField(
+                value = selected,
+                onValueChange = { },
+                trailingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowDropDown,
+                        contentDescription = null,
+                        tint = colorResource(id = R.color.foss_wt),
+                    )
+                },
+                readOnly = true,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = colorResource(id = R.color.foss_wt),
+                    unfocusedTextColor = colorResource(id = R.color.foss_wt),
+                    focusedContainerColor = colorResource(id = R.color.foss_gray700),
+                    unfocusedContainerColor = colorResource(id = R.color.foss_gray700),
+                ),
+                modifier = Modifier.widthIn(120.dp).padding(end = 18.dp),
+            )
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+            ) {
+                list.forEach { entry ->
+                    DropdownMenuItem(
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = {
+                            selected = entry
+                            expanded = false
+                        },
+                        text = {
+                            Text(
+                                text = entry,
+                                color = colorResource(R.color.foss_bk),
+                                modifier = Modifier.wrapContentWidth().align(Alignment.Start),
+                            )
+                        },
+                    )
+                }
+            }
+        }
+
+        Spacer(
+            modifier = Modifier
+                .matchParentSize()
+                .background(Color.Transparent)
+                .padding(10.dp)
+                .clickable(
+                    onClick = { expanded = !expanded },
+                ),
+        )
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun RecentMatchScreenPreview() {
     RecentMatchScreen {
-        Column {
+        Column(modifier = it.background(colorResource(id = R.color.foss_bk))) {
             SearchBar()
+            val type = listOf("친선 경기", "공식 경기", "1on1 클래식 경기")
+            MatchTypeSpinner(
+                list = type,
+                preselected = type.first(),
+                onSelectionChanged = { selected -> /* TODO : 스피너 요소 선택 이후 기능 추가 */ },
+                modifier = Modifier.padding(top = 18.dp, bottom = 6.dp),
+            )
             MatchCardColumn(recentMatch)
         }
     }
