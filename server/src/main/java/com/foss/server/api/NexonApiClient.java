@@ -8,6 +8,7 @@ import com.foss.server.exception.MatchIdNotFoundException;
 import com.foss.server.exception.MemberNotFoundException;
 import com.foss.server.exception.NicknameNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +23,7 @@ import java.util.concurrent.CompletableFuture;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class NexonApiClient {
     private final RestTemplate restTemplate;
     @Value("${api-key}")
@@ -31,14 +33,10 @@ public class NexonApiClient {
     private final static String API_HEADER = "x-nxopen-api-key";
 
     public String requestUserOuid(String nickname) {
-
         final String url = "https://open.api.nexon.com/fconline/v1/id?nickname={nickname}";
-        final HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set(API_HEADER, API_KEY);
-        final HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
 
         try {
-            OuIdResponseDto ouIdResponseDto = restTemplate.exchange(url, HttpMethod.GET, entity, OuIdResponseDto.class,nickname).getBody();
+            OuIdResponseDto ouIdResponseDto = restTemplate.exchange(url, HttpMethod.GET, getHttpEntity(), OuIdResponseDto.class,nickname).getBody();
             return ouIdResponseDto.getOuid();
         } catch (Exception e) {
             throw new NicknameNotFoundException();
@@ -47,14 +45,10 @@ public class NexonApiClient {
     }
 
     public UserApiResponseDto requestUserInfo(String ouid) {
-
         final String url = "https://open.api.nexon.com/fconline/v1/user/basic?ouid={ouid}";
-        final HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set(API_HEADER, API_KEY);
-        final HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
 
         try {
-            UserApiResponseDto userApiResponseDto = restTemplate.exchange(url, HttpMethod.GET, entity, UserApiResponseDto.class, ouid).getBody();
+            UserApiResponseDto userApiResponseDto = restTemplate.exchange(url, HttpMethod.GET, getHttpEntity(), UserApiResponseDto.class, ouid).getBody();
             return userApiResponseDto;
         } catch (Exception e) {
             throw new MemberNotFoundException();
@@ -63,24 +57,28 @@ public class NexonApiClient {
     }
 
     public String[] requestMatchList(String ouid, int matchtype) {
-
         final String url = "https://open.api.nexon.com/fconline/v1/user/match?ouid={ouid}&matchtype={matchtype}&offset=0&limit=100";
-        final HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set(API_HEADER, API_KEY);
-        final HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
 
-        return restTemplate.exchange(url, HttpMethod.GET, entity, String[].class, ouid, matchtype).getBody();
+        return restTemplate.exchange(url, HttpMethod.GET, getHttpEntity(), String[].class, ouid, matchtype).getBody();
     }
 
     public MatchDto requestMatchInfo(String matchId) {
-
         final String url = "https://open.api.nexon.com/fconline/v1/match-detail?matchid={matchId}";
-        final HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set(API_HEADER, API_KEY);
-        final HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
 
         try {
-            MatchDto matchDto = restTemplate.exchange(url, HttpMethod.GET, entity, MatchDto.class, matchId).getBody();
+            MatchDto matchDto = restTemplate.exchange(url, HttpMethod.GET, getHttpEntity(), MatchDto.class, matchId).getBody();
+            return matchDto;
+        } catch (Exception e) {
+            throw new MatchIdNotFoundException();
+        }
+    }
+
+    @Async
+    public MatchDto requestMatchAsync(String matchId) {
+        final String url = "https://open.api.nexon.com/fconline/v1/match-detail?matchid={matchId}";
+
+        try {
+            MatchDto matchDto = restTemplate.exchange(url, HttpMethod.GET, getHttpEntity(), MatchDto.class, matchId).getBody();
             return matchDto;
         } catch (Exception e) {
             throw new MatchIdNotFoundException();
@@ -89,32 +87,41 @@ public class NexonApiClient {
 
     @Async
     public CompletableFuture<MatchDto> requestMatchInfoAsync(String matchId) {
-
         final String url = "https://open.api.nexon.com/fconline/v1/match-detail?matchid={matchId}";
+
+        return CompletableFuture.supplyAsync(() -> performRequestWithRetry(url, matchId));
+    }
+
+
+    private MatchDto performRequestWithRetry(String url, String matchId) {
+        for (int currentRetry = 0; currentRetry < maxRetries; currentRetry++) {
+            try {
+                return restTemplate.exchange(url, HttpMethod.GET, getHttpEntity(), MatchDto.class, matchId).getBody();
+            } catch (HttpClientErrorException e) {
+                handleHttpClientErrorException(e);
+            }
+        }
+        throw new ManyRequestException();
+    }
+
+    private void handleHttpClientErrorException(HttpClientErrorException e) {
+        if (e.getStatusCode() == HttpStatus.TOO_MANY_REQUESTS) {
+            try {
+                Thread.sleep(requestWait);
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+        } else {
+            throw e;
+        }
+    }
+
+
+    private HttpEntity<String> getHttpEntity() {
         final HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set(API_HEADER, API_KEY);
         final HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
 
-        int currentRetry = 0;
-
-        while (currentRetry < maxRetries) {
-            try {
-                MatchDto matchDto = restTemplate.exchange(url, HttpMethod.GET, entity, MatchDto.class, matchId).getBody();
-                return CompletableFuture.completedFuture(matchDto);
-            } catch (HttpClientErrorException e) {
-                if (e.getStatusCode() == HttpStatus.TOO_MANY_REQUESTS) {
-                    try {
-                        Thread.sleep(requestWait);
-                    } catch (InterruptedException ex) {
-                        Thread.currentThread().interrupt();
-                    }
-                    currentRetry++;
-                } else {
-                    throw e;
-                }
-            }
-        }
-
-        throw new ManyRequestException();
+        return entity;
     }
 }
