@@ -19,10 +19,11 @@ import java.util.stream.Collectors;
 public class MatchMapper {
 
     static final int FIRST = 0;
-    static final int SECOND = 0;
+    static final int SECOND = 1;
     static final String WIN = "승";
     static final String TIE = "무";
     static final String LOSE = "패";
+
     public static Match matchToEntity(MatchDto matchDto) {
 
         Map<String, Integer> goals = new HashMap<>();
@@ -32,9 +33,10 @@ public class MatchMapper {
         Map<String, String> nickname = new HashMap<>();
         Map<String, String> result = new HashMap<>();
         boolean validation = false;
+        List<MatchDetailDto> matchInfo = matchDto.getMatchInfo();
 
-        for (int i = 0; i < matchDto.getMatchInfo().size(); i++) {
-            MatchDetailDto matchDetail = matchDto.getMatchInfo().get(i);
+        for (int i = 0; i < matchInfo.size(); i++) {
+            MatchDetailDto matchDetail = matchInfo.get(i);
 
             result.put(matchDetail.getOuid(), matchDetail.getMatchDetail().getMatchResult());
             goals.put(matchDetail.getOuid(), matchDetail.getShoot().getGoalTotal());
@@ -49,11 +51,7 @@ public class MatchMapper {
                 validation = true;
             }
 
-            List<Player> squads = new ArrayList<>();
-
-            for (PlayerDto playerDto : matchDetail.getPlayer()) {
-                squads.add(new Player(playerDto.getSpId(), playerDto.getSpPosition(), playerDto.getSpGrade(),playerDto.getStatus().getSpRating()));
-            }
+            List<Player> squads = extractSquads(matchDetail.getPlayer());
 
             MatchDetail matchEntityDetail = new MatchDetail(
                     matchDetail.getMatchDetail().getPossession(),
@@ -65,8 +63,6 @@ public class MatchMapper {
 
             matchDetails.put(matchDetail.getOuid(), matchEntityDetail);
         }
-
-
 
         Match match = Match.builder()
                 .id(matchDto.getMatchId())
@@ -109,9 +105,7 @@ public class MatchMapper {
             totalGain += goal;
             totalLoss += opponentGoal;
 
-            if (date.isAfter(lastDate)) {
-                lastDate = date;
-            }
+            lastDate = getRecentDate(date, lastDate);
 
         }
 
@@ -124,9 +118,31 @@ public class MatchMapper {
                 .gain(totalGain)
                 .loss(totalLoss)
                 .matchResponse(
-                        matches.stream().map(match -> MatchResponseDto.of(ouid, opponentOuid, nickname, match))
+                        matches.stream()
+                                .map(match -> MatchResponseDto.of(ouid, opponentOuid, nickname, match))
                                 .collect(Collectors.toList())
                 )
                 .build();
     }
+
+    private static List<Player> extractSquads(List<PlayerDto> playerDtos) {
+        List<Player> squads = new ArrayList<>();
+        for (PlayerDto playerDto : playerDtos) {
+            squads.add(new Player(
+                    playerDto.getSpId(),
+                    playerDto.getSpPosition(),
+                    playerDto.getSpGrade(),
+                    playerDto.getStatus().getSpRating()
+            ));
+        }
+        return squads;
+    }
+
+    private static LocalDateTime getRecentDate(LocalDateTime date, LocalDateTime lastDate) {
+        if (date.isAfter(lastDate)) {
+            lastDate = date;
+        }
+        return lastDate;
+    }
+
 }
