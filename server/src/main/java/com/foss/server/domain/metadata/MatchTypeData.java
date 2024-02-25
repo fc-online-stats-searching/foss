@@ -3,6 +3,9 @@ package com.foss.server.domain.metadata;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @AllArgsConstructor
 public enum MatchTypeData {
@@ -16,6 +19,23 @@ public enum MatchTypeData {
     BOLTA_OFFICIAL("볼타 공식", 214),
     BOLTA_AI("볼타 AI대전", 224),
     BOLTA_CUSTOM("볼타 커스텀", 234);
+
+    public static List<Integer> getAllMatchTypes() {
+        List<Integer> matchTypes = new ArrayList<>();
+        matchTypes.add(MatchTypeData.CLASSIC_1ON1.getNumber());
+        matchTypes.add(MatchTypeData.OFFICIAL.getNumber());
+        return matchTypes;
+    }
+
+    public static List<Integer> determineMatchTypes(int typeNumber) {
+        List<Integer> matchTypes = new ArrayList<>();
+        if (typeNumber == MatchTypeData.ALL.getNumber()) {
+            matchTypes.addAll(MatchTypeData.getAllMatchTypes());
+        } else {
+            matchTypes.add(typeNumber);
+        }
+        return matchTypes;
+    }
 
     private String name;
     private int number;
