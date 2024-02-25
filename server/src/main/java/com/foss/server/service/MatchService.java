@@ -48,7 +48,7 @@ public class MatchService {
         List<CompletableFuture<Void>> updateTasks = new ArrayList<>();
 
         for (Integer matchType : allMatchTypes) {
-            CompletableFuture<Void> updateTask = asyncMatchService.updateMatchListV22(ouid, matchType);
+            CompletableFuture<Void> updateTask = asyncMatchService.updateMatchListNotDuplicated(ouid, matchType);
             updateTasks.add(updateTask);
         }
 
@@ -90,7 +90,6 @@ public class MatchService {
                 .relativeMatchResponse(relativeMatchResponses)
                 .build();
     }
-
 
     private Page<Match> findMatches(List<Integer> matchTypes, String ouid, int page, int pageSize) {
         return matchRepository.findAllMatches(
