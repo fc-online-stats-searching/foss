@@ -287,17 +287,9 @@ fun MatchType(
     ) {
         Text(
             text = when (matchType) {
-                MatchTypeUiModel.OFFICIAL -> {
-                    "공식 경기"
-                }
-
-                MatchTypeUiModel.CLASSIC_ONE_TO_ONE -> {
-                    "클래식 1on1"
-                }
-
-                else -> {
-                    "전체 경기"
-                }
+                MatchTypeUiModel.OFFICIAL -> "공식 경기"
+                MatchTypeUiModel.CLASSIC_ONE_TO_ONE -> "클래식 1on1"
+                else -> "전체 경기"
             },
             fontSize = 12.sp,
             color = colorResource(id = R.color.foss_wt),
