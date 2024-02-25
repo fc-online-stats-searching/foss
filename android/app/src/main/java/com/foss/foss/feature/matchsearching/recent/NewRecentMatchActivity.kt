@@ -74,7 +74,7 @@ class NewRecentMatchActivity : ComponentActivity() {
                     MatchTypeSpinner(
                         list = type,
                         preselected = type.first(),
-                        onSelectionChanged = { selected -> /* do something with selected */ },
+                        onSelectionChanged = { selected -> /* TODO : 스피너 요소 선택 이후 기능 추가 */ },
                     )
                     MatchCardColumn(recentMatch)
                 }
