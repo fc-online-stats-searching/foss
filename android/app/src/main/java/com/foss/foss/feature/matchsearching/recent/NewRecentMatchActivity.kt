@@ -1,5 +1,6 @@
 package com.foss.foss.feature.matchsearching.recent
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -20,11 +21,18 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,16 +55,52 @@ class NewRecentMatchActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            RecentMatchScreen()
+            RecentMatchScreen {
+                Column {
+                    SearchBar()
+                    MatchCardColumn(recentMatch)
+                }
+            }
         }
     }
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecentMatchScreen() {
-    Column {
-        SearchBar()
-        MatchCardColumn(recentMatch)
+fun RecentMatchScreen(content: @Composable () -> Unit) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.common_recent_matches),
+                        color = colorResource(id = R.color.foss_wt),
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = { /*TODO : 현재 액티비티를 종료하는 기능*/ }) {
+                        Icon(
+                            imageVector = Icons.Filled.KeyboardArrowLeft,
+                            contentDescription = null,
+                            tint = colorResource(R.color.foss_wt),
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /*TODO : 전적을 갱신하는 기능*/ }) {
+                        Icon(
+                            imageVector = Icons.Filled.Refresh,
+                            contentDescription = null,
+                            tint = colorResource(R.color.foss_wt),
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = colorResource(R.color.foss_bk)),
+            )
+        },
+    ) {
+        content()
     }
 }
 
@@ -316,5 +360,10 @@ private fun LocalDateTime.toTimeDiff(): String {
 @Preview(showBackground = true)
 @Composable
 fun RecentMatchScreenPreview() {
-    RecentMatchScreen()
+    RecentMatchScreen {
+        Column {
+            SearchBar()
+            MatchCardColumn(recentMatch)
+        }
+    }
 }
