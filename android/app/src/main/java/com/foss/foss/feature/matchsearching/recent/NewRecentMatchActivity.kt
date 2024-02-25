@@ -116,7 +116,6 @@ fun MatchCardColumn(
 fun MatchResult(
     point: Int,
     otherPoint: Int,
-    time: LocalDate,
     modifier: Modifier = Modifier,
 ) {
     val color: Color = if (point > otherPoint) {
@@ -156,7 +155,8 @@ fun MatchResult(
             modifier = Modifier.padding(top = 4.dp),
         )
         Text(
-            text = time.toString(),
+            // todo : 8분동안 진행했다는 데이터가 넘어오면 수정 필요
+            text = "08:00",
             color = colorResource(id = R.color.foss_wt),
             fontSize = 8.sp,
             modifier = Modifier.padding(top = 4.dp, bottom = 18.dp, start = 6.dp, end = 6.dp),
@@ -184,7 +184,6 @@ fun MatchCard(
         MatchResult(
             point = matchUiModel.point,
             otherPoint = matchUiModel.otherPoint,
-            time = matchUiModel.date,
         )
         MatchMvp(image = matchMvp)
         MatchOpponent(
