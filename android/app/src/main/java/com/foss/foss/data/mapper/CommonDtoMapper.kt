@@ -31,8 +31,13 @@ class CommonDtoMapper {
         }
     }
 
-    fun mapToTime(dateTime: String): LocalDate {
+    fun mapToDate(dateTime: String): LocalDate {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
         return LocalDateTime.parse(dateTime, formatter).toLocalDate()
+    }
+
+    fun mapToTime(dateTime: String): LocalDateTime {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+        return LocalDateTime.parse(dateTime, formatter)
     }
 }

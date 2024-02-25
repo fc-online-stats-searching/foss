@@ -40,7 +40,8 @@ import com.foss.foss.R
 import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.model.MatchUiModel
 import com.foss.foss.util.MockData.recentMatch
-import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 class NewRecentMatchActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -276,7 +277,7 @@ fun MatchOpponent(
 @Composable
 fun MatchType(
     matchType: MatchTypeUiModel,
-    matchTime: LocalDate,
+    matchTime: LocalDateTime,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -295,10 +296,20 @@ fun MatchType(
 
         )
         Text(
-            text = matchTime.toString(),
+            text = matchTime.toTimeDiff(),
             fontSize = 10.sp,
             color = colorResource(id = R.color.foss_gray100),
         )
+    }
+}
+
+private fun LocalDateTime.toTimeDiff(): String {
+    val hourDiff = ChronoUnit.HOURS.between(this, LocalDateTime.now())
+    val minDiff = ChronoUnit.MINUTES.between(this, LocalDateTime.now())
+    return when {
+        hourDiff > 24 -> "${ChronoUnit.DAYS.between(this, LocalDateTime.now())}일전"
+        minDiff >= 60 -> "${hourDiff}시간 전"
+        else -> "${minDiff}분 전"
     }
 }
 

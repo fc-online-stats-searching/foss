@@ -13,10 +13,10 @@ object RelativeMatchDtoMapper {
 
     fun RelativeMatchDTO.toDomainModel(nickname: String): RelativeMatch = RelativeMatch(
         opponentName = opponentNickname,
-        recentMatchDate = commonDtoMapper.mapToTime(lastDate),
+        recentMatchDate = commonDtoMapper.mapToDate(lastDate),
         winDrawLoses = WinDrawLoses(mapToWinDrawLoses(win, tie, lose)),
         totalScore = Score(gain, loss),
-        matchDetails = matchResponse.map { it.toDomainModel(nickname) }
+        matchDetails = matchResponse.map { it.toDomainModel(nickname) },
     )
 
     private fun mapToWinDrawLoses(win: Int, tie: Int, lose: Int): List<WinDrawLose> {
