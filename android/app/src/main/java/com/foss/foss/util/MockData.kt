@@ -53,7 +53,7 @@ object MockData {
         ),
         MatchUiModel(
             date = now.minusDays(1),
-            matchType = MatchTypeUiModel.OFFICIAL,
+            matchType = MatchTypeUiModel.CLASSIC_ONE_TO_ONE,
             manOfTheMatch = null,
             opponentName = "똥찔긴형",
             winDrawLose = WinDrawLoseUiModel.LOSE,
@@ -62,7 +62,7 @@ object MockData {
         ),
         MatchUiModel(
             date = now.minusDays(2),
-            matchType = MatchTypeUiModel.OFFICIAL,
+            matchType = MatchTypeUiModel.CLASSIC_ONE_TO_ONE,
             manOfTheMatch = null,
             opponentName = "똥찔긴형",
             winDrawLose = WinDrawLoseUiModel.LOSE,
@@ -71,7 +71,7 @@ object MockData {
         ),
         MatchUiModel(
             date = now.minusDays(3),
-            matchType = MatchTypeUiModel.OFFICIAL,
+            matchType = MatchTypeUiModel.CLASSIC_ONE_TO_ONE,
             manOfTheMatch = null,
             opponentName = "똥찔긴형",
             winDrawLose = WinDrawLoseUiModel.LOSE,

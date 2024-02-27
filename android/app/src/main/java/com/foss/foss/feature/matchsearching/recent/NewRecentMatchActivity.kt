@@ -65,17 +65,22 @@ class NewRecentMatchActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val types = MatchTypeUiModel.values().toList()
+            var selected by remember { mutableStateOf(types.first()) }
             RecentMatchScreen {
                 Column(modifier = it.background(colorResource(id = R.color.foss_bk))) {
                     SearchBar()
-                    val types = MatchTypeUiModel.values().map { stringResource(id = it.resId) }
                     MatchTypeSpinner(
+                        selected = selected,
                         list = types,
-                        preselected = types.first(),
-                        onSelectionChanged = { selected -> /* TODO : 스피너 요소 선택 이후 기능 추가 */ },
+                        onSelectionChanged = { selected = it },
                         modifier = Modifier.padding(top = 18.dp, bottom = 6.dp, end = 18.dp),
                     )
-                    MatchCardColumn(recentMatch)
+                    MatchCardColumn(
+                        recentMatch.filter { match ->
+                            selected == MatchTypeUiModel.ALL || match.matchType == selected
+                        },
+                    )
                 }
             }
         }
@@ -379,12 +384,11 @@ private fun LocalDateTime.toTimeDiff(): String {
 
 @Composable
 fun MatchTypeSpinner(
-    list: List<String>,
-    preselected: String,
-    onSelectionChanged: (selection: String) -> Unit,
+    selected: MatchTypeUiModel,
+    list: List<MatchTypeUiModel>,
+    onSelectionChanged: (selection: MatchTypeUiModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var selected by remember { mutableStateOf(preselected) }
     var expanded by remember { mutableStateOf(false) }
 
     Column(
@@ -404,7 +408,7 @@ fun MatchTypeSpinner(
                 Text(
                     color = Color.White,
                     textAlign = TextAlign.Center,
-                    text = selected,
+                    text = stringResource(id = selected.resId),
                     fontSize = 12.sp,
                 )
                 Icon(
@@ -421,16 +425,15 @@ fun MatchTypeSpinner(
                 list.forEach { entry ->
                     DropdownMenuItem(
                         onClick = {
-                            selected = entry
                             expanded = false
+                            onSelectionChanged(entry)
                         },
                         text = {
                             Text(
-                                text = entry,
+                                text = stringResource(id = entry.resId),
                                 color = colorResource(R.color.foss_wt),
                                 fontSize = 12.sp,
-                                modifier = Modifier
-                                    .align(Alignment.Start),
+                                modifier = Modifier.align(Alignment.Start),
                             )
                         },
                         modifier = Modifier
@@ -446,17 +449,24 @@ fun MatchTypeSpinner(
 @Preview(showBackground = true)
 @Composable
 fun RecentMatchScreenPreview() {
+    val types = MatchTypeUiModel.values().toList()
+    var selected by remember { mutableStateOf(types.first()) }
     RecentMatchScreen {
         Column(modifier = it.background(colorResource(id = R.color.foss_bk))) {
             SearchBar()
-            val types = MatchTypeUiModel.values().map { stringResource(id = it.resId) }
             MatchTypeSpinner(
+                selected = selected,
                 list = types,
-                preselected = types.first(),
-                onSelectionChanged = { selected -> /* TODO : 스피너 요소 선택 이후 기능 추가 */ },
+                onSelectionChanged = {
+                    selected = it
+                },
                 modifier = Modifier.padding(top = 18.dp, bottom = 6.dp, end = 18.dp),
             )
-            MatchCardColumn(recentMatch)
+            MatchCardColumn(
+                recentMatch.filter { match ->
+                    selected == MatchTypeUiModel.ALL || match.matchType == selected
+                },
+            )
         }
     }
 }
