@@ -95,7 +95,7 @@ fun MainSlogan(modifier: Modifier = Modifier) {
     ) {
         Text(
             fontSize = 20.sp,
-            modifier = modifier.padding(
+            modifier = Modifier.padding(
                 top = 24.dp,
                 start = 20.dp
             ),
