@@ -8,5 +8,5 @@ data class Match(
     val manOfTheMatch: Int?,
     val opponentName: String,
     val winDrawLose: WinDrawLose,
-    val score: Score,
+    val score: Score
 )
