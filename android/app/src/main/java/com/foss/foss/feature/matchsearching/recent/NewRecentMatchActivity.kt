@@ -6,10 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,24 +16,21 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -53,6 +49,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -68,13 +65,14 @@ class NewRecentMatchActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             RecentMatchScreen {
-                Column(modifier = it) {
+                Column(modifier = it.background(colorResource(id = R.color.foss_bk))) {
                     SearchBar()
-                    val type = listOf("공식 경기", "1on1 클래식 경기", "친선 경기")
+                    val type = listOf("친선 경기", "공식 경기", "1on1 클래식 경기")
                     MatchTypeSpinner(
                         list = type,
                         preselected = type.first(),
                         onSelectionChanged = { selected -> /* TODO : 스피너 요소 선택 이후 기능 추가 */ },
+                        modifier = Modifier.padding(top = 18.dp, bottom = 6.dp, end = 18.dp),
                     )
                     MatchCardColumn(recentMatch)
                 }
@@ -128,7 +126,7 @@ fun SearchBar(
     modifier: Modifier = Modifier,
 ) {
     TextField(
-        shape = RoundedCornerShape(corner = CornerSize(5.dp)),
+        shape = RoundedCornerShape(corner = CornerSize(10.dp)),
         value = "",
         onValueChange = {},
         leadingIcon = {
@@ -386,37 +384,38 @@ fun MatchTypeSpinner(
     var selected by remember { mutableStateOf(preselected) }
     var expanded by remember { mutableStateOf(false) }
 
-    Box(modifier = modifier) {
-        Column(
-            horizontalAlignment = Alignment.End,
-            modifier = Modifier.fillMaxWidth(),
+    Column(
+        horizontalAlignment = Alignment.End,
+        modifier = modifier.fillMaxWidth(),
+    ) {
+        Button(
+            colors = ButtonDefaults.buttonColors(colorResource(R.color.foss_gray700)),
+            contentPadding = PaddingValues(0.dp),
+            shape = RoundedCornerShape(corner = CornerSize(5.dp)),
+            onClick = { expanded = !expanded },
         ) {
-            OutlinedTextField(
-                value = selected,
-                onValueChange = { },
-                trailingIcon = {
-                    Icon(
-                        imageVector = Icons.Filled.ArrowDropDown,
-                        contentDescription = null,
-                        tint = colorResource(id = R.color.foss_wt),
-                    )
-                },
-                readOnly = true,
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = colorResource(id = R.color.foss_wt),
-                    unfocusedTextColor = colorResource(id = R.color.foss_wt),
-                    focusedContainerColor = colorResource(id = R.color.foss_gray700),
-                    unfocusedContainerColor = colorResource(id = R.color.foss_gray700),
-                ),
-                modifier = Modifier.widthIn(120.dp).padding(end = 18.dp),
-            )
+            Row(
+                modifier = Modifier.padding(start = 12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    color = Color.White,
+                    textAlign = TextAlign.Center,
+                    text = selected,
+                )
+                Icon(
+                    tint = colorResource(id = R.color.foss_wt),
+                    painter = painterResource(id = R.drawable.ic_arrow_down),
+                    contentDescription = null,
+                )
+            }
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
+                modifier = Modifier.background(colorResource(id = R.color.foss_gray700)),
             ) {
                 list.forEach { entry ->
                     DropdownMenuItem(
-                        modifier = Modifier.fillMaxWidth(),
                         onClick = {
                             selected = entry
                             expanded = false
@@ -424,24 +423,18 @@ fun MatchTypeSpinner(
                         text = {
                             Text(
                                 text = entry,
-                                color = colorResource(R.color.foss_bk),
-                                modifier = Modifier.wrapContentWidth().align(Alignment.Start),
+                                color = colorResource(R.color.foss_wt),
+                                modifier = Modifier
+                                    .align(Alignment.Start),
                             )
                         },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(colorResource(id = R.color.foss_gray700)),
                     )
                 }
             }
         }
-
-        Spacer(
-            modifier = Modifier
-                .matchParentSize()
-                .background(Color.Transparent)
-                .padding(10.dp)
-                .clickable(
-                    onClick = { expanded = !expanded },
-                ),
-        )
     }
 }
 
@@ -456,7 +449,7 @@ fun RecentMatchScreenPreview() {
                 list = type,
                 preselected = type.first(),
                 onSelectionChanged = { selected -> /* TODO : 스피너 요소 선택 이후 기능 추가 */ },
-                modifier = Modifier.padding(top = 18.dp, bottom = 6.dp),
+                modifier = Modifier.padding(top = 18.dp, bottom = 6.dp, end = 18.dp),
             )
             MatchCardColumn(recentMatch)
         }
