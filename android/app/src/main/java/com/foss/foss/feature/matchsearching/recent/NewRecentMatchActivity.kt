@@ -26,6 +26,7 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -211,10 +212,12 @@ fun MatchResult(
             fontSize = 12.sp,
             modifier = Modifier.padding(top = 18.dp),
         )
-        Text(
-            text = "----",
+        Divider(
+            thickness = 1.dp,
             color = colorResource(id = R.color.foss_wt),
-            modifier = Modifier.padding(top = 4.dp),
+            modifier = Modifier
+                .padding(top = 4.dp)
+                .width(12.dp),
         )
         Text(
             // todo : 8분동안 진행했다는 데이터가 넘어오면 수정 필요
