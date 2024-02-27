@@ -67,10 +67,10 @@ class NewRecentMatchActivity : ComponentActivity() {
             RecentMatchScreen {
                 Column(modifier = it.background(colorResource(id = R.color.foss_bk))) {
                     SearchBar()
-                    val type = listOf("친선 경기", "공식 경기", "1on1 클래식 경기")
+                    val types = MatchTypeUiModel.values().map { stringResource(id = it.resId) }
                     MatchTypeSpinner(
-                        list = type,
-                        preselected = type.first(),
+                        list = types,
+                        preselected = types.first(),
                         onSelectionChanged = { selected -> /* TODO : 스피너 요소 선택 이후 기능 추가 */ },
                         modifier = Modifier.padding(top = 18.dp, bottom = 6.dp, end = 18.dp),
                     )
@@ -402,6 +402,7 @@ fun MatchTypeSpinner(
                     color = Color.White,
                     textAlign = TextAlign.Center,
                     text = selected,
+                    fontSize = 12.sp,
                 )
                 Icon(
                     tint = colorResource(id = R.color.foss_wt),
@@ -424,6 +425,7 @@ fun MatchTypeSpinner(
                             Text(
                                 text = entry,
                                 color = colorResource(R.color.foss_wt),
+                                fontSize = 12.sp,
                                 modifier = Modifier
                                     .align(Alignment.Start),
                             )
@@ -444,10 +446,10 @@ fun RecentMatchScreenPreview() {
     RecentMatchScreen {
         Column(modifier = it.background(colorResource(id = R.color.foss_bk))) {
             SearchBar()
-            val type = listOf("친선 경기", "공식 경기", "1on1 클래식 경기")
+            val types = MatchTypeUiModel.values().map { stringResource(id = it.resId) }
             MatchTypeSpinner(
-                list = type,
-                preselected = type.first(),
+                list = types,
+                preselected = types.first(),
                 onSelectionChanged = { selected -> /* TODO : 스피너 요소 선택 이후 기능 추가 */ },
                 modifier = Modifier.padding(top = 18.dp, bottom = 6.dp, end = 18.dp),
             )
