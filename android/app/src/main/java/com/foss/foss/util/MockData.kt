@@ -22,7 +22,7 @@ object MockData {
             opponentName = "신공학관캣맘",
             winDrawLose = WinDrawLoseUiModel.WIN,
             point = 1,
-            otherPoint = 0,
+            otherPoint = 0
         ),
         MatchUiModel(
             date = now.minusHours(1),
@@ -31,7 +31,7 @@ object MockData {
             opponentName = "신공학관캣맘",
             winDrawLose = WinDrawLoseUiModel.WIN,
             point = 1,
-            otherPoint = 0,
+            otherPoint = 0
         ),
         MatchUiModel(
             date = now.minusHours(2),
@@ -40,7 +40,7 @@ object MockData {
             opponentName = "똥찔긴형",
             winDrawLose = WinDrawLoseUiModel.LOSE,
             point = 0,
-            otherPoint = 1,
+            otherPoint = 1
         ),
         MatchUiModel(
             date = now.minusHours(23).minusMinutes(59),
@@ -49,7 +49,7 @@ object MockData {
             opponentName = "신공학관캣맘",
             winDrawLose = WinDrawLoseUiModel.WIN,
             point = 1,
-            otherPoint = 0,
+            otherPoint = 0
         ),
         MatchUiModel(
             date = now.minusDays(1),
@@ -58,7 +58,7 @@ object MockData {
             opponentName = "똥찔긴형",
             winDrawLose = WinDrawLoseUiModel.LOSE,
             point = 0,
-            otherPoint = 1,
+            otherPoint = 1
         ),
         MatchUiModel(
             date = now.minusDays(2),
@@ -67,7 +67,7 @@ object MockData {
             opponentName = "똥찔긴형",
             winDrawLose = WinDrawLoseUiModel.LOSE,
             point = 0,
-            otherPoint = 1,
+            otherPoint = 1
         ),
         MatchUiModel(
             date = now.minusDays(3),
@@ -76,7 +76,7 @@ object MockData {
             opponentName = "똥찔긴형",
             winDrawLose = WinDrawLoseUiModel.LOSE,
             point = 0,
-            otherPoint = 1,
-        ),
+            otherPoint = 1
+        )
     )
 }

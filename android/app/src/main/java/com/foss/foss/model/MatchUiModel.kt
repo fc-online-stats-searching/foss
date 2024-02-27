@@ -12,5 +12,5 @@ data class MatchUiModel(
     val opponentName: String,
     val winDrawLose: WinDrawLoseUiModel,
     val point: Int,
-    val otherPoint: Int,
+    val otherPoint: Int
 ) : Parcelable

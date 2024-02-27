@@ -16,7 +16,7 @@ object RelativeMatchDtoMapper {
         recentMatchDate = commonDtoMapper.mapToDate(lastDate),
         winDrawLoses = WinDrawLoses(mapToWinDrawLoses(win, tie, lose)),
         totalScore = Score(gain, loss),
-        matchDetails = matchResponse.map { it.toDomainModel(nickname) },
+        matchDetails = matchResponse.map { it.toDomainModel(nickname) }
     )
 
     private fun mapToWinDrawLoses(win: Int, tie: Int, lose: Int): List<WinDrawLose> {
