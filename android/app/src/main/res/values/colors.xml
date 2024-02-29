@@ -21,6 +21,7 @@
     <color name="foss_gray700">#42424A</color>
     <color name="foss_gray300">#84838D</color>
     <color name="foss_gray200">#9897A1</color>
+    <color name="foss_gray100">#B5B5BD</color>
     <color name="foss_gray50">#F9F9FD</color>
     <color name="foss_wt">#F9F9FD</color>
 
@@ -38,4 +39,8 @@
 
     <color name="item_relative_match_win_color">#D5E3FE</color>
     <color name="item_relative_match_lose_color">#FFD7D9</color>
+
+    <color name="item_relative_match_white_color">#F5F5F5</color>
+
+    <color name="item_relative_match_win">#33549C</color>
 </resources>
