@@ -37,6 +37,13 @@ fun MainScreen(navigator: NavHostController = rememberNavController()) {
                 onRecentStatButtonClick = {},
                 onShowSnackBar = onShowSnackBar
             )
+            /**
+             * todo: relativeNavGraph
+             */
+
+            /**
+             * todo: recentNavGraph
+             */
         }
         padding
     }
