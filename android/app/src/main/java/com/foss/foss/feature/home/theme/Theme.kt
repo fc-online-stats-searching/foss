@@ -1,4 +1,4 @@
-package com.foss.foss.feature.main.theme
+package com.foss.foss.feature.home.theme
 
 import android.app.Activity
 import android.os.Build
