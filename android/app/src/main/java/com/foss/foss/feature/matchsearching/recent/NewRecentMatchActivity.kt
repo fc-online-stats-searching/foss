@@ -68,12 +68,17 @@ class NewRecentMatchActivity : ComponentActivity() {
         setContent {
             val types = MatchTypeUiModel.values().toList()
             var selected by remember { mutableStateOf(types.first()) }
+            var userName by remember { mutableStateOf("") }
+
             RecentMatchScreen(
                 onBackPressedClick = { },
                 onRefreshClick = { },
             ) {
                 Column(modifier = it.background(colorResource(id = R.color.foss_bk))) {
-                    SearchBar()
+                    SearchBar(
+                        value = userName,
+                        onValueChange = { userName = it },
+                    )
                     MatchTypeSpinner(
                         selected = selected,
                         list = types,
@@ -135,12 +140,14 @@ fun RecentMatchScreen(
 
 @Composable
 fun SearchBar(
+    value: String,
+    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     TextField(
         shape = RoundedCornerShape(corner = CornerSize(10.dp)),
-        value = "",
-        onValueChange = {},
+        value = value,
+        onValueChange = onValueChange,
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
@@ -457,12 +464,16 @@ fun MatchTypeSpinner(
 fun RecentMatchScreenPreview() {
     val types = MatchTypeUiModel.values().toList()
     var selected by remember { mutableStateOf(types.first()) }
+    var userName by remember { mutableStateOf("") }
     RecentMatchScreen(
         onBackPressedClick = { },
         onRefreshClick = { },
     ) {
         Column(modifier = it.background(colorResource(id = R.color.foss_bk))) {
-            SearchBar()
+            SearchBar(
+                value = userName,
+                onValueChange = { userName = it },
+            )
             MatchTypeSpinner(
                 selected = selected,
                 list = types,
