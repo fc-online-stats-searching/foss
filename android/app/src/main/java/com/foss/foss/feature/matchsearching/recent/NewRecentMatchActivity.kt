@@ -68,7 +68,10 @@ class NewRecentMatchActivity : ComponentActivity() {
         setContent {
             val types = MatchTypeUiModel.values().toList()
             var selected by remember { mutableStateOf(types.first()) }
-            RecentMatchScreen {
+            RecentMatchScreen(
+                onBackPressedClick = { },
+                onRefreshClick = { },
+            ) {
                 Column(modifier = it.background(colorResource(id = R.color.foss_bk))) {
                     SearchBar()
                     MatchTypeSpinner(
@@ -91,6 +94,8 @@ class NewRecentMatchActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecentMatchScreen(
+    onBackPressedClick: () -> Unit,
+    onRefreshClick: () -> Unit,
     content: @Composable (modifier: Modifier) -> Unit,
 ) {
     Scaffold(
@@ -103,7 +108,7 @@ fun RecentMatchScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { /*TODO : 현재 액티비티를 종료하는 기능*/ }) {
+                    IconButton(onClick = onBackPressedClick) {
                         Icon(
                             imageVector = Icons.Filled.KeyboardArrowLeft,
                             contentDescription = null,
@@ -112,7 +117,7 @@ fun RecentMatchScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /*TODO : 전적을 갱신하는 기능*/ }) {
+                    IconButton(onClick = onRefreshClick) {
                         Icon(
                             imageVector = Icons.Filled.Refresh,
                             contentDescription = null,
@@ -452,7 +457,10 @@ fun MatchTypeSpinner(
 fun RecentMatchScreenPreview() {
     val types = MatchTypeUiModel.values().toList()
     var selected by remember { mutableStateOf(types.first()) }
-    RecentMatchScreen {
+    RecentMatchScreen(
+        onBackPressedClick = { },
+        onRefreshClick = { },
+    ) {
         Column(modifier = it.background(colorResource(id = R.color.foss_bk))) {
             SearchBar()
             MatchTypeSpinner(
