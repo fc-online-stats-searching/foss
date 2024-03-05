@@ -166,15 +166,19 @@ fun SearchBar(
             unfocusedIndicatorColor = Color.Transparent,
         ),
         placeholder = { Text(text = stringResource(id = R.string.common_request_searching_nickname)) },
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp)
-            .heightIn(44.dp)
-            .background(
-                color = colorResource(id = R.color.foss_gray800),
-                shape = RoundedCornerShape(corner = CornerSize(5.dp)),
-            ),
+        modifier = modifier.searchBarModifier(),
     )
+}
+
+@Composable
+private fun Modifier.searchBarModifier(): Modifier {
+    return this.fillMaxWidth()
+        .padding(horizontal = 20.dp)
+        .heightIn(44.dp)
+        .background(
+            color = colorResource(id = R.color.foss_gray800),
+            shape = RoundedCornerShape(corner = CornerSize(5.dp)),
+        )
 }
 
 @Composable
