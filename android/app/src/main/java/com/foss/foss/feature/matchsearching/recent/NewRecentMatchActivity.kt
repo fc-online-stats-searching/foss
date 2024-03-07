@@ -61,6 +61,8 @@ import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.model.MatchUiModel
 import com.foss.foss.model.WinDrawLose
 import com.foss.foss.model.WinDrawLoseUiModel
+import com.foss.foss.model.WinDrawLoseUiModel.Companion.getColorResId
+import com.foss.foss.model.WinDrawLoseUiModel.Companion.getStringResId
 import com.foss.foss.util.MockData.recentMatch
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
@@ -175,7 +177,8 @@ fun SearchBar(
 
 @Composable
 private fun Modifier.searchBarModifier(): Modifier {
-    return this.fillMaxWidth()
+    return this
+        .fillMaxWidth()
         .padding(horizontal = 20.dp)
         .heightIn(44.dp)
         .background(
@@ -205,23 +208,11 @@ fun MatchResult(
     winDrawLoseUiModel: WinDrawLoseUiModel,
     modifier: Modifier = Modifier,
 ) {
-    val color: Color = when (winDrawLoseUiModel) {
-        WinDrawLoseUiModel.WIN -> colorResource(id = R.color.foss_blue)
-        WinDrawLoseUiModel.LOSE -> colorResource(id = R.color.foss_red)
-        WinDrawLoseUiModel.DRAW -> colorResource(id = R.color.foss_gray800)
-    }
-
-    val result: String = when (winDrawLoseUiModel) {
-        WinDrawLoseUiModel.WIN -> stringResource(id = R.string.recent_match_win)
-        WinDrawLoseUiModel.LOSE -> stringResource(id = R.string.recent_match_lose)
-        WinDrawLoseUiModel.DRAW -> stringResource(id = R.string.recent_match_draw)
-    }
-
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .background(
-                color = color,
+                color = colorResource(id = winDrawLoseUiModel.getColorResId()),
                 shape = RoundedCornerShape(
                     topStart = CornerSize(5.dp),
                     topEnd = CornerSize(0.dp),
@@ -231,7 +222,7 @@ fun MatchResult(
             ),
     ) {
         Text(
-            text = result,
+            text = stringResource(id = winDrawLoseUiModel.getStringResId()),
             color = colorResource(id = R.color.foss_wt),
             fontSize = 12.sp,
             modifier = Modifier.padding(top = 18.dp),
