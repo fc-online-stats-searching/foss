@@ -56,8 +56,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.foss.foss.R
+import com.foss.foss.model.MatchMapper.toUiModel
 import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.model.MatchUiModel
+import com.foss.foss.model.WinDrawLose
+import com.foss.foss.model.WinDrawLoseUiModel
 import com.foss.foss.util.MockData.recentMatch
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
@@ -199,20 +202,19 @@ fun MatchCardColumn(
 
 @Composable
 fun MatchResult(
-    point: Int,
-    otherPoint: Int,
+    winDrawLoseUiModel: WinDrawLoseUiModel,
     modifier: Modifier = Modifier,
 ) {
-    val color: Color = if (point > otherPoint) {
-        colorResource(id = R.color.foss_blue)
-    } else {
-        colorResource(id = R.color.foss_red)
+    val color: Color = when (winDrawLoseUiModel) {
+        WinDrawLoseUiModel.WIN -> colorResource(id = R.color.foss_blue)
+        WinDrawLoseUiModel.LOSE -> colorResource(id = R.color.foss_red)
+        WinDrawLoseUiModel.DRAW -> colorResource(id = R.color.foss_gray800)
     }
 
-    val result: String = if (point > otherPoint) {
-        stringResource(id = R.string.recent_match_win)
-    } else {
-        stringResource(id = R.string.recent_match_lose)
+    val result: String = when (winDrawLoseUiModel) {
+        WinDrawLoseUiModel.WIN -> stringResource(id = R.string.recent_match_win)
+        WinDrawLoseUiModel.LOSE -> stringResource(id = R.string.recent_match_lose)
+        WinDrawLoseUiModel.DRAW -> stringResource(id = R.string.recent_match_draw)
     }
 
     Column(
@@ -268,10 +270,7 @@ fun MatchCard(
                 shape = RoundedCornerShape(corner = CornerSize(5.dp)),
             ),
     ) {
-        MatchResult(
-            point = matchUiModel.point,
-            otherPoint = matchUiModel.otherPoint,
-        )
+        MatchResult(WinDrawLose.make(point = matchUiModel.point, otherPoint = matchUiModel.otherPoint).toUiModel())
         MatchMvp(image = matchMvp)
         MatchOpponent(
             opponentName = matchUiModel.opponentName,

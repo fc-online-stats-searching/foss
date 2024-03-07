@@ -48,5 +48,6 @@
     <string name="recent_match_match_score">매치 스코어</string>
     <string name="recent_match_win">승</string>
     <string name="recent_match_lose">패</string>
+    <string name="recent_match_draw">무</string>
 
 </resources>
