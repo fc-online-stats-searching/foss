@@ -2,13 +2,13 @@ import com.foss.foss.model.Match
 import com.foss.foss.model.MatchType
 import com.foss.foss.model.Score
 import com.foss.foss.model.WinDrawLose
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 object MatchFixture {
 
     fun create() = List(3) {
         Match(
-            date = LocalDate.of(2023, 12, 18),
+            date = LocalDateTime.now(),
             matchType = MatchType.OFFICIAL,
             opponentName = "신공학관캣대디",
             manOfTheMatch = 1,

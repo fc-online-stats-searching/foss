@@ -52,5 +52,10 @@
     <string name="title_activity_new_recent_match">NewRecentMatchActivity</string>
     <string name="title_activity_new_relative_match">NewRelativeMatchActivity</string>
 
+    <string name="recent_match_opponent">상대 구단주</string>
+    <string name="recent_match_match_score">매치 스코어</string>
+    <string name="recent_match_win">승</string>
+    <string name="recent_match_lose">패</string>
+    <string name="recent_match_draw">무</string>
 
 </resources>
