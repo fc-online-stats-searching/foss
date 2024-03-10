@@ -40,4 +40,8 @@
 
     <color name="item_relative_match_win_color">#D5E3FE</color>
     <color name="item_relative_match_lose_color">#FFD7D9</color>
+
+    <color name="item_relative_match_white_color">#F5F5F5</color>
+
+    <color name="item_relative_match_win">#33549C</color>
 </resources>
