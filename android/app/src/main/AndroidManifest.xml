@@ -28,26 +28,11 @@
             android:label="@string/title_activity_new_recent_match"
             android:theme="@style/Theme.Foss" />
         <activity
-            android:name=".feature.main.MainActivity"
-            android:exported="true"
-            android:label="@string/title_activity_main"
-            android:theme="@style/Theme.Foss" />
-        <activity
             android:name=".feature.matchsearching.relative.detail.RelativeMatchDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".feature.home.HomeActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
+            android:name=".feature.main.MainActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
