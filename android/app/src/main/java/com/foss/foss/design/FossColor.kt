@@ -13,7 +13,8 @@ data class FossColor(
     val fossGray700: Color = Color(0xFF42424A),
     val fossGray300: Color = Color(0xFF84838D),
     val fossGray200: Color = Color(0xFF9897A1),
-    val fossGray50: Color = Color(0xFFF9F9FD)
+    val fossGray50: Color = Color(0xFFF9F9FD),
+    val fossNavy: Color = Color(0xFF202027)
 )
 
 /**
