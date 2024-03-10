@@ -7,22 +7,25 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
@@ -35,8 +38,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -46,7 +47,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -56,6 +59,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.foss.foss.R
+import com.foss.foss.design.FossTheme
 import com.foss.foss.model.MatchMapper.toUiModel
 import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.model.MatchUiModel
@@ -71,18 +75,21 @@ class NewRecentMatchActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val types = MatchTypeUiModel.values().toList()
+            val types = MatchTypeUiModel.entries
             var selected by remember { mutableStateOf(types.first()) }
             var userName by remember { mutableStateOf("") }
+            var isFocused by remember { mutableStateOf(false) }
 
             RecentMatchScreen(
                 onBackPressedClick = { },
                 onRefreshClick = { }
-            ) {
-                Column(modifier = it.background(colorResource(id = R.color.foss_bk))) {
-                    SearchBar(
+            ) { it ->
+                Column(modifier = it.background(FossTheme.colors.fossBk)) {
+                    InputEditText(
+                        modifier = Modifier.onFocusChanged { isFocused = it.isFocused },
                         value = userName,
-                        onValueChange = { userName = it }
+                        onValueChange = { userName = it },
+                        isFocused = isFocused
                     )
                     MatchTypeSpinner(
                         selected = selected,
@@ -113,16 +120,20 @@ fun RecentMatchScreen(
             TopAppBar(
                 title = {
                     Text(
+                        style = FossTheme.typography.title01,
                         text = stringResource(id = R.string.common_recent_matches),
-                        color = colorResource(id = R.color.foss_wt)
+                        color = FossTheme.colors.fossWt
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = onBackPressedClick) {
                         Icon(
-                            imageVector = Icons.Filled.KeyboardArrowLeft,
+                            modifier = Modifier
+                                .width(24.dp)
+                                .height(22.dp),
+                            painter = painterResource(id = R.drawable.ic_arrow_back),
                             contentDescription = null,
-                            tint = colorResource(R.color.foss_wt)
+                            tint = FossTheme.colors.fossWt
                         )
                     }
                 },
@@ -131,60 +142,64 @@ fun RecentMatchScreen(
                         Icon(
                             imageVector = Icons.Filled.Refresh,
                             contentDescription = null,
-                            tint = colorResource(R.color.foss_wt)
+                            tint = FossTheme.colors.fossWt
                         )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = colorResource(R.color.foss_bk))
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = FossTheme.colors.fossBk)
             )
         }
     ) {
-        content(modifier = Modifier.padding(it))
+        content(Modifier.padding(it))
     }
 }
 
 @Composable
-fun SearchBar(
+fun InputEditText(
     value: String,
+    modifier: Modifier = Modifier,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    isFocused: Boolean = false,
+    placeHolderString: String = stringResource(id = R.string.common_request_searching_nickname)
 ) {
-    TextField(
-        shape = RoundedCornerShape(corner = CornerSize(10.dp)),
+    BasicTextField(
         value = value,
         onValueChange = onValueChange,
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Default.Search,
-                contentDescription = null
-            )
-        },
-        colors = TextFieldDefaults.colors(
-            focusedLeadingIconColor = colorResource(id = R.color.foss_wt),
-            unfocusedLeadingIconColor = colorResource(id = R.color.foss_wt),
-            focusedContainerColor = colorResource(id = R.color.foss_gray800),
-            unfocusedContainerColor = colorResource(id = R.color.foss_gray800),
-            focusedPlaceholderColor = colorResource(id = R.color.foss_gray100),
-            unfocusedPlaceholderColor = colorResource(id = R.color.foss_wt),
-            focusedTextColor = colorResource(id = R.color.foss_wt),
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent
-        ),
-        placeholder = { Text(text = stringResource(id = R.string.common_request_searching_nickname)) },
-        modifier = modifier.searchBarModifier()
+        modifier = modifier,
+        cursorBrush = SolidColor(FossTheme.colors.fossWt),
+        textStyle = FossTheme.typography.body01.copy(color = FossTheme.colors.fossWt),
+        keyboardOptions = KeyboardOptions.Default,
+        keyboardActions = KeyboardActions.Default,
+        decorationBox = { innerTextField ->
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(horizontal = FossTheme.padding.BasicHorizontalPadding)
+                    .height(44.dp)
+                    .background(
+                        color = FossTheme.colors.fossGray800,
+                        shape = RoundedCornerShape(corner = CornerSize(5.dp))
+                    )
+                    .fillMaxWidth()
+            ) {
+                Icon(
+                    modifier = Modifier.padding(start = 10.dp),
+                    tint = FossTheme.colors.fossGray300,
+                    imageVector = Icons.Default.Search,
+                    contentDescription = null
+                )
+                Spacer(modifier = Modifier.padding(3.dp))
+                if (!isFocused && value.isEmpty()) {
+                    Text(
+                        style = FossTheme.typography.body01,
+                        text = placeHolderString,
+                        color = FossTheme.colors.fossGray300
+                    )
+                }
+                innerTextField()
+            }
+        }
     )
-}
-
-@Composable
-private fun Modifier.searchBarModifier(): Modifier {
-    return this
-        .fillMaxWidth()
-        .padding(horizontal = 20.dp)
-        .heightIn(44.dp)
-        .background(
-            color = colorResource(id = R.color.foss_gray800),
-            shape = RoundedCornerShape(corner = CornerSize(5.dp))
-        )
 }
 
 @Composable
@@ -222,9 +237,9 @@ fun MatchResult(
             )
     ) {
         Text(
+            style = FossTheme.typography.body02,
             text = stringResource(id = winDrawLoseUiModel.getStringResId()),
-            color = colorResource(id = R.color.foss_wt),
-            fontSize = 12.sp,
+            color = FossTheme.colors.fossWt,
             modifier = Modifier.padding(top = 18.dp)
         )
         Divider(
@@ -235,10 +250,10 @@ fun MatchResult(
                 .width(12.dp)
         )
         Text(
+            style = FossTheme.typography.caption03,
             // todo : 8분동안 진행했다는 데이터가 넘어오면 수정 필요
             text = "08:00",
-            color = colorResource(id = R.color.foss_wt),
-            fontSize = 8.sp,
+            color = FossTheme.colors.fossWt,
             modifier = Modifier.padding(top = 4.dp, bottom = 18.dp, start = 6.dp, end = 6.dp)
         )
     }
@@ -255,13 +270,21 @@ fun MatchCard(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 8.dp)
+            .padding(
+                horizontal = FossTheme.padding.BasicHorizontalPadding,
+                vertical = 8.dp
+            )
             .background(
-                color = colorResource(id = R.color.foss_gray900),
+                color = FossTheme.colors.fossGray900,
                 shape = RoundedCornerShape(corner = CornerSize(5.dp))
             )
     ) {
-        MatchResult(WinDrawLose.make(point = matchUiModel.point, otherPoint = matchUiModel.otherPoint).toUiModel())
+        MatchResult(
+            WinDrawLose.make(
+                point = matchUiModel.point,
+                otherPoint = matchUiModel.otherPoint
+            ).toUiModel()
+        )
         MatchMvp(image = matchMvp)
         MatchOpponent(
             opponentName = matchUiModel.opponentName,
@@ -270,11 +293,15 @@ fun MatchCard(
             otherPoint = matchUiModel.otherPoint
         )
         Column(
-            verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.End,
             modifier = Modifier
+                .align(Alignment.Top)
+                .fillMaxHeight()
                 .weight(1f)
-                .padding(end = 12.dp)
+                .padding(
+                    top = 10.dp,
+                    end = 12.dp
+                )
         ) {
             MatchType(
                 matchType = matchUiModel.matchType,
@@ -289,14 +316,27 @@ fun MatchMvp(
     modifier: Modifier = Modifier,
     @DrawableRes image: Int
 ) {
-    Image(
-        painter = painterResource(id = image),
-        contentDescription = null,
-        contentScale = ContentScale.Crop,
-        alignment = Alignment.Center,
-        modifier = modifier
-            .padding(start = 12.dp, top = 8.dp, bottom = 8.dp, end = 15.dp)
-    )
+    Box(
+        modifier = Modifier.padding(
+            start = 12.dp,
+            end = 15.dp
+        )
+    ) {
+        Image(
+            alignment = Alignment.TopEnd,
+            painter = painterResource(id = R.drawable.ic_mvp),
+            contentDescription = null
+        )
+        Image(
+            modifier = Modifier
+                .width(52.dp)
+                .height(52.dp),
+            painter = painterResource(id = image),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            alignment = Alignment.Center
+        )
+    }
 }
 
 @Composable
@@ -309,9 +349,9 @@ fun MatchOpponent(
 ) {
     Column(modifier = modifier) {
         Text(
+            style = FossTheme.typography.caption02,
             text = stringResource(id = R.string.recent_match_opponent),
-            fontSize = 12.sp,
-            color = colorResource(id = R.color.foss_gray100)
+            color = FossTheme.colors.fossGray100
         )
         Spacer(modifier = modifier.padding(vertical = 2.dp))
         Row {
@@ -325,26 +365,26 @@ fun MatchOpponent(
             )
             Spacer(modifier = modifier.padding(horizontal = 1.dp))
             Text(
+                style = FossTheme.typography.body02,
                 text = opponentName,
                 maxLines = 1,
-                fontSize = 12.sp,
-                color = colorResource(id = R.color.foss_wt)
+                color = FossTheme.colors.fossWt
             )
         }
         Spacer(modifier = modifier.padding(vertical = 2.dp))
         Row {
             Text(
                 text = stringResource(id = R.string.recent_match_match_score),
+                style = FossTheme.typography.caption02,
                 fontSize = 10.sp,
-                color = colorResource(id = R.color.foss_gray100)
-
+                color = FossTheme.colors.fossGray100
             )
             Spacer(modifier = modifier.padding(horizontal = 2.dp))
             Text(
+                style = FossTheme.typography.caption02,
                 text = "$point : $otherPoint",
                 fontSize = 10.sp,
-                color = colorResource(id = R.color.foss_wt)
-
+                color = FossTheme.colors.fossWt
             )
         }
     }
@@ -362,19 +402,20 @@ fun MatchType(
         modifier = modifier
     ) {
         Text(
+            style = FossTheme.typography.body02,
             text = when (matchType) {
                 MatchTypeUiModel.OFFICIAL -> stringResource(id = R.string.common_official_description)
                 MatchTypeUiModel.CLASSIC_ONE_TO_ONE -> stringResource(id = R.string.common_classic_one_to_one)
                 else -> stringResource(id = R.string.common_all)
             },
             fontSize = 12.sp,
-            color = colorResource(id = R.color.foss_wt)
+            color = FossTheme.colors.fossWt
 
         )
         Text(
+            style = FossTheme.typography.caption02,
             text = matchTime.toTimeDiff(),
-            fontSize = 10.sp,
-            color = colorResource(id = R.color.foss_gray100)
+            color = FossTheme.colors.fossGray100
         )
     }
 }
@@ -403,7 +444,7 @@ fun MatchTypeSpinner(
         modifier = modifier.fillMaxWidth()
     ) {
         Button(
-            colors = ButtonDefaults.buttonColors(colorResource(R.color.foss_gray700)),
+            colors = ButtonDefaults.buttonColors(FossTheme.colors.fossGray700),
             contentPadding = PaddingValues(0.dp),
             shape = RoundedCornerShape(corner = CornerSize(5.dp)),
             onClick = { expanded = !expanded }
@@ -419,7 +460,7 @@ fun MatchTypeSpinner(
                     fontSize = 12.sp
                 )
                 Icon(
-                    tint = colorResource(id = R.color.foss_wt),
+                    tint = FossTheme.colors.fossWt,
                     painter = painterResource(id = R.drawable.ic_arrow_down),
                     contentDescription = null
                 )
@@ -427,7 +468,7 @@ fun MatchTypeSpinner(
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
-                modifier = Modifier.background(colorResource(id = R.color.foss_gray700))
+                modifier = Modifier.background(FossTheme.colors.fossGray700)
             ) {
                 list.forEach { entry ->
                     DropdownMenuItem(
@@ -438,14 +479,14 @@ fun MatchTypeSpinner(
                         text = {
                             Text(
                                 text = stringResource(id = entry.resId),
-                                color = colorResource(R.color.foss_wt),
+                                color = FossTheme.colors.fossWt,
                                 fontSize = 12.sp,
                                 modifier = Modifier.align(Alignment.Start)
                             )
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(colorResource(id = R.color.foss_gray700))
+                            .background(FossTheme.colors.fossGray700)
                     )
                 }
             }
@@ -463,8 +504,8 @@ fun RecentMatchScreenPreview() {
         onBackPressedClick = { },
         onRefreshClick = { }
     ) {
-        Column(modifier = it.background(colorResource(id = R.color.foss_bk))) {
-            SearchBar(
+        Column(modifier = it.background(FossTheme.colors.fossBk)) {
+            InputEditText(
                 value = userName,
                 onValueChange = { userName = it }
             )
