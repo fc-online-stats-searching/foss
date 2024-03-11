@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CornerSize
@@ -36,6 +37,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -48,16 +50,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.toSize
 import com.foss.foss.R
 import com.foss.foss.design.FossTheme
 import com.foss.foss.model.MatchMapper.toUiModel
@@ -93,7 +100,7 @@ class NewRecentMatchActivity : ComponentActivity() {
                     )
                     MatchTypeSpinner(
                         selected = selected,
-                        list = types,
+                        matchTypes = types,
                         onSelectionChanged = { selected = it },
                         modifier = Modifier.padding(top = 18.dp, bottom = 6.dp, end = 18.dp)
                     )
@@ -433,62 +440,99 @@ private fun LocalDateTime.toTimeDiff(): String {
 @Composable
 fun MatchTypeSpinner(
     selected: MatchTypeUiModel,
-    list: List<MatchTypeUiModel>,
+    matchTypes: List<MatchTypeUiModel>,
     onSelectionChanged: (selection: MatchTypeUiModel) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
+    var matchTypesButtonSize by remember { mutableStateOf(Size.Zero) }
 
     Column(
-        horizontalAlignment = Alignment.End,
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.End
     ) {
-        Button(
-            colors = ButtonDefaults.buttonColors(FossTheme.colors.fossGray700),
-            contentPadding = PaddingValues(0.dp),
-            shape = RoundedCornerShape(corner = CornerSize(5.dp)),
-            onClick = { expanded = !expanded }
-        ) {
-            Row(
-                modifier = Modifier.padding(start = 12.dp),
-                verticalAlignment = Alignment.CenterVertically
+        Box {
+            Button(
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .padding(bottom = 6.dp)
+                    .height(26.dp)
+                    .onGloballyPositioned { coordinates ->
+                        matchTypesButtonSize = coordinates.size.toSize()
+                    },
+                colors = ButtonDefaults.buttonColors(FossTheme.colors.fossGray700),
+                contentPadding = PaddingValues(0.dp),
+                shape = RoundedCornerShape(corner = CornerSize(5.dp)),
+                onClick = { expanded = !expanded }
             ) {
-                Text(
-                    color = Color.White,
-                    textAlign = TextAlign.Center,
-                    text = stringResource(id = selected.resId),
-                    fontSize = 12.sp
-                )
-                Icon(
-                    tint = FossTheme.colors.fossWt,
-                    painter = painterResource(id = R.drawable.ic_arrow_down),
-                    contentDescription = null
-                )
-            }
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false },
-                modifier = Modifier.background(FossTheme.colors.fossGray700)
-            ) {
-                list.forEach { entry ->
-                    DropdownMenuItem(
-                        onClick = {
-                            expanded = false
-                            onSelectionChanged(entry)
-                        },
-                        text = {
-                            Text(
-                                text = stringResource(id = entry.resId),
-                                color = FossTheme.colors.fossWt,
-                                fontSize = 12.sp,
-                                modifier = Modifier.align(Alignment.Start)
-                            )
-                        },
+                Row(
+                    modifier = Modifier.padding(start = 21.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        textAlign = TextAlign.Center,
+                        text = stringResource(id = selected.resId),
+                        style = FossTheme.typography.body04,
+                        color = Color.White
+                    )
+                    Icon(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .background(FossTheme.colors.fossGray700)
+                            .padding(start = 16.dp, end = 10.dp)
+                            .width(14.dp)
+                            .height(14.dp),
+                        painter = painterResource(id = R.drawable.ic_drop_down_arrow),
+                        contentDescription = null
                     )
                 }
+            }
+            MatchTypeDropDownMenu(
+                expanded = expanded,
+                onDismiss = { expanded = false },
+                matchTypeWidth = with(LocalDensity.current) {
+                    matchTypesButtonSize.width.toDp()
+                },
+                matchTypes = matchTypes,
+                onSelectionChanged = onSelectionChanged
+            )
+        }
+    }
+}
+
+@Composable
+fun MatchTypeDropDownMenu(
+    modifier: Modifier = Modifier,
+    expanded: Boolean,
+    onDismiss: (Boolean) -> Unit,
+    matchTypeWidth: Dp,
+    matchTypes: List<MatchTypeUiModel>,
+    onSelectionChanged: (selection: MatchTypeUiModel) -> Unit
+) {
+    MaterialTheme(
+        colorScheme = MaterialTheme.colorScheme.copy(surface = FossTheme.colors.fossGray700),
+        shapes = MaterialTheme.shapes.copy(medium = RoundedCornerShape(5.dp))
+    ) {
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { onDismiss(false) },
+            modifier = modifier
+                .width(matchTypeWidth)
+        ) {
+            matchTypes.forEach { entry ->
+                DropdownMenuItem(
+                    modifier = modifier.height(26.dp),
+                    onClick = {
+                        onDismiss(false)
+                        onSelectionChanged(entry)
+                    },
+                    text = {
+                        Text(
+                            text = stringResource(id = entry.resId),
+                            color = FossTheme.colors.fossWt,
+                            style = FossTheme.typography.body04,
+                            modifier = Modifier.align(Alignment.Start)
+                        )
+                    }
+                )
             }
         }
     }
@@ -500,6 +544,7 @@ fun RecentMatchScreenPreview() {
     val types = MatchTypeUiModel.values().toList()
     var selected by remember { mutableStateOf(types.first()) }
     var userName by remember { mutableStateOf("") }
+
     RecentMatchScreen(
         onBackPressedClick = { },
         onRefreshClick = { }
@@ -511,11 +556,11 @@ fun RecentMatchScreenPreview() {
             )
             MatchTypeSpinner(
                 selected = selected,
-                list = types,
+                matchTypes = types,
                 onSelectionChanged = {
                     selected = it
                 },
-                modifier = Modifier.padding(top = 18.dp, bottom = 6.dp, end = 18.dp)
+                modifier = Modifier.padding(top = 18.dp, end = 20.dp)
             )
             MatchCardColumn(
                 recentMatch.filter { match ->
