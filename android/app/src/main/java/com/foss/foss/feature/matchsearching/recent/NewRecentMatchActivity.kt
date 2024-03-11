@@ -85,7 +85,7 @@ class NewRecentMatchActivity : ComponentActivity() {
                 onRefreshClick = { }
             ) { it ->
                 Column(modifier = it.background(FossTheme.colors.fossBk)) {
-                    InputEditText(
+                    NicknameSearchingTextField(
                         modifier = Modifier.onFocusChanged { isFocused = it.isFocused },
                         value = userName,
                         onValueChange = { userName = it },
@@ -155,7 +155,7 @@ fun RecentMatchScreen(
 }
 
 @Composable
-fun InputEditText(
+fun NicknameSearchingTextField(
     value: String,
     modifier: Modifier = Modifier,
     onValueChange: (String) -> Unit,
@@ -505,7 +505,7 @@ fun RecentMatchScreenPreview() {
         onRefreshClick = { }
     ) {
         Column(modifier = it.background(FossTheme.colors.fossBk)) {
-            InputEditText(
+            NicknameSearchingTextField(
                 value = userName,
                 onValueChange = { userName = it }
             )
