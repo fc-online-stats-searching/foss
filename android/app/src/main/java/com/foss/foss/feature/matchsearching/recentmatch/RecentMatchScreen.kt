@@ -73,7 +73,7 @@ import java.time.temporal.ChronoUnit
 @Composable
 fun RecentMatchScreen(
     onBackPressedClick: () -> Unit = {},
-    onRefreshClick: () -> Unit = {},
+    onRefreshClick: () -> Unit = {}
 ) {
     val types = MatchTypeUiModel.entries
     var selectedMatchType by remember { mutableStateOf(types.first()) }
@@ -87,7 +87,7 @@ fun RecentMatchScreen(
                     Text(
                         style = FossTheme.typography.title01,
                         color = FossTheme.colors.fossWt,
-                        text = stringResource(id = R.string.common_recent_matches),
+                        text = stringResource(id = R.string.common_recent_matches)
                     )
                 },
                 navigationIcon = {
@@ -107,7 +107,7 @@ fun RecentMatchScreen(
                         Icon(
                             painter = painterResource(id = R.drawable.ic_refresh),
                             tint = FossTheme.colors.fossWt,
-                            contentDescription = null,
+                            contentDescription = null
                         )
                     }
                 },
@@ -168,7 +168,7 @@ fun MatchItem(
     modifier: Modifier = Modifier,
     match: MatchUiModel,
     matchMvp: Int,
-    opponentTier: Int,
+    opponentTier: Int
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,

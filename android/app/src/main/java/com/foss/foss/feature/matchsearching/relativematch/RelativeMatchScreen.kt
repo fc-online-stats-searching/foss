@@ -41,7 +41,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
 import com.foss.foss.R
 import com.foss.foss.design.FossTheme
 import com.foss.foss.design.component.NicknameSearchingTextField
@@ -74,7 +73,7 @@ fun RelativeMatchScreen(
                                 .height(22.dp),
                             painter = painterResource(id = R.drawable.ic_arrow_back),
                             tint = FossTheme.colors.fossWt,
-                            contentDescription = null,
+                            contentDescription = null
                         )
                     }
                 },
@@ -128,7 +127,7 @@ fun RelativeMatchColumn(
         Text(
             modifier = Modifier.padding(
                 start = FossTheme.padding.BasicHorizontalPadding,
-                top = 20.dp,
+                top = 20.dp
             ),
             style = FossTheme.typography.body05,
             color = FossTheme.colors.fossGray200,
@@ -222,7 +221,6 @@ fun getTierImageRes(relativeMatch: RelativeMatchUiModel): Painter {
     return painterResource(id = tierImageRes)
 }
 
-
 @Composable
 fun getBackgroundColor(relativeMatch: RelativeMatchUiModel): Color {
     return if (relativeMatch.numberOfWins >= relativeMatch.numberOfLoses) {
@@ -297,12 +295,12 @@ fun RelativeMatchOpponentData(
             style = FossTheme.typography.body02,
             color = FossTheme.colors.fossWt,
             maxLines = 1,
-            text = relativeMatch.opponentName,
+            text = relativeMatch.opponentName
         )
         Text(
             style = FossTheme.typography.caption02,
             color = FossTheme.colors.fossGray100,
-            text = stringResource(R.string.item_relative_match_minute_after_latest_match),
+            text = stringResource(R.string.item_relative_match_minute_after_latest_match)
         )
     }
 }
@@ -332,7 +330,7 @@ fun RelativeMatchTotalResult(
             text = stringResource(R.string.item_relative_match_total_gain_loss).format(
                 relativeMatch.goal,
                 relativeMatch.conceded
-            ),
+            )
         )
         Icon(
             modifier = Modifier
@@ -342,7 +340,7 @@ fun RelativeMatchTotalResult(
                 },
             painter = painterResource(id = R.drawable.ic_arrow_to_right),
             tint = Color.White,
-            contentDescription = null,
+            contentDescription = null
         )
     }
 }
