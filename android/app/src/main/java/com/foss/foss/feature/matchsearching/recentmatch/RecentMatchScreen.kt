@@ -184,7 +184,7 @@ fun MatchItem(
             )
     ) {
         MatchResult(
-            WinDrawLose.make(
+            winDrawLoseUiModel = WinDrawLose.make(
                 point = match.point,
                 otherPoint = match.otherPoint
             ).toUiModel()
@@ -217,8 +217,8 @@ fun MatchItem(
 
 @Composable
 fun MatchResult(
-    winDrawLoseUiModel: WinDrawLoseUiModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    winDrawLoseUiModel: WinDrawLoseUiModel
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -286,11 +286,11 @@ fun MatchMvp(
 
 @Composable
 fun MatchDetailResult(
+    modifier: Modifier = Modifier,
     opponentName: String,
     @DrawableRes opponentTier: Int,
     point: Int,
-    otherPoint: Int,
-    modifier: Modifier = Modifier
+    otherPoint: Int
 ) {
     Column(modifier = modifier) {
         Text(
@@ -337,9 +337,9 @@ fun MatchDetailResult(
 
 @Composable
 fun MatchType(
+    modifier: Modifier = Modifier,
     matchType: MatchTypeUiModel,
-    matchTime: LocalDateTime,
-    modifier: Modifier = Modifier
+    matchTime: LocalDateTime
 ) {
     Column(
         verticalArrangement = Arrangement.Top,
@@ -377,10 +377,10 @@ private fun LocalDateTime.toTimeDiff(): String {
 
 @Composable
 fun MatchTypeSpinner(
+    modifier: Modifier = Modifier,
     selected: MatchTypeUiModel,
     matchTypes: List<MatchTypeUiModel>,
-    onSelectionChanged: (selection: MatchTypeUiModel) -> Unit,
-    modifier: Modifier = Modifier
+    onSelectionChanged: (selection: MatchTypeUiModel) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
     var matchTypesButtonSize by remember { mutableStateOf(Size.Zero) }

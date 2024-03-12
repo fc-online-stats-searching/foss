@@ -34,9 +34,9 @@ import com.foss.foss.design.FossTheme
 
 @Composable
 fun HomeScreen(
-    onShowSnackBar: (message: String) -> Unit,
-    onRelativeStatButtonClick: () -> Unit,
-    onRecentStatButtonClick: () -> Unit
+    onShowSnackBar: (message: String) -> Unit = {},
+    onRelativeStatButtonClick: () -> Unit = {},
+    onRecentStatButtonClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -269,15 +269,5 @@ fun HomeNavigationButton(
 @Preview(widthDp = 360, heightDp = 640)
 @Composable
 fun HomePreview() {
-    Column(
-        modifier = Modifier
-            .background(FossTheme.colors.fossBk)
-            .fillMaxHeight(),
-        verticalArrangement = Arrangement.Center
-    ) {
-        HomeFossLogo()
-        HomeFossSlogan()
-        HomeEventBanner()
-        HomeStatSearchingMenu()
-    }
+    HomeScreen()
 }

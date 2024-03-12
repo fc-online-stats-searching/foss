@@ -149,6 +149,7 @@ fun RelativeMatchColumn(
 
 @Composable
 fun RelativeMatchItem(
+    modifier: Modifier = Modifier,
     relativeMatch: RelativeMatchUiModel,
     onRelativeMatchClick: (RelativeMatchUiModel) -> Unit
 ) {
