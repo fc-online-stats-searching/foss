@@ -61,7 +61,7 @@ fun HomeFossLogo(modifier: Modifier = Modifier) {
             .padding(top = 16.dp, start = 23.dp)
             .width(56.dp)
             .height(28.dp),
-        painter = painterResource(id = R.drawable.ic_foss_new_logo),
+        painter = painterResource(id = R.drawable.ic_foss_logo),
         contentDescription = "image of foss application"
     )
 }

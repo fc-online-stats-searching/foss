@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 data class FossColor(
     val fossGreen: Color = Color(0xFF07F468),
     val fossRed: Color = Color(0xFFD21613),
-    val fossBlue: Color = Color(0xFF2266F9),
+    val fossBlue: Color = Color(0xFF33549C),
     val fossBk: Color = Color(0xFF121214),
     val fossWt: Color = Color(0xFFF9F9FD),
     val fossGray900: Color = Color(0xFF202027),
