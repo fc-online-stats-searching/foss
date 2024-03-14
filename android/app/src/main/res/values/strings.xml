@@ -9,12 +9,6 @@
     <string name="common_win_description">승리</string>
     <string name="common_draw_description">무승부</string>
     <string name="common_lose_description">패배</string>
-
-
-    <string name="home_refresh_stats">전적 갱신</string>
-    <string name="home_searching_description">검색</string>
-
-
     <string name="common_all">전체 경기</string>
     <string name="common_league_friendly_description">리그 친선</string>
     <string name="common_classic_one_to_one">클래식 1on1</string>
@@ -24,33 +18,24 @@
     <string name="common_volta_friendly_description">볼타 친선</string>
     <string name="common_volta_offical_description">볼타 공식 경기</string>
     <string name="common_volta_custom_description">볼타 커스텀</string>
-
-    <string name="error_message_searching_failed">다시 검색해주세요.</string>
-
-    <string name="item_match_result_score" formatted="false">%d:%d</string>
-    <string name="item_match_man_of_the_match_description">MOM</string>
-
     <string name="common_request_searching_nickname">사용자 이름을 검색해 주세요.</string>
-
-    <!-- compose version-->
-    <string name="main_slogan_from">에서 \n</string>
-    <string name="main_slogan_fc_online">FC ONLINE</string>
-    <string name="main_slogan_search_stats">" 전적을\n검색해보세요!"</string>
-    <string name="main_menu_search">검색하기</string>
-
-    <string name="item_relative_matches_win_draw_loses_format" formatted="false">%d전 %d승 %d무 %d패</string>
-    <string name="item_relative_matches_score" formatted="false">%d</string>
-    <string name="item_relative_matches_goal_title">득</string>
-    <string name="item_relative_matches_conceded_title">실</string>
-    <string name="home_user_nickname_description">사용자 이름</string>
-    <string name="relative_match_details_title">%s님과의 최근 전적</string>
     <string name="common_refresh_failed_message">전적 갱신에 실패했습니다.</string>
     <string name="common_refresh_succeed_message">전적 갱신에 성공했습니다. \n전적을 검색해보세요!</string>
     <string name="common_failed_fetching_matches">전적 검색에 실패했습니다. \n닉네임을 확인해주세요.</string>
     <string name="common_empty_matches">최근 기록된 전적이 없습니다.</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_new_recent_match">NewRecentMatchActivity</string>
-    <string name="title_activity_new_relative_match">NewRelativeMatchActivity</string>
+
+    <string name="home_refresh_stats">전적 갱신</string>
+    <string name="home_searching_description">검색</string>
+    <string name="home_user_nickname_description">사용자 이름</string>
+
+    <string name="relative_match_details_title">%s님과의 최근 전적</string>
+
+    <string name="error_message_searching_failed">다시 검색해주세요.</string>
+
+    <string name="main_slogan_from">에서 \n</string>
+    <string name="main_slogan_fc_online">FC ONLINE</string>
+    <string name="main_slogan_search_stats">" 전적을\n검색해보세요!"</string>
+    <string name="main_menu_search">검색하기</string>
 
     <string name="recent_match_opponent">상대 구단주</string>
     <string name="recent_match_match_score">매치 스코어</string>
@@ -58,4 +43,20 @@
     <string name="recent_match_lose">패</string>
     <string name="recent_match_draw">무</string>
 
+    <string name="item_match_result_score" formatted="false">%d:%d</string>
+    <string name="item_match_man_of_the_match_description">MOM</string>
+    <string name="item_relative_matches_win_draw_loses_format" formatted="false">%d전 %d승 %d무 %d패</string>
+    <string name="item_relative_matches_score" formatted="false">%d</string>
+    <string name="item_relative_matches_goal_title">득</string>
+    <string name="item_relative_matches_conceded_title">실</string>
+
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_new_recent_match">NewRecentMatchActivity</string>
+    <string name="title_activity_new_relative_match">NewRelativeMatchActivity</string>
+    <string name="item_relative_match_win_rate">%.0f%%</string>
+    <string name="relative_match_informatinon">최근 20경기를 함께한 플레이어 입니다</string>
+    <string name="item_relative_match_opponent_nickname">구단주명</string>
+    <string name="item_relative_match_minute_after_latest_match">최근 경기 15분 전</string>
+    <string name="item_relative_match_total_result">%d전 %d승 %d무 %d패</string>
+    <string name="item_relative_match_total_gain_loss">득 %d / 실 %d</string>
 </resources>

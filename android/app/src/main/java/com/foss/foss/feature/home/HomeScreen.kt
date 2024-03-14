@@ -10,10 +10,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,28 +21,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.foss.foss.R
-import com.foss.foss.util.getPretendFontFamily
+import com.foss.foss.design.FossTheme
 
 @Composable
 fun HomeScreen(
-    onShowSnackBar: (message: String) -> Unit,
-    onRelativeStatButtonClick: () -> Unit,
-    onRecentStatButtonClick: () -> Unit
+    onShowSnackBar: (message: String) -> Unit = {},
+    onRelativeStatButtonClick: () -> Unit = {},
+    onRecentStatButtonClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
-            .background(colorResource(id = R.color.foss_bk))
+            .background(FossTheme.colors.fossBk)
             .fillMaxHeight()
     ) {
         HomeFossLogo()
@@ -60,11 +57,11 @@ fun HomeScreen(
 fun HomeFossLogo(modifier: Modifier = Modifier) {
     Image(
         modifier = modifier
-            .background(colorResource(id = R.color.foss_bk))
+            .background(FossTheme.colors.fossBk)
             .padding(top = 16.dp, start = 23.dp)
             .width(56.dp)
             .height(28.dp),
-        painter = painterResource(id = R.drawable.ic_foss_new_logo),
+        painter = painterResource(id = R.drawable.ic_foss_logo),
         contentDescription = "image of foss application"
     )
 }
@@ -72,7 +69,10 @@ fun HomeFossLogo(modifier: Modifier = Modifier) {
 @Composable
 fun HomeFossSlogan(modifier: Modifier = Modifier) {
     val navyAndBlack =
-        listOf(colorResource(id = R.color.foss_navy), colorResource(id = R.color.black))
+        listOf(
+            FossTheme.colors.fossNavy,
+            FossTheme.colors.fossBk
+        )
 
     Box(
         modifier = modifier
@@ -87,7 +87,7 @@ fun HomeFossSlogan(modifier: Modifier = Modifier) {
                 brush = Brush.verticalGradient(
                     colors = navyAndBlack,
                     startY = 0f,
-                    endY = 1000f
+                    endY = 400f
                 ),
                 shape = RoundedCornerShape(
                     topStart = 10.dp,
@@ -98,29 +98,26 @@ fun HomeFossSlogan(modifier: Modifier = Modifier) {
             )
     ) {
         Text(
-            fontSize = 20.sp,
+            style = FossTheme.typography.title01,
             modifier = Modifier.padding(
                 top = 24.dp,
                 start = 20.dp
             ),
-            lineHeight = 30.sp,
-            fontFamily = getPretendFontFamily(),
-            fontWeight = FontWeight.Bold,
             text = buildAnnotatedString {
                 withStyle(
-                    SpanStyle(color = colorResource(id = R.color.foss_green))
+                    SpanStyle(color = FossTheme.colors.fossGreen)
                 ) {
                     append(stringResource(id = R.string.app_name))
                 }
                 append(stringResource(R.string.main_slogan_from))
                 withStyle(
-                    SpanStyle(color = colorResource(id = R.color.foss_green))
+                    SpanStyle(color = FossTheme.colors.fossGreen)
                 ) {
                     append(stringResource(R.string.main_slogan_fc_online))
                 }
                 append(stringResource(R.string.main_slogan_search_stats))
             },
-            color = colorResource(id = R.color.foss_wt)
+            color = FossTheme.colors.fossWt
         )
         Image(
             modifier = modifier
@@ -161,10 +158,8 @@ fun HomeStatSearchingMenu(
             top = 18.dp,
             start = 25.dp
         ),
-        fontFamily = getPretendFontFamily(),
-        fontWeight = FontWeight.Bold,
-        fontSize = 12.sp,
-        color = colorResource(id = R.color.foss_wt),
+        style = FossTheme.typography.title02,
+        color = FossTheme.colors.fossWt,
         text = stringResource(R.string.main_menu_search)
     )
     Row(
@@ -175,26 +170,26 @@ fun HomeStatSearchingMenu(
             modifier = Modifier
                 .weight(1f)
                 .padding(
-                    start = 20.dp,
+                    start = FossTheme.padding.BasicHorizontalPadding,
                     top = 6.dp,
                     bottom = 26.dp,
-                    end = 8.dp
+                    end = FossTheme.padding.BasicHorizontalPadding / 2
                 ),
             symbolImage = painterResource(id = R.drawable.ic_for_relative_match),
-            menuDescription = stringResource(id = R.string.common_relative_matches),
+            description = stringResource(id = R.string.common_relative_matches),
             navigate = onRelativeStatButtonClick
         )
         HomeNavigationButton(
             modifier = Modifier
                 .weight(1f)
                 .padding(
-                    start = 8.dp,
-                    end = 20.dp,
+                    start = FossTheme.padding.BasicHorizontalPadding / 2,
+                    end = FossTheme.padding.BasicHorizontalPadding,
                     top = 6.dp,
                     bottom = 26.dp
                 ),
             symbolImage = painterResource(id = R.drawable.ic_for_recent_match),
-            menuDescription = stringResource(id = R.string.common_recent_matches),
+            description = stringResource(id = R.string.common_recent_matches),
             navigate = onRecentStatButtonClick
         )
     }
@@ -204,15 +199,15 @@ fun HomeStatSearchingMenu(
 fun HomeNavigationButton(
     modifier: Modifier,
     symbolImage: Painter,
-    menuDescription: String,
+    description: String,
     navigate: () -> Unit = {}
 ) {
-    Box(
+    ConstraintLayout(
         modifier = modifier
             .fillMaxWidth()
-            .height(230.dp)
+            .wrapContentHeight()
             .background(
-                color = colorResource(id = R.color.foss_gray900),
+                color = FossTheme.colors.fossGray900,
                 shape = RoundedCornerShape(
                     topStart = 12.dp,
                     topEnd = 12.dp,
@@ -222,32 +217,51 @@ fun HomeNavigationButton(
             )
             .clickable { navigate() }
     ) {
+        val (text, arrow, symbol) = createRefs()
         Text(
-            fontSize = 20.sp,
-            modifier = Modifier.padding(top = 14.dp, start = 12.dp),
-            fontFamily = getPretendFontFamily(),
-            fontWeight = FontWeight.Bold,
-            text = menuDescription,
-            color = colorResource(id = R.color.foss_wt)
-        )
-        Image(
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .width(120.dp)
-                .height(140.dp)
-                .align(Alignment.BottomEnd),
-            painter = symbolImage,
-            contentDescription = "image of recent match"
+            style = FossTheme.typography.title01,
+            modifier = Modifier.constrainAs(text) {
+                top.linkTo(
+                    anchor = parent.top,
+                    margin = 14.dp
+                )
+                start.linkTo(
+                    anchor = parent.start,
+                    margin = 16.dp
+                )
+            },
+            text = description,
+            color = FossTheme.colors.fossWt
         )
         Image(
             painter = painterResource(id = R.drawable.ic_navigate_button),
             "contentDescription",
-            modifier = Modifier
-                .size(20.dp)
-                .offset(
-                    x = 16.dp,
-                    y = 48.dp
+            modifier = Modifier.constrainAs(arrow) {
+                top.linkTo(
+                    anchor = text.bottom,
+                    margin = 8.dp
                 )
+                start.linkTo(
+                    anchor = parent.start,
+                    margin = 14.dp
+                )
+            }
+        )
+        Image(
+            contentScale = ContentScale.Fit,
+            modifier = Modifier
+                .width(120.dp)
+                .height(140.dp)
+                .constrainAs(symbol) {
+                    end.linkTo(anchor = parent.end)
+                    bottom.linkTo(anchor = parent.bottom)
+                    top.linkTo(
+                        anchor = parent.top,
+                        margin = 40.dp
+                    )
+                },
+            painter = symbolImage,
+            contentDescription = "image of recent match"
         )
     }
 }
@@ -255,15 +269,5 @@ fun HomeNavigationButton(
 @Preview(widthDp = 360, heightDp = 640)
 @Composable
 fun HomePreview() {
-    Column(
-        modifier = Modifier
-            .background(colorResource(id = R.color.foss_bk))
-            .fillMaxHeight(),
-        verticalArrangement = Arrangement.Center
-    ) {
-        HomeFossLogo()
-        HomeFossSlogan()
-        HomeEventBanner()
-        HomeStatSearchingMenu()
-    }
+    HomeScreen()
 }
