@@ -75,7 +75,6 @@ import java.time.temporal.ChronoUnit
 @Composable
 fun RecentMatchScreen(
     onBackPressedClick: () -> Unit = {},
-    onRefreshClick: () -> Unit = {},
     recentMatchViewModel: RecentMatchViewModel = viewModel(factory = RecentMatchViewModel.Factory)
 ) {
     val uiState by recentMatchViewModel.uiState.collectAsStateWithLifecycle()
@@ -107,7 +106,7 @@ fun RecentMatchScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = onRefreshClick) {
+                    IconButton(onClick = { recentMatchViewModel.refreshMatches(userName) }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_refresh),
                             tint = FossTheme.colors.fossWt,
