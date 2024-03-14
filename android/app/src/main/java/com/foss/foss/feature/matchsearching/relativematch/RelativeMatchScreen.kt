@@ -82,7 +82,7 @@ fun RelativeMatchScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /*TODO : 전적을 갱신하는 기능*/ }) {
+                    IconButton(onClick = { relativeMatchViewModel.refreshMatches(userName) }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_refresh),
                             tint = FossTheme.colors.fossWt,
