@@ -72,12 +72,12 @@ fun RelativeMatchScreen(
                 navigationIcon = {
                     IconButton(onClick = { /*TODO : 현재 액티비티를 종료하는 기능*/ }) {
                         Icon(
-                            modifier = Modifier
-                                .width(24.dp)
-                                .height(22.dp),
                             painter = painterResource(id = R.drawable.ic_arrow_back),
                             tint = FossTheme.colors.fossWt,
                             contentDescription = null,
+                            modifier = Modifier
+                                .width(24.dp)
+                                .height(22.dp),
                         )
                     }
                 },
@@ -100,15 +100,15 @@ fun RelativeMatchScreen(
                 .background(colorResource(id = R.color.foss_bk)),
         ) {
             NicknameSearchingTextField(
-                modifier = Modifier.onFocusChanged { focusState ->
-                    isFocused = focusState.isFocused
-                },
                 value = userName,
                 onValueChange = { searchingName ->
                     userName = searchingName
                 },
                 isFocused = isFocused,
                 onSearch = { relativeMatchViewModel.fetchRelativeMatches(userName) },
+                modifier = Modifier.onFocusChanged { focusState ->
+                    isFocused = focusState.isFocused
+                },
             )
             Surface(color = colorResource(id = R.color.foss_bk)) {
                 RelativeMatchColumn(
@@ -132,13 +132,13 @@ fun RelativeMatchColumn(
         is RelativeMatchUiState.RelativeMatches -> {
             Column {
                 Text(
+                    style = FossTheme.typography.body05,
+                    color = FossTheme.colors.fossGray200,
+                    text = stringResource(R.string.relative_match_informatinon),
                     modifier = Modifier.padding(
                         start = FossTheme.padding.BasicHorizontalPadding,
                         top = 20.dp,
                     ),
-                    style = FossTheme.typography.body05,
-                    color = FossTheme.colors.fossGray200,
-                    text = stringResource(R.string.relative_match_informatinon),
                 )
 
                 LazyColumn(
@@ -159,9 +159,9 @@ fun RelativeMatchColumn(
 
 @Composable
 fun RelativeMatchItem(
-    modifier: Modifier = Modifier,
     relativeMatch: RelativeMatchUiModel,
     onRelativeMatchClick: (RelativeMatchUiModel) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val winRate = getWinRate(relativeMatch)
     val backgroundColor = getBackgroundColor(relativeMatch)
@@ -197,8 +197,8 @@ fun RelativeMatchItem(
             )
             Spacer(Modifier.width(15.dp))
             RelativeMatchOpponentData(
-                modifier = Modifier.weight(1f),
                 relativeMatch = relativeMatch,
+                modifier = Modifier.weight(1f),
             )
             RelativeMatchTotalResult(
                 relativeMatch = relativeMatch,
@@ -243,10 +243,10 @@ fun getBackgroundColor(relativeMatch: RelativeMatchUiModel): Color {
 
 @Composable
 fun RelativeMatchWinRate(
-    modifier: Modifier = Modifier,
     relativeMatch: RelativeMatchUiModel,
     winRate: Float,
     backgroundColor: Color,
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = Modifier
@@ -258,17 +258,17 @@ fun RelativeMatchWinRate(
             ),
     ) {
         Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = modifier
                 .fillMaxSize()
                 .padding(4.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
                 style = FossTheme.typography.body02,
                 color = FossTheme.colors.fossWt,
                 text = if (relativeMatch.numberOfWins > relativeMatch.numberOfLoses) "승" else "패",
+                modifier = Modifier.align(Alignment.CenterHorizontally),
             )
             Spacer(modifier = Modifier.height(4.dp))
             Divider(
@@ -280,10 +280,10 @@ fun RelativeMatchWinRate(
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
                 style = FossTheme.typography.caption03,
                 color = FossTheme.colors.fossWt,
                 text = String.format(stringResource(R.string.item_relative_match_win_rate), winRate),
+                modifier = Modifier.align(Alignment.CenterHorizontally),
             )
         }
     }
@@ -291,22 +291,22 @@ fun RelativeMatchWinRate(
 
 @Composable
 fun RelativeMatchOpponentData(
-    modifier: Modifier = Modifier,
     relativeMatch: RelativeMatchUiModel,
+    modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
         Text(
-            modifier = Modifier.padding(bottom = 4.dp),
             style = FossTheme.typography.caption02,
             color = FossTheme.colors.fossGray100,
             text = stringResource(R.string.item_relative_match_opponent_nickname),
+            modifier = Modifier.padding(bottom = 4.dp),
         )
         Text(
-            modifier = Modifier.padding(bottom = 4.dp),
             style = FossTheme.typography.body02,
             color = FossTheme.colors.fossWt,
             maxLines = 1,
             text = relativeMatch.opponentName,
+            modifier = Modifier.padding(bottom = 4.dp),
         )
         Text(
             style = FossTheme.typography.caption02,
@@ -318,13 +318,12 @@ fun RelativeMatchOpponentData(
 
 @Composable
 fun RelativeMatchTotalResult(
-    modifier: Modifier = Modifier,
     relativeMatch: RelativeMatchUiModel,
     onRelativeMatchClick: (relativeMatch: RelativeMatchUiModel) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(horizontalAlignment = Alignment.End, modifier = Modifier.padding(end = 5.dp)) {
         Text(
-            modifier = Modifier.padding(bottom = 4.dp),
             style = FossTheme.typography.body03,
             color = FossTheme.colors.fossWt,
             text = stringResource(R.string.item_relative_match_total_result).format(
@@ -333,25 +332,26 @@ fun RelativeMatchTotalResult(
                 relativeMatch.numberOfDraws,
                 relativeMatch.numberOfLoses,
             ),
+            modifier = Modifier.padding(bottom = 4.dp),
         )
         Text(
-            modifier = Modifier.padding(bottom = 8.dp),
             style = FossTheme.typography.caption02,
             color = FossTheme.colors.fossGray100,
             text = stringResource(R.string.item_relative_match_total_gain_loss).format(
                 relativeMatch.goal,
                 relativeMatch.conceded,
             ),
+            modifier = Modifier.padding(bottom = 8.dp),
         )
         Icon(
+            painter = painterResource(id = R.drawable.ic_arrow_to_right),
+            tint = Color.White,
+            contentDescription = null,
             modifier = Modifier
                 .size(16.dp)
                 .clickable {
                     onRelativeMatchClick(relativeMatch)
                 },
-            painter = painterResource(id = R.drawable.ic_arrow_to_right),
-            tint = Color.White,
-            contentDescription = null,
         )
     }
 }
