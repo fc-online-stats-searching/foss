@@ -17,15 +17,12 @@ public class Match {
 
   @Id
   private String id;
-
   private boolean validation;
   private int matchType; // 경기 종류
   private LocalDateTime timestamp; // 경기 일자
   private Map<String,String> result; // 승리 팀의 팀 구분자 (participants 에서 사용하는 key)
   private Map<String, Integer> goals; // 유저 별 득점 횟수
-
   private Map<String,String> nickname;
-
   private List<String> team1;
   private List<String> team2;
   private Map<String, MatchDetail> matchDetails; // 유저 별 매치 상세 정보 { key = 유저 accessId, val = 매치 상세 정보 }
