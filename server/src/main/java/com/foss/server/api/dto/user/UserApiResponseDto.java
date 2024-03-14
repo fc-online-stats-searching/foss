@@ -1,6 +1,5 @@
-package com.foss.server.dto.api.user;
+package com.foss.server.api.dto.user;
 
-import com.foss.server.domain.member.Member;
 import lombok.Getter;
 
 @Getter

@@ -1,4 +1,4 @@
-package com.foss.server.dto.api.match;
+package com.foss.server.api.dto.match;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
