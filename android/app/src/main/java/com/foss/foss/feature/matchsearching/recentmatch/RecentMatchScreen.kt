@@ -97,12 +97,12 @@ fun RecentMatchScreen(
                 navigationIcon = {
                     IconButton(onClick = onBackPressedClick) {
                         Icon(
-                            modifier = Modifier
-                                .width(24.dp)
-                                .height(22.dp),
                             painter = painterResource(id = R.drawable.ic_arrow_back),
                             tint = FossTheme.colors.fossWt,
-                            contentDescription = null
+                            contentDescription = null,
+                            modifier = Modifier
+                                .width(24.dp)
+                                .height(22.dp)
                         )
                     }
                 },
@@ -130,10 +130,10 @@ fun RecentMatchScreen(
                     userName = searchingName
                 },
                 onSearch = { recentMatchViewModel.fetchMatches(userName, selectedMatchType) },
+                isFocused = isFocused,
                 modifier = Modifier.onFocusChanged { focusState ->
                     isFocused = focusState.isFocused
-                },
-                isFocused = isFocused
+                }
             )
             MatchTypeSpinner(
                 selected = selectedMatchType,
@@ -150,8 +150,8 @@ fun RecentMatchScreen(
 
 @Composable
 fun MatchColumn(
-    modifier: Modifier = Modifier,
-    uiState: RecentMatchUiState
+    uiState: RecentMatchUiState,
+    modifier: Modifier = Modifier
 ) {
     when (uiState) {
         is RecentMatchUiState.RecentMatch -> {
@@ -171,10 +171,10 @@ fun MatchColumn(
 
 @Composable
 fun MatchItem(
-    modifier: Modifier = Modifier,
     match: MatchUiModel,
     matchMvp: Int,
-    opponentTier: Int
+    opponentTier: Int,
+    modifier: Modifier = Modifier
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -223,8 +223,8 @@ fun MatchItem(
 
 @Composable
 fun MatchResult(
-    modifier: Modifier = Modifier,
-    winDrawLoseUiModel: WinDrawLoseUiModel
+    winDrawLoseUiModel: WinDrawLoseUiModel,
+    modifier: Modifier = Modifier
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -264,8 +264,8 @@ fun MatchResult(
 
 @Composable
 fun MatchMvp(
-    modifier: Modifier = Modifier,
-    @DrawableRes image: Int
+    @DrawableRes image: Int,
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = Modifier.padding(
@@ -279,24 +279,24 @@ fun MatchMvp(
             contentDescription = null
         )
         Image(
-            modifier = Modifier
-                .width(52.dp)
-                .height(52.dp),
             painter = painterResource(id = image),
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            alignment = Alignment.Center
+            alignment = Alignment.Center,
+            modifier = Modifier
+                .width(52.dp)
+                .height(52.dp)
         )
     }
 }
 
 @Composable
 fun MatchDetailResult(
-    modifier: Modifier = Modifier,
     opponentName: String,
     @DrawableRes opponentTier: Int,
     point: Int,
-    otherPoint: Int
+    otherPoint: Int,
+    modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
         Text(
@@ -343,9 +343,9 @@ fun MatchDetailResult(
 
 @Composable
 fun MatchType(
-    modifier: Modifier = Modifier,
     matchType: MatchTypeUiModel,
-    matchTime: LocalDateTime
+    matchTime: LocalDateTime,
+    modifier: Modifier = Modifier
 ) {
     Column(
         verticalArrangement = Arrangement.Top,
@@ -383,10 +383,10 @@ private fun LocalDateTime.toTimeDiff(): String {
 
 @Composable
 fun MatchTypeSpinner(
-    modifier: Modifier = Modifier,
     selected: MatchTypeUiModel,
     matchTypes: List<MatchTypeUiModel>,
-    onSelectionChanged: (selection: MatchTypeUiModel) -> Unit
+    onSelectionChanged: (selection: MatchTypeUiModel) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
     var matchTypesButtonSize by remember { mutableStateOf(Size.Zero) }
@@ -397,21 +397,21 @@ fun MatchTypeSpinner(
     ) {
         Box {
             Button(
+                colors = ButtonDefaults.buttonColors(FossTheme.colors.fossGray700),
+                contentPadding = PaddingValues(0.dp),
+                shape = RoundedCornerShape(corner = CornerSize(5.dp)),
+                onClick = { expanded = !expanded },
                 modifier = Modifier
                     .wrapContentWidth()
                     .padding(bottom = 6.dp)
                     .height(26.dp)
                     .onGloballyPositioned { coordinates ->
                         matchTypesButtonSize = coordinates.size.toSize()
-                    },
-                colors = ButtonDefaults.buttonColors(FossTheme.colors.fossGray700),
-                contentPadding = PaddingValues(0.dp),
-                shape = RoundedCornerShape(corner = CornerSize(5.dp)),
-                onClick = { expanded = !expanded }
+                    }
             ) {
                 Row(
-                    modifier = Modifier.padding(start = 21.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(start = 21.dp)
                 ) {
                     Text(
                         textAlign = TextAlign.Center,
@@ -420,12 +420,12 @@ fun MatchTypeSpinner(
                         color = Color.White
                     )
                     Icon(
+                        painter = painterResource(id = R.drawable.ic_drop_down_arrow),
+                        contentDescription = null,
                         modifier = Modifier
                             .padding(start = 16.dp, end = 10.dp)
                             .width(14.dp)
-                            .height(14.dp),
-                        painter = painterResource(id = R.drawable.ic_drop_down_arrow),
-                        contentDescription = null
+                            .height(14.dp)
                     )
                 }
             }
@@ -444,12 +444,12 @@ fun MatchTypeSpinner(
 
 @Composable
 fun MatchTypeDropDownMenu(
-    modifier: Modifier = Modifier,
     expanded: Boolean,
     onDismiss: (Boolean) -> Unit,
     matchTypeWidth: Dp,
     matchTypes: List<MatchTypeUiModel>,
-    onSelectionChanged: (selection: MatchTypeUiModel) -> Unit
+    onSelectionChanged: (selection: MatchTypeUiModel) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     MaterialTheme(
         colorScheme = MaterialTheme.colorScheme.copy(surface = FossTheme.colors.fossGray700),
@@ -463,7 +463,6 @@ fun MatchTypeDropDownMenu(
         ) {
             matchTypes.forEach { entry ->
                 DropdownMenuItem(
-                    modifier = modifier.height(26.dp),
                     onClick = {
                         onDismiss(false)
                         onSelectionChanged(entry)
@@ -475,7 +474,8 @@ fun MatchTypeDropDownMenu(
                             style = FossTheme.typography.body04,
                             modifier = Modifier.align(Alignment.Start)
                         )
-                    }
+                    },
+                    modifier = modifier.height(26.dp)
                 )
             }
         }
