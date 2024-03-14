@@ -29,11 +29,14 @@ public enum MatchTypeData {
 
     public static List<Integer> determineMatchTypes(int typeNumber) {
         List<Integer> matchTypes = new ArrayList<>();
+
         if (typeNumber == MatchTypeData.ALL.getNumber()) {
             matchTypes.addAll(MatchTypeData.getAllMatchTypes());
-        } else {
+        }
+        if(typeNumber != MatchTypeData.ALL.getNumber()){
             matchTypes.add(typeNumber);
         }
+
         return matchTypes;
     }
 
