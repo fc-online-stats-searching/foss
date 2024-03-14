@@ -1,7 +1,12 @@
 package com.foss.foss.feature.matchsearching.relativematch
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.foss.foss.data.datasource.RelativeMatchDataSource
+import com.foss.foss.data.repository.DefaultRelativeMatchRepository
+import com.foss.foss.data.service.RelativeMatchService
+import com.foss.foss.di.auto.RetrofitModule.retrofit
 import com.foss.foss.model.RelativeMatchMapper.toUiModel
 import com.foss.foss.repository.RelativeMatchRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -61,6 +66,21 @@ class RelativeMatchViewModel(private val relativeMatchRepository: RelativeMatchR
                 _uiState.value = RelativeMatchUiState.Default
             }.collect {
                 _event.emit(RelativeMatchEvent.RefreshSucceed)
+            }
+        }
+    }
+
+    companion object {
+        val Factory = RelativeMatchViewModelFactory(
+            DefaultRelativeMatchRepository(
+                RelativeMatchDataSource((retrofit.create(RelativeMatchService::class.java))),
+            ),
+        )
+
+        @Suppress("UNCHECKED_CAST")
+        class RelativeMatchViewModelFactory(private val relativeMatchRepository: RelativeMatchRepository) : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return RelativeMatchViewModel(relativeMatchRepository) as T
             }
         }
     }
