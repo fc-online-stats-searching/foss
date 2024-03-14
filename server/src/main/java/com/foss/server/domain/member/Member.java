@@ -42,7 +42,6 @@ public class Member {
   private Integer level;
 
   @Column(name = "mb_renewal", nullable = false)
-  @Setter(AccessLevel.PUBLIC)
   private LocalDateTime renewal;
 
   @Builder
