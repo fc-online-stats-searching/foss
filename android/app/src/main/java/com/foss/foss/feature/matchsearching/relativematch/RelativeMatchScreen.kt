@@ -103,7 +103,8 @@ fun RelativeMatchScreen(
                 onValueChange = { searchingName ->
                     userName = searchingName
                 },
-                isFocused = isFocused
+                isFocused = isFocused,
+                onSearch = {}
             )
             Surface(color = colorResource(id = R.color.foss_bk)) {
                 RelativeMatchColumn(

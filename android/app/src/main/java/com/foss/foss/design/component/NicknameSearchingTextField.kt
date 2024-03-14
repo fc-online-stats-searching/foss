@@ -1,6 +1,7 @@
 package com.foss.foss.design.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,6 +29,7 @@ import com.foss.foss.design.FossTheme
 fun NicknameSearchingTextField(
     value: String,
     onValueChange: (String) -> Unit,
+    onSearch: () -> Unit,
     modifier: Modifier = Modifier,
     isFocused: Boolean = false,
     placeHolderString: String = stringResource(id = R.string.common_request_searching_nickname)
@@ -53,7 +55,7 @@ fun NicknameSearchingTextField(
                     .fillMaxWidth()
             ) {
                 Icon(
-                    modifier = Modifier.padding(start = 10.dp),
+                    modifier = Modifier.padding(start = 10.dp).clickable { onSearch() },
                     tint = FossTheme.colors.fossGray300,
                     imageVector = Icons.Default.Search,
                     contentDescription = null

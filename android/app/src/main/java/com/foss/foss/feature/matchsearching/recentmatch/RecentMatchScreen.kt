@@ -129,6 +129,7 @@ fun RecentMatchScreen(
                 onValueChange = { searchingName ->
                     userName = searchingName
                 },
+                onSearch = { recentMatchViewModel.fetchMatches(userName, selectedMatchType) },
                 modifier = Modifier.onFocusChanged { focusState ->
                     isFocused = focusState.isFocused
                 },
