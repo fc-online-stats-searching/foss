@@ -1,7 +1,12 @@
 package com.foss.foss.feature.matchsearching.recentmatch
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.foss.foss.data.datasource.RecentMatchDataSource
+import com.foss.foss.data.repository.DefaultMatchRepository
+import com.foss.foss.data.service.RecentMatchService
+import com.foss.foss.di.auto.RetrofitModule.retrofit
 import com.foss.foss.model.MatchMapper.toDomainModel
 import com.foss.foss.model.MatchMapper.toUiModel
 import com.foss.foss.model.MatchTypeUiModel
@@ -72,6 +77,24 @@ class RecentMatchViewModel(
                 _uiState.value = RecentMatchUiState.Default
             }.collect {
                 _event.emit(RecentMatchEvent.RefreshSucceed)
+            }
+        }
+    }
+
+    companion object {
+        val Factory = RecentMatchViewModelFactory(
+            DefaultMatchRepository(
+                RecentMatchDataSource(
+                    retrofit.create(RecentMatchService::class.java)
+                )
+            )
+        )
+
+        @Suppress("UNCHECKED_CAST")
+        class RecentMatchViewModelFactory(private val matchRepository: MatchRepository) :
+            ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return RecentMatchViewModel(matchRepository) as T
             }
         }
     }

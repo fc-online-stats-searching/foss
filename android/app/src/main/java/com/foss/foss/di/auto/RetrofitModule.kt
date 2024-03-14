@@ -12,7 +12,7 @@ import okhttp3.MediaType
 import retrofit2.Retrofit
 
 object RetrofitModule : DefaultModule() {
-    private val retrofit by lazy {
+    val retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(Json.asConverterFactory(MediaType.parse("application/json")!!))
