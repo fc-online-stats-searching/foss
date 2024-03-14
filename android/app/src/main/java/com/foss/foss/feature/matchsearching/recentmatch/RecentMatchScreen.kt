@@ -55,6 +55,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.foss.foss.R
 import com.foss.foss.design.FossTheme
@@ -77,6 +78,7 @@ fun RecentMatchScreen(
     onRefreshClick: () -> Unit = {},
     recentMatchViewModel: RecentMatchViewModel = viewModel(factory = RecentMatchViewModel.Factory)
 ) {
+    val uiState by recentMatchViewModel.uiState.collectAsStateWithLifecycle()
     val types = MatchTypeUiModel.entries
     var selectedMatchType by remember { mutableStateOf(types.first()) }
     var userName by remember { mutableStateOf("") }
@@ -123,14 +125,14 @@ fun RecentMatchScreen(
                 .background(FossTheme.colors.fossBk)
         ) {
             NicknameSearchingTextField(
-                modifier = Modifier.onFocusChanged { focusState ->
-                    isFocused = focusState.isFocused
-                },
-                isFocused = isFocused,
                 value = userName,
                 onValueChange = { searchingName ->
                     userName = searchingName
-                }
+                },
+                modifier = Modifier.onFocusChanged { focusState ->
+                    isFocused = focusState.isFocused
+                },
+                isFocused = isFocused
             )
             MatchTypeSpinner(
                 selected = selectedMatchType,
@@ -140,11 +142,7 @@ fun RecentMatchScreen(
                 },
                 modifier = Modifier.padding(top = 18.dp, end = 20.dp)
             )
-            MatchColumn(
-                matches = MockData.recentMatch.filter { match ->
-                    selectedMatchType == MatchTypeUiModel.ALL || match.matchType == selectedMatchType
-                }
-            )
+            MatchColumn(uiState = uiState)
         }
     }
 }
@@ -152,16 +150,21 @@ fun RecentMatchScreen(
 @Composable
 fun MatchColumn(
     modifier: Modifier = Modifier,
-    matches: List<MatchUiModel>
+    uiState: RecentMatchUiState
 ) {
-    LazyColumn(modifier = modifier.fillMaxSize()) {
-        items(matches) { matchUiModel ->
-            MatchItem(
-                match = matchUiModel,
-                matchMvp = R.drawable.ic_player_example,
-                opponentTier = R.drawable.ic_tier_semi2
-            )
+    when (uiState) {
+        is RecentMatchUiState.RecentMatch -> {
+            LazyColumn(modifier = modifier.fillMaxSize()) {
+                items(uiState.matches) { matchUiModel ->
+                    MatchItem(
+                        match = matchUiModel,
+                        matchMvp = R.drawable.ic_player_example,
+                        opponentTier = R.drawable.ic_tier_semi2
+                    )
+                }
+            }
         }
+        else -> {}
     }
 }
 
@@ -476,6 +479,12 @@ fun MatchTypeDropDownMenu(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MatchColumnPreview() {
+    MatchColumn(uiState = RecentMatchUiState.RecentMatch(MockData.recentMatch))
 }
 
 @Preview(showBackground = true)

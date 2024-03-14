@@ -26,9 +26,9 @@ import com.foss.foss.design.FossTheme
 
 @Composable
 fun NicknameSearchingTextField(
-    modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
     isFocused: Boolean = false,
     placeHolderString: String = stringResource(id = R.string.common_request_searching_nickname)
 ) {
