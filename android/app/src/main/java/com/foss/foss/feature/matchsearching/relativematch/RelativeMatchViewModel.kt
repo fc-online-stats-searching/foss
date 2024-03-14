@@ -73,8 +73,8 @@ class RelativeMatchViewModel(private val relativeMatchRepository: RelativeMatchR
     companion object {
         val Factory = RelativeMatchViewModelFactory(
             DefaultRelativeMatchRepository(
-                RelativeMatchDataSource((retrofit.create(RelativeMatchService::class.java))),
-            ),
+                RelativeMatchDataSource((retrofit.create(RelativeMatchService::class.java)))
+            )
         )
 
         @Suppress("UNCHECKED_CAST")
