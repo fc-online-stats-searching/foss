@@ -7,6 +7,7 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,6 +20,9 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 @Configuration
 public class SwaggerConfig {
+
+    @Value("${aws.server.url}")
+    private String serverUrl;
 
     @Bean
     public OpenAPI openAPI() {
@@ -33,7 +37,7 @@ public class SwaggerConfig {
 
         Server server = new Server();
         server.setDescription("HTTP");
-        server.setUrl("http://203.252.161.105:8080");
+        server.setUrl(serverUrl);
 
         return new OpenAPI()
                 .info(info)
