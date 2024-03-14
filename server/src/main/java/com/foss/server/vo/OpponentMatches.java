@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class OpponentMatches {
 
@@ -19,14 +20,9 @@ public class OpponentMatches {
     }
 
     public List<RelativeMatchResponseDto> getRelativeMatchResponses(String ouid, String nickname) {
-        List<RelativeMatchResponseDto> relativeMatchResponse = new ArrayList<>();
-        for (Map.Entry<String, List<Match>> entry : opponentMatches.entrySet()) {
-            String opponentOuid = entry.getKey();
-            List<Match> matchList = entry.getValue();
-
-            relativeMatchResponse.add(MatchMapper.getRelativeMatchResponseDto(ouid, opponentOuid, nickname, matchList));
-        }
-        return relativeMatchResponse;
+        return opponentMatches.entrySet().stream()
+                .map(entry -> MatchMapper.getRelativeMatchResponseDto(ouid, entry.getKey(), nickname, entry.getValue()))
+                .collect(Collectors.toList());
     }
 
     private void extractOpponentMatches(String ouid, List<Match> matches) {
