@@ -278,6 +278,7 @@ fun MatchMvp(
             contentDescription = null
         )
         Image(
+            // TODO : 이미지 변경해야 함
             painter = painterResource(id = image),
             contentDescription = null,
             contentScale = ContentScale.Crop,

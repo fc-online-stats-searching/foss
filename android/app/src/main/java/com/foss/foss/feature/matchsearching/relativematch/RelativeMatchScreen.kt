@@ -190,6 +190,7 @@ fun RelativeMatchItem(
             )
             Spacer(Modifier.width(15.dp))
             Image(
+                // TODO : 티어를 받아오는 방법을 의논해야 함
                 painter = tierImgResource,
                 contentDescription = "Rank",
                 modifier = Modifier
