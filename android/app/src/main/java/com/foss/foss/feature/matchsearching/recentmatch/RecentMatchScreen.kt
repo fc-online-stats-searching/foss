@@ -55,6 +55,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.foss.foss.R
 import com.foss.foss.design.FossTheme
 import com.foss.foss.design.component.NicknameSearchingTextField
@@ -73,7 +74,8 @@ import java.time.temporal.ChronoUnit
 @Composable
 fun RecentMatchScreen(
     onBackPressedClick: () -> Unit = {},
-    onRefreshClick: () -> Unit = {}
+    onRefreshClick: () -> Unit = {},
+    recentMatchViewModel: RecentMatchViewModel = viewModel(factory = RecentMatchViewModel.Factory)
 ) {
     val types = MatchTypeUiModel.entries
     var selectedMatchType by remember { mutableStateOf(types.first()) }
