@@ -20,12 +20,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,49 +41,26 @@ import androidx.compose.ui.unit.dp
 import com.foss.foss.R
 import com.foss.foss.design.FossTheme
 import com.foss.foss.design.component.NicknameSearchingTextField
+import com.foss.foss.design.component.TopBar
 import com.foss.foss.model.RelativeMatchUiModel
 import com.foss.foss.util.MockRelativeMatchData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RelativeMatchScreen(
-    onRelativeMatchClick: (relativeMatch: RelativeMatchUiModel) -> Unit = {}
+    onRelativeMatchClick: (relativeMatch: RelativeMatchUiModel) -> Unit = {},
+    onBackPressedClick: () -> Unit = {},
+    onRefreshClick: () -> Unit = {}
 ) {
     var userName by remember { mutableStateOf("") }
     var isFocused by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        style = FossTheme.typography.title01,
-                        color = FossTheme.colors.fossWt,
-                        text = stringResource(id = R.string.common_relative_matches)
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { /*TODO : 현재 액티비티를 종료하는 기능*/ }) {
-                        Icon(
-                            modifier = Modifier
-                                .width(24.dp)
-                                .height(22.dp),
-                            painter = painterResource(id = R.drawable.ic_arrow_back),
-                            tint = FossTheme.colors.fossWt,
-                            contentDescription = null
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { /*TODO : 전적을 갱신하는 기능*/ }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_refresh),
-                            tint = FossTheme.colors.fossWt,
-                            contentDescription = null
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = FossTheme.colors.fossBk)
+            TopBar(
+                title = stringResource(id = R.string.common_relative_matches),
+                onBackPressedClick = onBackPressedClick,
+                onRefreshClick = onRefreshClick
             )
         }
     ) {
