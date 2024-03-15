@@ -3,9 +3,9 @@ package com.foss.server.dto;
 import com.foss.server.domain.match.Match;
 import com.foss.server.domain.match.MatchDetail;
 import com.foss.server.domain.match.Player;
-import com.foss.server.dto.api.match.MatchDetailDto;
-import com.foss.server.dto.api.match.MatchDto;
-import com.foss.server.dto.api.match.PlayerDto;
+import com.foss.server.api.dto.match.MatchDetailDto;
+import com.foss.server.api.dto.match.MatchDto;
+import com.foss.server.api.dto.match.PlayerDto;
 import com.foss.server.dto.match.MatchResponseDto;
 import com.foss.server.dto.match.RelativeMatchResponseDto;
 
