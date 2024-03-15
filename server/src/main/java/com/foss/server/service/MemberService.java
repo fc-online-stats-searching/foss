@@ -3,7 +3,7 @@ package com.foss.server.service;
 import com.foss.server.api.NexonApiClient;
 import com.foss.server.dao.MemberRepository;
 import com.foss.server.domain.member.Member;
-import com.foss.server.dto.api.user.UserApiResponseDto;
+import com.foss.server.api.dto.user.UserApiResponseDto;
 import com.foss.server.dto.member.MemberInfoResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,9 +20,8 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public MemberInfoResponseDto refreshMember(String nickname) {
+    public MemberInfoResponseDto refreshMember(String ouid) {
 
-        String ouid = nexonApiClient.requestUserOuid(nickname);
         UserApiResponseDto userApiResponseDto = nexonApiClient.requestUserInfo(ouid);
 
         Optional<Member> member = memberRepository.findByAccessId(userApiResponseDto.getOuid());
