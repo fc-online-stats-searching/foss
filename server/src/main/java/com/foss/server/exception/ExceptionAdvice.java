@@ -18,7 +18,15 @@ import static com.foss.server.exception.ExceptionType.*;
 @RestControllerAdvice
 public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
-
+    @Override
+    protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        return ResponseEntity.badRequest()
+                .body(new ExceptionResponse(MISSING_REQUEST_PARAMETER.getCode(), MISSING_REQUEST_PARAMETER.getMessage()));
+    }
+    @ExceptionHandler(Exception.class)
+    private ResponseEntity<ExceptionResponse> exception(Exception e) {
+        return ResponseEntity.internalServerError().body(new ExceptionResponse(500, e.getMessage()));
+    }
 
     @ExceptionHandler(MemberNotFoundException.class)
     protected ResponseEntity<ExceptionResponse> memberNotFoundException(HttpServletRequest request, Exception e) {
@@ -45,11 +53,5 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
                 .body(new ExceptionResponse(NOT_FOUND_MEMBER_NICKNAME.getCode(), NOT_FOUND_MEMBER_NICKNAME.getMessage()));
     }
 
-
-    @Override
-    protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        return ResponseEntity.badRequest()
-                .body(new ExceptionResponse(MISSING_REQUEST_PARAMETER.getCode(), MISSING_REQUEST_PARAMETER.getMessage()));
-    }
 }
 
