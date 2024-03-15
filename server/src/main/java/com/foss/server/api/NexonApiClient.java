@@ -1,8 +1,8 @@
 package com.foss.server.api;
 
-import com.foss.server.dto.api.match.MatchDto;
-import com.foss.server.dto.api.match.OuIdResponseDto;
-import com.foss.server.dto.api.user.UserApiResponseDto;
+import com.foss.server.api.dto.match.MatchDto;
+import com.foss.server.api.dto.match.OuIdResponseDto;
+import com.foss.server.api.dto.user.UserApiResponseDto;
 import com.foss.server.exception.ManyRequestException;
 import com.foss.server.exception.MatchIdNotFoundException;
 import com.foss.server.exception.MemberNotFoundException;
@@ -62,17 +62,6 @@ public class NexonApiClient {
         return restTemplate.exchange(url, HttpMethod.GET, getHttpEntity(), String[].class, ouid, matchtype).getBody();
     }
 
-    public MatchDto requestMatchInfo(String matchId) {
-        final String url = "https://open.api.nexon.com/fconline/v1/match-detail?matchid={matchId}";
-
-        try {
-            MatchDto matchDto = restTemplate.exchange(url, HttpMethod.GET, getHttpEntity(), MatchDto.class, matchId).getBody();
-            return matchDto;
-        } catch (Exception e) {
-            throw new MatchIdNotFoundException();
-        }
-    }
-
     @Async
     public MatchDto requestMatchAsync(String matchId) {
         final String url = "https://open.api.nexon.com/fconline/v1/match-detail?matchid={matchId}";
@@ -89,7 +78,9 @@ public class NexonApiClient {
     public CompletableFuture<MatchDto> requestMatchInfoAsync(String matchId) {
         final String url = "https://open.api.nexon.com/fconline/v1/match-detail?matchid={matchId}";
 
-        return CompletableFuture.supplyAsync(() -> performRequestWithRetry(url, matchId));
+        CompletableFuture<MatchDto> completableFuture = CompletableFuture.supplyAsync(() -> performRequestWithRetry(url, matchId));
+
+        return completableFuture;
     }
 
 

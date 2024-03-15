@@ -4,7 +4,7 @@ import com.foss.server.api.NexonApiClient;
 import com.foss.server.dao.MatchRepository;
 import com.foss.server.domain.match.Match;
 import com.foss.server.dto.MatchMapper;
-import com.foss.server.dto.api.match.MatchDto;
+import com.foss.server.api.dto.match.MatchDto;
 import com.foss.server.exception.ManyRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

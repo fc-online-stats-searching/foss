@@ -1,7 +1,6 @@
 package com.foss.server.controller;
 
 import com.foss.server.api.NexonApiClient;
-import com.foss.server.dto.api.user.UserApiResponseDto;
 import com.foss.server.service.MatchService;
 import com.foss.server.service.MemberService;
 import com.foss.server.dto.member.MemberInfoResponseDto;
@@ -13,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.CompletableFuture;
+
 @Tag(name = "FOSS Controller", description = "FOSS 컨트롤러")
 @RestController
 @RequiredArgsConstructor
@@ -21,15 +22,26 @@ public class MemberController {
 
     private final MemberService memberService;
     private final MatchService matchService;
+    private final NexonApiClient nexonApiClient;
 
     @PostMapping("/refresh")
     public ResponseEntity<MemberInfoResponseDto> refresh(
             @RequestBody RefreshDto refreshDto
     ) {
-        MemberInfoResponseDto memberInfo = memberService.refreshMember(refreshDto.getNickname());
-        matchService.refreshMatchList(memberInfo.getOuid());
+        String ouid = nexonApiClient.requestUserOuid(refreshDto.getNickname());
 
-        return ResponseEntity.ok(memberInfo);
+        CompletableFuture<MemberInfoResponseDto> memberInfoFuture = CompletableFuture.supplyAsync(() ->
+                memberService.refreshMember(ouid)
+        );
+
+        CompletableFuture<Void> matchListFuture = CompletableFuture.runAsync(() ->
+                matchService.refreshMatchList(ouid)
+        );
+
+        CompletableFuture<Void> allOfFuture = CompletableFuture.allOf(memberInfoFuture, matchListFuture);
+        allOfFuture.join();
+
+        return ResponseEntity.ok(memberInfoFuture.join());
     }
 
     @GetMapping("/matches")

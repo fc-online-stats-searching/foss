@@ -53,7 +53,7 @@ public class MatchService {
         }
 
         try {
-            CompletableFuture.allOf(updateTasks.toArray(new CompletableFuture[0])).get();
+            CompletableFuture.allOf(updateTasks.toArray(CompletableFuture[]::new)).get();
         } catch (InterruptedException | ExecutionException e) {
             throw new ManyRequestException();
         }
