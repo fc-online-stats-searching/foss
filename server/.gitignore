@@ -38,6 +38,7 @@ out/
 
 ### secret ###
 *.properties
+appilcation.yml
 ### Except ###
 !gradle-wrapper.properties
 .env
