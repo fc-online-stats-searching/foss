@@ -44,7 +44,7 @@ fun MainScreen(navigator: NavHostController = rememberNavController()) {
 
             relativeMatchNavGraph(
                 onRelativeMatchClick = {},
-                onBackPressedClick = { navigator.popBackStack() },
+                onBackPressedClick = { navigator.popBackStack() }
             )
 
             recentMatchNavGraph(

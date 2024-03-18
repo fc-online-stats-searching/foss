@@ -41,6 +41,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.foss.foss.R
 import com.foss.foss.design.FossTheme
+import com.foss.foss.design.component.EmptyMatchText
 import com.foss.foss.design.component.FossTopBar
 import com.foss.foss.design.component.NicknameSearchingTextField
 import com.foss.foss.model.RelativeMatchUiModel
@@ -105,19 +106,12 @@ fun RelativeMatchScreen(
                 }
             )
             Surface(color = colorResource(id = R.color.foss_bk)) {
-                when (uiState) {
-                    is RelativeMatchUiState.RelativeMatches -> {
-                        RelativeMatchColumn(
-                            uiState = uiState,
-                            onRelativeMatchClicked = { relativeMatch ->
-                                onRelativeMatchClick(relativeMatch)
-                            }
-                        )
+                RelativeMatchColumn(
+                    uiState = uiState,
+                    onRelativeMatchClicked = { relativeMatch ->
+                        onRelativeMatchClick(relativeMatch)
                     }
-                    else -> {
-                        Box(modifier = Modifier.fillMaxSize())
-                    }
-                }
+                )
             }
         }
     }
@@ -154,7 +148,9 @@ fun RelativeMatchColumn(
                 }
             }
         }
-        else -> {}
+        else -> {
+            EmptyMatchText(modifier = modifier.fillMaxSize())
+        }
     }
 }
 

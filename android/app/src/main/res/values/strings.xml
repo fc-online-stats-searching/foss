@@ -19,6 +19,7 @@
     <string name="common_volta_offical_description">볼타 공식 경기</string>
     <string name="common_volta_custom_description">볼타 커스텀</string>
     <string name="common_request_searching_nickname">사용자 이름을 검색해 주세요.</string>
+    <string name="common_empty_match">전적을 검색해보세요!</string>
     <string name="common_refresh_failed_message">전적 갱신에 실패했습니다.</string>
     <string name="common_refresh_succeed_message">전적 갱신에 성공했습니다. \n전적을 검색해보세요!</string>
     <string name="common_failed_fetching_matches">전적 검색에 실패했습니다. \n닉네임을 확인해주세요.</string>
