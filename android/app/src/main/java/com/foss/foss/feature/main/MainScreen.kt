@@ -12,6 +12,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.foss.foss.feature.home.navigation.HOME_ROUTE
 import com.foss.foss.feature.home.navigation.homeNavGraph
+import com.foss.foss.feature.home.navigation.navigateToRecentMatch
+import com.foss.foss.feature.home.navigation.navigateToRelativeMatch
+import com.foss.foss.feature.home.navigation.recentMatchNavGraph
+import com.foss.foss.feature.home.navigation.relativeMatchNavGraph
 import kotlinx.coroutines.launch
 
 @Composable
@@ -33,17 +37,21 @@ fun MainScreen(navigator: NavHostController = rememberNavController()) {
             startDestination = HOME_ROUTE
         ) {
             homeNavGraph(
-                onRelativeStatButtonClick = {},
-                onRecentStatButtonClick = {},
+                onRelativeStatButtonClick = { navigator.navigateToRelativeMatch() },
+                onRecentStatButtonClick = { navigator.navigateToRecentMatch() },
                 onShowSnackBar = onShowSnackBar
             )
-            /**
-             * todo: relativeNavGraph
-             */
 
-            /**
-             * todo: recentNavGraph
-             */
+            relativeMatchNavGraph(
+                onRelativeMatchClick = {},
+                onBackPressedClick = { navigator.popBackStack() },
+                onRefreshClick = {}
+            )
+
+            recentMatchNavGraph(
+                onBackPressedClick = { navigator.popBackStack() },
+                onRefreshClick = {}
+            )
         }
         padding
     }

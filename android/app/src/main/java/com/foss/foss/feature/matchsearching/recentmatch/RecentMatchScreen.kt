@@ -25,14 +25,10 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -57,6 +53,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import com.foss.foss.R
 import com.foss.foss.design.FossTheme
+import com.foss.foss.design.component.FossTopBar
 import com.foss.foss.design.component.NicknameSearchingTextField
 import com.foss.foss.model.MatchMapper.toUiModel
 import com.foss.foss.model.MatchTypeUiModel
@@ -69,7 +66,17 @@ import com.foss.foss.util.MockData
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
-@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RecentMatchRoute(
+    onBackPressedClick: () -> Unit,
+    onRefreshClick: () -> Unit
+) {
+    RecentMatchScreen(
+        onBackPressedClick = onBackPressedClick,
+        onRefreshClick = onRefreshClick
+    )
+}
+
 @Composable
 fun RecentMatchScreen(
     onBackPressedClick: () -> Unit = {},
@@ -82,36 +89,10 @@ fun RecentMatchScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        style = FossTheme.typography.title01,
-                        color = FossTheme.colors.fossWt,
-                        text = stringResource(id = R.string.common_recent_matches)
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = onBackPressedClick) {
-                        Icon(
-                            modifier = Modifier
-                                .width(24.dp)
-                                .height(22.dp),
-                            painter = painterResource(id = R.drawable.ic_arrow_back),
-                            tint = FossTheme.colors.fossWt,
-                            contentDescription = null
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = onRefreshClick) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_refresh),
-                            tint = FossTheme.colors.fossWt,
-                            contentDescription = null
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = FossTheme.colors.fossBk)
+            FossTopBar(
+                title = stringResource(id = R.string.common_recent_matches),
+                onBackPressedClick = onBackPressedClick,
+                onRefreshClick = onRefreshClick
             )
         }
     ) {
@@ -258,7 +239,6 @@ fun MatchResult(
 
 @Composable
 fun MatchMvp(
-    modifier: Modifier = Modifier,
     @DrawableRes image: Int
 ) {
     Box(
