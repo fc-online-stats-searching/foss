@@ -50,24 +50,32 @@ import com.foss.foss.util.MockRelativeMatchData
 fun RelativeMatchRoute(
     onRelativeMatchClick: (relativeMatch: RelativeMatchUiModel) -> Unit,
     onBackPressedClick: () -> Unit,
-    onRefreshClick: () -> Unit
+    relativeMatchViewModel: RelativeMatchViewModel = viewModel(factory = RelativeMatchViewModel.Factory)
 ) {
+    val uiState by relativeMatchViewModel.uiState.collectAsStateWithLifecycle()
+    var userName by remember { mutableStateOf("") }
+
     RelativeMatchScreen(
         onRelativeMatchClick = onRelativeMatchClick,
         onBackPressedClick = onBackPressedClick,
-        onRefreshClick = onRefreshClick
+        onRefreshClick = { relativeMatchViewModel.refreshMatches(userName) },
+        onSearch = { relativeMatchViewModel.fetchRelativeMatches(userName) },
+        onValueChange = { userName = it },
+        uiState = uiState,
+        userName = userName
     )
 }
 
 @Composable
 fun RelativeMatchScreen(
     onRelativeMatchClick: (relativeMatch: RelativeMatchUiModel) -> Unit = {},
-    relativeMatchViewModel: RelativeMatchViewModel = viewModel(factory = RelativeMatchViewModel.Factory),
     onBackPressedClick: () -> Unit = {},
-    onRefreshClick: () -> Unit = {}
+    onRefreshClick: () -> Unit = {},
+    onSearch: () -> Unit = {},
+    onValueChange: (String) -> Unit = {},
+    uiState: RelativeMatchUiState,
+    userName: String
 ) {
-    val uiState by relativeMatchViewModel.uiState.collectAsStateWithLifecycle()
-    var userName by remember { mutableStateOf("") }
     var isFocused by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -86,11 +94,9 @@ fun RelativeMatchScreen(
         ) {
             NicknameSearchingTextField(
                 value = userName,
-                onValueChange = { searchingName ->
-                    userName = searchingName
-                },
+                onValueChange = onValueChange,
                 isFocused = isFocused,
-                onSearch = { relativeMatchViewModel.fetchRelativeMatches(userName) },
+                onSearch = onSearch,
                 modifier = Modifier.onFocusChanged { focusState ->
                     isFocused = focusState.isFocused
                 }
@@ -354,5 +360,8 @@ fun NewRelativeMatchColumnPreview() {
 @Preview(showBackground = true)
 @Composable
 fun NewRelativeMatchScreenPreview() {
-    RelativeMatchScreen()
+    RelativeMatchScreen(
+        uiState = RelativeMatchUiState.Default,
+        userName = ""
+    )
 }
