@@ -54,7 +54,7 @@ import androidx.compose.ui.unit.toSize
 import com.foss.foss.R
 import com.foss.foss.design.FossTheme
 import com.foss.foss.design.component.NicknameSearchingTextField
-import com.foss.foss.design.component.TopBar
+import com.foss.foss.design.component.FossTopBar
 import com.foss.foss.model.MatchMapper.toUiModel
 import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.model.MatchUiModel
@@ -78,7 +78,7 @@ fun RecentMatchScreen(
 
     Scaffold(
         topBar = {
-            TopBar(
+            FossTopBar(
                 title = stringResource(id = R.string.common_recent_matches),
                 onBackPressedClick = onBackPressedClick,
                 onRefreshClick = onRefreshClick

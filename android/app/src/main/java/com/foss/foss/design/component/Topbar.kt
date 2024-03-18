@@ -17,7 +17,7 @@ import com.foss.foss.design.FossTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(
+fun FossTopBar(
     title: String,
     onBackPressedClick: () -> Unit,
     onRefreshClick: () -> Unit

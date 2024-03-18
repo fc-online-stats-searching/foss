@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.dp
 import com.foss.foss.R
 import com.foss.foss.design.FossTheme
 import com.foss.foss.design.component.NicknameSearchingTextField
-import com.foss.foss.design.component.TopBar
+import com.foss.foss.design.component.FossTopBar
 import com.foss.foss.model.RelativeMatchUiModel
 import com.foss.foss.util.MockRelativeMatchData
 
@@ -57,7 +57,7 @@ fun RelativeMatchScreen(
 
     Scaffold(
         topBar = {
-            TopBar(
+            FossTopBar(
                 title = stringResource(id = R.string.common_relative_matches),
                 onBackPressedClick = onBackPressedClick,
                 onRefreshClick = onRefreshClick
