@@ -18,7 +18,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -40,12 +39,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.foss.foss.R
 import com.foss.foss.design.FossTheme
-import com.foss.foss.design.component.NicknameSearchingTextField
 import com.foss.foss.design.component.FossTopBar
+import com.foss.foss.design.component.NicknameSearchingTextField
 import com.foss.foss.model.RelativeMatchUiModel
 import com.foss.foss.util.MockRelativeMatchData
 
-@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RelativeMatchRoute(
+    onRelativeMatchClick: (relativeMatch: RelativeMatchUiModel) -> Unit,
+    onBackPressedClick: () -> Unit,
+    onRefreshClick: () -> Unit
+) {
+    RelativeMatchScreen(
+        onRelativeMatchClick = onRelativeMatchClick,
+        onBackPressedClick = onBackPressedClick,
+        onRefreshClick = onRefreshClick
+    )
+}
+
 @Composable
 fun RelativeMatchScreen(
     onRelativeMatchClick: (relativeMatch: RelativeMatchUiModel) -> Unit = {},
@@ -109,7 +120,7 @@ fun RelativeMatchColumn(
         )
 
         LazyColumn(
-            modifier = Modifier.fillMaxSize()
+            modifier = modifier.fillMaxSize()
         ) {
             items(relativeMatches) { match ->
                 RelativeMatchItem(
@@ -132,7 +143,7 @@ fun RelativeMatchItem(
     val tierImgResource = getTierImageRes(relativeMatch)
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(
                 start = FossTheme.padding.BasicHorizontalPadding,
@@ -282,7 +293,6 @@ fun RelativeMatchOpponentData(
 
 @Composable
 fun RelativeMatchTotalResult(
-    modifier: Modifier = Modifier,
     relativeMatch: RelativeMatchUiModel,
     onRelativeMatchClick: (relativeMatch: RelativeMatchUiModel) -> Unit
 ) {

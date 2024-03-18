@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.foss.foss.feature.matchsearching.relativematch.RelativeMatchScreen
+import com.foss.foss.feature.matchsearching.relativematch.RelativeMatchRoute
 import com.foss.foss.model.RelativeMatchUiModel
 
 const val RELATIVEMATCH_ROUTE = "RELATIVEMATCH"
@@ -19,7 +19,7 @@ fun NavGraphBuilder.relativeMatchNavGraph(
     onRefreshClick: () -> Unit
 ) {
     composable(route = RELATIVEMATCH_ROUTE) {
-        RelativeMatchScreen(
+        RelativeMatchRoute(
             onRelativeMatchClick = onRelativeMatchClick,
             onBackPressedClick = onBackPressedClick,
             onRefreshClick = onRefreshClick

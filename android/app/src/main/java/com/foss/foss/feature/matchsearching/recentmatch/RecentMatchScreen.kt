@@ -53,8 +53,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import com.foss.foss.R
 import com.foss.foss.design.FossTheme
-import com.foss.foss.design.component.NicknameSearchingTextField
 import com.foss.foss.design.component.FossTopBar
+import com.foss.foss.design.component.NicknameSearchingTextField
 import com.foss.foss.model.MatchMapper.toUiModel
 import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.model.MatchUiModel
@@ -65,6 +65,17 @@ import com.foss.foss.model.WinDrawLoseUiModel.Companion.getStringResId
 import com.foss.foss.util.MockData
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
+
+@Composable
+fun RecentMatchRoute(
+    onBackPressedClick: () -> Unit,
+    onRefreshClick: () -> Unit
+) {
+    RecentMatchScreen(
+        onBackPressedClick = onBackPressedClick,
+        onRefreshClick = onRefreshClick
+    )
+}
 
 @Composable
 fun RecentMatchScreen(
@@ -228,7 +239,6 @@ fun MatchResult(
 
 @Composable
 fun MatchMvp(
-    modifier: Modifier = Modifier,
     @DrawableRes image: Int
 ) {
     Box(

@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.foss.foss.feature.matchsearching.recentmatch.RecentMatchScreen
+import com.foss.foss.feature.matchsearching.recentmatch.RecentMatchRoute
 
 const val RECENTMATCH_ROUTE = "RECENTMATCH"
 
@@ -17,7 +17,7 @@ fun NavGraphBuilder.recentMatchNavGraph(
     onRefreshClick: () -> Unit
 ) {
     composable(route = RECENTMATCH_ROUTE) {
-        RecentMatchScreen(
+        RecentMatchRoute(
             onBackPressedClick = onBackPressedClick,
             onRefreshClick = onRefreshClick
         )
