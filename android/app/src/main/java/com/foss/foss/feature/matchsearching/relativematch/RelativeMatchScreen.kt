@@ -18,14 +18,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,15 +41,30 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.foss.foss.R
 import com.foss.foss.design.FossTheme
+import com.foss.foss.design.component.FossTopBar
 import com.foss.foss.design.component.NicknameSearchingTextField
 import com.foss.foss.model.RelativeMatchUiModel
 import com.foss.foss.util.MockRelativeMatchData
 
-@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RelativeMatchRoute(
+    onRelativeMatchClick: (relativeMatch: RelativeMatchUiModel) -> Unit,
+    onBackPressedClick: () -> Unit,
+    onRefreshClick: () -> Unit
+) {
+    RelativeMatchScreen(
+        onRelativeMatchClick = onRelativeMatchClick,
+        onBackPressedClick = onBackPressedClick,
+        onRefreshClick = onRefreshClick
+    )
+}
+
 @Composable
 fun RelativeMatchScreen(
     onRelativeMatchClick: (relativeMatch: RelativeMatchUiModel) -> Unit = {},
-    relativeMatchViewModel: RelativeMatchViewModel = viewModel(factory = RelativeMatchViewModel.Factory)
+    relativeMatchViewModel: RelativeMatchViewModel = viewModel(factory = RelativeMatchViewModel.Factory),
+    onBackPressedClick: () -> Unit = {},
+    onRefreshClick: () -> Unit = {}
 ) {
     val uiState by relativeMatchViewModel.uiState.collectAsStateWithLifecycle()
     var userName by remember { mutableStateOf("") }
@@ -61,36 +72,10 @@ fun RelativeMatchScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        style = FossTheme.typography.title01,
-                        color = FossTheme.colors.fossWt,
-                        text = stringResource(id = R.string.common_relative_matches)
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { /*TODO : 현재 액티비티를 종료하는 기능*/ }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_arrow_back),
-                            tint = FossTheme.colors.fossWt,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .width(24.dp)
-                                .height(22.dp)
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { relativeMatchViewModel.refreshMatches(userName) }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_refresh),
-                            tint = FossTheme.colors.fossWt,
-                            contentDescription = null
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = FossTheme.colors.fossBk)
+            FossTopBar(
+                title = stringResource(id = R.string.common_relative_matches),
+                onBackPressedClick = onBackPressedClick,
+                onRefreshClick = onRefreshClick
             )
         }
     ) {
