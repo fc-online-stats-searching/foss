@@ -82,6 +82,7 @@ fun RecentMatchRoute(
 @Composable
 fun RecentMatchScreen(
     onBackPressedClick: () -> Unit = {},
+    onRefreshClick: () -> Unit = {},
     recentMatchViewModel: RecentMatchViewModel = viewModel(factory = RecentMatchViewModel.Factory)
 ) {
     val uiState by recentMatchViewModel.uiState.collectAsStateWithLifecycle()

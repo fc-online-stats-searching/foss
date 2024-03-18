@@ -122,4 +122,5 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     implementation("androidx.navigation:navigation-compose:2.4.0-alpha08")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.0-alpha02")
 }
