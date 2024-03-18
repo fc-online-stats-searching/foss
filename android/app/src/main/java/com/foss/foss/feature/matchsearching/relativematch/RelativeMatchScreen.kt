@@ -50,31 +50,34 @@ import com.foss.foss.util.MockRelativeMatchData
 fun RelativeMatchRoute(
     onRelativeMatchClick: (relativeMatch: RelativeMatchUiModel) -> Unit,
     onBackPressedClick: () -> Unit,
+    modifier: Modifier = Modifier,
     relativeMatchViewModel: RelativeMatchViewModel = viewModel(factory = RelativeMatchViewModel.Factory)
 ) {
     val uiState by relativeMatchViewModel.uiState.collectAsStateWithLifecycle()
     var userName by remember { mutableStateOf("") }
 
     RelativeMatchScreen(
+        uiState = uiState,
+        userName = userName,
+        modifier = modifier,
         onRelativeMatchClick = onRelativeMatchClick,
         onBackPressedClick = onBackPressedClick,
         onRefreshClick = { relativeMatchViewModel.refreshMatches(userName) },
         onSearch = { relativeMatchViewModel.fetchRelativeMatches(userName) },
-        onValueChange = { userName = it },
-        uiState = uiState,
-        userName = userName
+        onValueChange = { userName = it }
     )
 }
 
 @Composable
 fun RelativeMatchScreen(
+    uiState: RelativeMatchUiState,
+    userName: String,
+    modifier: Modifier = Modifier,
     onRelativeMatchClick: (relativeMatch: RelativeMatchUiModel) -> Unit = {},
     onBackPressedClick: () -> Unit = {},
     onRefreshClick: () -> Unit = {},
     onSearch: () -> Unit = {},
-    onValueChange: (String) -> Unit = {},
-    uiState: RelativeMatchUiState,
-    userName: String
+    onValueChange: (String) -> Unit = {}
 ) {
     var isFocused by remember { mutableStateOf(false) }
 
@@ -102,12 +105,19 @@ fun RelativeMatchScreen(
                 }
             )
             Surface(color = colorResource(id = R.color.foss_bk)) {
-                RelativeMatchColumn(
-                    uiState = uiState,
-                    onRelativeMatchClicked = { relativeMatch ->
-                        onRelativeMatchClick(relativeMatch)
+                when (uiState) {
+                    is RelativeMatchUiState.RelativeMatches -> {
+                        RelativeMatchColumn(
+                            uiState = uiState,
+                            onRelativeMatchClicked = { relativeMatch ->
+                                onRelativeMatchClick(relativeMatch)
+                            }
+                        )
                     }
-                )
+                    else -> {
+                        Box(modifier = Modifier.fillMaxSize())
+                    }
+                }
             }
         }
     }

@@ -28,6 +28,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -57,6 +58,8 @@ import com.foss.foss.R
 import com.foss.foss.design.FossTheme
 import com.foss.foss.design.component.FossTopBar
 import com.foss.foss.design.component.NicknameSearchingTextField
+import com.foss.foss.feature.matchsearching.relativematch.RelativeMatchColumn
+import com.foss.foss.feature.matchsearching.relativematch.RelativeMatchUiState
 import com.foss.foss.model.MatchMapper.toUiModel
 import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.model.MatchUiModel
@@ -133,7 +136,17 @@ fun RecentMatchScreen(
                 onSelectionChanged = onSelectionChanged,
                 modifier = Modifier.padding(top = 18.dp, end = 20.dp)
             )
-            MatchColumn(uiState = uiState)
+            Surface(color = colorResource(id = R.color.foss_bk)) {
+                when (uiState) {
+                    is RecentMatchUiState.RecentMatch -> {
+                        MatchColumn(uiState = uiState)
+                    }
+                    else -> {
+                        Box(modifier = Modifier.fillMaxSize())
+                    }
+                }
+            }
+
         }
     }
 }
