@@ -49,8 +49,7 @@ fun MainScreen(navigator: NavHostController = rememberNavController()) {
             )
 
             recentMatchNavGraph(
-                onBackPressedClick = { navigator.popBackStack() },
-                onRefreshClick = {}
+                onBackPressedClick = { navigator.popBackStack() }
             )
         }
         padding

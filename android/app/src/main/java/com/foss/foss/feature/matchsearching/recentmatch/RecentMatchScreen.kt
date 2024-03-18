@@ -71,11 +71,21 @@ import java.time.temporal.ChronoUnit
 @Composable
 fun RecentMatchRoute(
     onBackPressedClick: () -> Unit,
-    onRefreshClick: () -> Unit
+    recentMatchViewModel: RecentMatchViewModel = viewModel(factory = RecentMatchViewModel.Factory)
 ) {
+    val uiState by recentMatchViewModel.uiState.collectAsStateWithLifecycle()
+    var userName by remember { mutableStateOf("") }
+    var selectedMatchType by remember { mutableStateOf(MatchTypeUiModel.entries.first()) }
+
     RecentMatchScreen(
         onBackPressedClick = onBackPressedClick,
-        onRefreshClick = onRefreshClick
+        onRefreshClick = { recentMatchViewModel.refreshMatches(userName) },
+        onSearch = { recentMatchViewModel.fetchMatches(userName, selectedMatchType) },
+        onValueChange = { userName = it },
+        onSelectionChanged = { selectedMatchType = it },
+        uiState = uiState,
+        userName = userName,
+        selectedMatchType = selectedMatchType
     )
 }
 
@@ -83,12 +93,13 @@ fun RecentMatchRoute(
 fun RecentMatchScreen(
     onBackPressedClick: () -> Unit = {},
     onRefreshClick: () -> Unit = {},
-    recentMatchViewModel: RecentMatchViewModel = viewModel(factory = RecentMatchViewModel.Factory)
+    onSearch: () -> Unit = {},
+    onValueChange: (String) -> Unit = {},
+    onSelectionChanged: (MatchTypeUiModel) -> Unit = {},
+    uiState: RecentMatchUiState,
+    userName: String,
+    selectedMatchType: MatchTypeUiModel
 ) {
-    val uiState by recentMatchViewModel.uiState.collectAsStateWithLifecycle()
-    val types = MatchTypeUiModel.entries
-    var selectedMatchType by remember { mutableStateOf(types.first()) }
-    var userName by remember { mutableStateOf("") }
     var isFocused by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -108,9 +119,9 @@ fun RecentMatchScreen(
             NicknameSearchingTextField(
                 value = userName,
                 onValueChange = { searchingName ->
-                    userName = searchingName
+                    onValueChange(searchingName)
                 },
-                onSearch = { recentMatchViewModel.fetchMatches(userName, selectedMatchType) },
+                onSearch = onSearch,
                 isFocused = isFocused,
                 modifier = Modifier.onFocusChanged { focusState ->
                     isFocused = focusState.isFocused
@@ -118,10 +129,8 @@ fun RecentMatchScreen(
             )
             MatchTypeSpinner(
                 selected = selectedMatchType,
-                matchTypes = types,
-                onSelectionChanged = { matchType ->
-                    selectedMatchType = matchType
-                },
+                matchTypes = MatchTypeUiModel.entries,
+                onSelectionChanged = onSelectionChanged,
                 modifier = Modifier.padding(top = 18.dp, end = 20.dp)
             )
             MatchColumn(uiState = uiState)
@@ -473,5 +482,9 @@ fun MatchColumnPreview() {
 @Preview(showBackground = true)
 @Composable
 fun RecentMatchScreenPreview() {
-    RecentMatchScreen()
+    RecentMatchScreen(
+        uiState = RecentMatchUiState.Default,
+        userName = "",
+        selectedMatchType = MatchTypeUiModel.ALL
+    )
 }

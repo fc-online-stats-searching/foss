@@ -23,11 +23,6 @@
             android:label="@string/title_activity_new_relative_match"
             android:theme="@style/Theme.Foss" />
         <activity
-            android:name=".feature.matchsearching.recentmatch.RecentMatchActivity"
-            android:exported="true"
-            android:label="@string/title_activity_new_recent_match"
-            android:theme="@style/Theme.Foss" />
-        <activity
             android:name=".feature.main.MainActivity"
             android:exported="true">
             <intent-filter>
