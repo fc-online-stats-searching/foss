@@ -4,22 +4,15 @@ import androidx.annotation.StringRes
 import com.foss.foss.R
 
 enum class WinDrawLoseUiModel(
+    // TODO: 이제 RESOURCE가 필요 없음.
     @StringRes
     val resId: Int
 ) {
     WIN(R.string.common_win_description),
     DRAW(R.string.common_draw_description),
-    LOSE(R.string.common_lose_description)
-    ;
+    LOSE(R.string.common_lose_description);
 
     companion object {
-        fun WinDrawLoseUiModel.getColorResId(): Int {
-            return when (this) {
-                WIN -> R.color.blue
-                DRAW -> R.color.foss_gray800
-                LOSE -> R.color.foss_red
-            }
-        }
 
         fun WinDrawLoseUiModel.getStringResId(): Int {
             return when (this) {

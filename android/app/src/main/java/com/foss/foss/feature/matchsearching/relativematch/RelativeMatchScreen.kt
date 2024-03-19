@@ -37,8 +37,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.foss.foss.R
 import com.foss.foss.design.FossTheme
 import com.foss.foss.design.component.EmptyMatchText
@@ -52,7 +52,7 @@ fun RelativeMatchRoute(
     onRelativeMatchClick: (relativeMatch: RelativeMatchUiModel) -> Unit,
     onBackPressedClick: () -> Unit,
     modifier: Modifier = Modifier,
-    relativeMatchViewModel: RelativeMatchViewModel = viewModel(factory = RelativeMatchViewModel.Factory)
+    relativeMatchViewModel: RelativeMatchViewModel = hiltViewModel()
 ) {
     val uiState by relativeMatchViewModel.uiState.collectAsStateWithLifecycle()
     var userName by remember { mutableStateOf("") }

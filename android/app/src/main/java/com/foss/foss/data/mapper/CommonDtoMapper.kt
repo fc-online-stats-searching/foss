@@ -5,7 +5,6 @@ import com.foss.foss.model.MatchType
 import com.foss.foss.model.WinDrawLose
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class CommonDtoMapper {
 
@@ -32,12 +31,26 @@ class CommonDtoMapper {
     }
 
     fun mapToDate(dateTime: String): LocalDate {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
-        return LocalDateTime.parse(dateTime, formatter).toLocalDate()
+        return LocalDate.of(getYear(dateTime), getMonth(dateTime), getYear(dateTime))
     }
 
     fun mapToTime(dateTime: String): LocalDateTime {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-        return LocalDateTime.parse(dateTime, formatter)
+        return LocalDateTime.of(
+            getYear(dateTime),
+            getMonth(dateTime),
+            getDay(dateTime),
+            getHour(dateTime),
+            getMinute(dateTime)
+        )
     }
+
+    private fun getYear(dateTime: String): Int = dateTime.substring(0, 4).toInt()
+
+    private fun getMonth(dateTime: String): Int = dateTime.substring(5, 7).toInt()
+
+    private fun getDay(dateTime: String): Int = dateTime.substring(8, 10).toInt()
+
+    private fun getHour(dateTime: String): Int = dateTime.substring(11, 13).toInt()
+
+    private fun getMinute(dateTime: String): Int = dateTime.substring(14, 16).toInt()
 }

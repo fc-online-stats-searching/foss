@@ -41,8 +41,8 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -51,8 +51,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.foss.foss.R
 import com.foss.foss.design.FossTheme
 import com.foss.foss.design.component.EmptyMatchText
@@ -63,7 +65,6 @@ import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.model.MatchUiModel
 import com.foss.foss.model.WinDrawLose
 import com.foss.foss.model.WinDrawLoseUiModel
-import com.foss.foss.model.WinDrawLoseUiModel.Companion.getColorResId
 import com.foss.foss.model.WinDrawLoseUiModel.Companion.getStringResId
 import com.foss.foss.util.MockData
 import java.time.LocalDateTime
@@ -72,7 +73,7 @@ import java.time.temporal.ChronoUnit
 @Composable
 fun RecentMatchRoute(
     onBackPressedClick: () -> Unit,
-    recentMatchViewModel: RecentMatchViewModel = viewModel(factory = RecentMatchViewModel.Factory)
+    recentMatchViewModel: RecentMatchViewModel = hiltViewModel()
 ) {
     val uiState by recentMatchViewModel.uiState.collectAsStateWithLifecycle()
     var userName by remember { mutableStateOf("") }
@@ -148,14 +149,11 @@ fun MatchColumn(
         is RecentMatchUiState.RecentMatch -> {
             LazyColumn(modifier = modifier.fillMaxSize()) {
                 items(uiState.matches) { matchUiModel ->
-                    MatchItem(
-                        match = matchUiModel,
-                        matchMvp = R.drawable.ic_player_example,
-                        opponentTier = R.drawable.ic_tier_semi2
-                    )
+                    MatchItem(match = matchUiModel)
                 }
             }
         }
+
         else -> {
             EmptyMatchText(modifier = modifier.fillMaxSize())
         }
@@ -165,8 +163,6 @@ fun MatchColumn(
 @Composable
 fun MatchItem(
     match: MatchUiModel,
-    matchMvp: Int,
-    opponentTier: Int,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -188,10 +184,11 @@ fun MatchItem(
                 otherPoint = match.otherPoint
             ).toUiModel()
         )
-        MatchMvp(image = matchMvp)
+        MatchMvp(manOfTheMatch = match.manOfTheMatch)
         MatchDetailResult(
             opponentName = match.opponentName,
-            opponentTier = opponentTier,
+            // TODO: 티어 받아오기
+            opponentTier = R.drawable.ic_tier_challenger2,
             point = match.point,
             otherPoint = match.otherPoint
         )
@@ -223,7 +220,7 @@ fun MatchResult(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .background(
-                color = colorResource(id = winDrawLoseUiModel.getColorResId()),
+                color = getWinDrawLoseColor(winDrawLoseUiModel),
                 shape = RoundedCornerShape(
                     topStart = CornerSize(5.dp),
                     topEnd = CornerSize(0.dp),
@@ -240,7 +237,7 @@ fun MatchResult(
         )
         Divider(
             thickness = 1.dp,
-            color = colorResource(id = R.color.foss_wt),
+            color = FossTheme.colors.fossWt,
             modifier = Modifier
                 .padding(top = 4.dp)
                 .width(12.dp)
@@ -257,7 +254,7 @@ fun MatchResult(
 
 @Composable
 fun MatchMvp(
-    @DrawableRes image: Int,
+    manOfTheMatch: Int?,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -271,15 +268,15 @@ fun MatchMvp(
             painter = painterResource(id = R.drawable.ic_mvp),
             contentDescription = null
         )
-        Image(
-            // TODO : 이미지 변경해야 함
-            painter = painterResource(id = image),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            alignment = Alignment.Center,
+        AsyncImage(
             modifier = Modifier
                 .width(52.dp)
-                .height(52.dp)
+                .height(52.dp),
+            model = ImageRequest.Builder(LocalContext.current)
+                .data("https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/players/p$manOfTheMatch.png")
+                .crossfade(true)
+                .build(),
+            contentDescription = null
         )
     }
 }
@@ -473,6 +470,15 @@ fun MatchTypeDropDownMenu(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun getWinDrawLoseColor(winDrawLoseUiModel: WinDrawLoseUiModel): Color {
+    return when (winDrawLoseUiModel) {
+        WinDrawLoseUiModel.WIN -> FossTheme.colors.fossBlue
+        WinDrawLoseUiModel.LOSE -> FossTheme.colors.fossRed
+        WinDrawLoseUiModel.DRAW -> FossTheme.colors.fossGray700
     }
 }
 
