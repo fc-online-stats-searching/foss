@@ -35,7 +35,6 @@ android {
         buildConfigField("String", "AUTHORIZATION_KEY", properties.getProperty("server.authorization"))
         buildConfigField("String", "SERVER_URL", properties.getProperty("server.url"))
         buildConfigField("String", "BASE_URL", properties.getProperty("base.url"))
-        buildConfigField("String", "NEXON_AUTHORIZATION_KEY", properties.getProperty("nexon.authorization"))
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
