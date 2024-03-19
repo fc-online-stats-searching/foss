@@ -3,9 +3,14 @@ import java.util.Properties
 plugins {
     kotlin("kapt")
     id("com.android.application")
+    id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.android")
     id("kotlinx-serialization")
     id("kotlin-parcelize")
+}
+
+kapt {
+    correctErrorTypes = true
 }
 
 android {
@@ -102,9 +107,6 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    // Woogi-di
-    implementation("com.github.boogi-woogi:woogi-di:1.1.0")
-
     // Glide
     implementation("com.github.bumptech.glide:glide:4.11.0")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
@@ -122,5 +124,8 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     implementation("androidx.navigation:navigation-compose:2.4.0-alpha08")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.0-alpha02")
+
+    // hilt
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-android-compiler:2.48")
 }

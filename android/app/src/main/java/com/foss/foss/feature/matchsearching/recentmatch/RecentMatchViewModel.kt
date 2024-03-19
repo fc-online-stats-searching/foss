@@ -11,6 +11,7 @@ import com.foss.foss.model.MatchMapper.toDomainModel
 import com.foss.foss.model.MatchMapper.toUiModel
 import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.repository.MatchRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -23,8 +24,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RecentMatchViewModel(
+@HiltViewModel
+class RecentMatchViewModel @Inject constructor(
     private val matchRepository: MatchRepository
 ) : ViewModel() {
 
@@ -36,10 +39,6 @@ class RecentMatchViewModel(
     private val _event: MutableSharedFlow<RecentMatchEvent> = MutableSharedFlow()
     val event: SharedFlow<RecentMatchEvent>
         get() = _event.asSharedFlow()
-
-    fun fetchDefaultMatches() {
-        _uiState.value = RecentMatchUiState.Default
-    }
 
     fun fetchMatches(
         nickname: String,

@@ -1,3 +1,4 @@
+
 import app.cash.turbine.test
 import com.foss.foss.feature.matchsearching.relativematch.RelativeMatchEvent
 import com.foss.foss.feature.matchsearching.relativematch.RelativeMatchUiState
@@ -32,10 +33,16 @@ class RelativeMatchViewModelTest {
         relativeMatchViewModel = RelativeMatchViewModel(relativeMatchRepository)
     }
 
-    fun `상대전적 기록 요청에 대한 결과가 다음과 같을 때`(result: Result<List<RelativeMatch>>) {
+    fun `상대전적 기록 요청에 대한 결과가 다음과 같을 때`(result: List<RelativeMatch>) {
         coEvery {
             relativeMatchRepository.fetchRelativeMatches(any())
         } returns result
+    }
+
+    fun `상대전적 기록 요청이 실패할 때`() {
+        coEvery {
+            relativeMatchRepository.fetchRelativeMatches(any())
+        } throws Throwable()
     }
 
     fun `상대 전적 기록 요청을 하면`() {
@@ -74,7 +81,7 @@ class RelativeMatchViewModelTest {
     @Test
     fun `최근 기록된 전적이 없는 경우 uiState가 Empty가 된다`() {
         // given
-        `상대전적 기록 요청에 대한 결과가 다음과 같을 때`(Result.success(emptyList()))
+        `상대전적 기록 요청에 대한 결과가 다음과 같을 때`(emptyList())
 
         // when
         `상대 전적 기록 요청을 하면`()
@@ -92,7 +99,7 @@ class RelativeMatchViewModelTest {
         // given
         val relativeMatches = RelativeMatchesFixture.create()
 
-        `상대전적 기록 요청에 대한 결과가 다음과 같을 때`(Result.success(relativeMatches))
+        `상대전적 기록 요청에 대한 결과가 다음과 같을 때`(relativeMatches)
 
         // when
         `상대 전적 기록 요청을 하면`()
@@ -108,7 +115,7 @@ class RelativeMatchViewModelTest {
     @Test
     fun `상대 전적을 받아오는 것에 실패한 경우 Failed 이벤트가 발생한다`() = runTest {
         // given
-        `상대전적 기록 요청에 대한 결과가 다음과 같을 때`(Result.failure(Throwable()))
+        `상대전적 기록 요청이 실패할 때`()
 
         relativeMatchViewModel.event.test {
             // when
@@ -126,7 +133,7 @@ class RelativeMatchViewModelTest {
     @Test
     fun `상대 전적을 받아오는 것에 실패한 경우 uiState가 Default가 된다`() = runTest {
         // given
-        `상대전적 기록 요청에 대한 결과가 다음과 같을 때`(Result.failure(Throwable()))
+        `상대전적 기록 요청이 실패할 때`()
 
         // when
         `상대 전적 기록 요청을 하면`()
@@ -158,7 +165,7 @@ class RelativeMatchViewModelTest {
     }
 
     @Test
-    fun `전적 갱신에 실패한 경우 RefreshSucceed 이벤트가 발생한다`() = runTest {
+    fun `전적 갱신에 성공한 경우 RefreshSucceed 이벤트가 발생한다`() = runTest {
         // given
         `전적 갱신 요청이 성공할 때`()
 

@@ -12,10 +12,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.foss.foss.feature.home.navigation.HOME_ROUTE
 import com.foss.foss.feature.home.navigation.homeNavGraph
-import com.foss.foss.feature.home.navigation.navigateToRecentMatch
-import com.foss.foss.feature.home.navigation.navigateToRelativeMatch
-import com.foss.foss.feature.home.navigation.recentMatchNavGraph
-import com.foss.foss.feature.home.navigation.relativeMatchNavGraph
+import com.foss.foss.feature.matchsearching.recentmatch.navigation.navigateToRecentMatch
+import com.foss.foss.feature.matchsearching.recentmatch.navigation.recentMatchNavGraph
+import com.foss.foss.feature.matchsearching.relativematch.navigation.navigateToRelativeMatch
+import com.foss.foss.feature.matchsearching.relativematch.navigation.relativeMatchNavGraph
 import kotlinx.coroutines.launch
 
 @Composable
