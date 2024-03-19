@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 data class MatchUiModel(
     val date: LocalDateTime,
     val matchType: MatchTypeUiModel,
-    val manOfTheMatch: String?,
+    val manOfTheMatch: Int?,
     val opponentName: String,
     val winDrawLose: WinDrawLoseUiModel,
     val point: Int,

@@ -8,22 +8,39 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
+import retrofit2.Converter
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
+@OptIn(ExperimentalSerializationApi::class)
 object ServiceModule {
 
     @Provides
     @Singleton
-    fun providesRetrofit(): Retrofit =
+    fun providesRetrofit(converterFactory: Converter.Factory): Retrofit =
         Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(Json.asConverterFactory(MediaType.parse("application/json")!!))
+            .addConverterFactory(converterFactory)
             .build()
+
+    @Provides
+    @Singleton
+    fun providesConverterFactory(): Converter.Factory {
+        val json = Json {
+            ignoreUnknownKeys = true
+            coerceInputValues = true
+            encodeDefaults = true
+            isLenient = true
+        }
+        val jsonMediaType = "application/json".toMediaType()
+
+        return json.asConverterFactory(jsonMediaType)
+    }
 
     @Provides
     @Singleton

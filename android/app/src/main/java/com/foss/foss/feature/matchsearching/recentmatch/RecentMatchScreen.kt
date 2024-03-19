@@ -41,8 +41,8 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -51,8 +51,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.foss.foss.R
 import com.foss.foss.design.FossTheme
+import com.foss.foss.design.component.EmptyMatchText
 import com.foss.foss.design.component.FossTopBar
 import com.foss.foss.design.component.NicknameSearchingTextField
 import com.foss.foss.model.MatchMapper.toUiModel
@@ -60,7 +65,6 @@ import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.model.MatchUiModel
 import com.foss.foss.model.WinDrawLose
 import com.foss.foss.model.WinDrawLoseUiModel
-import com.foss.foss.model.WinDrawLoseUiModel.Companion.getColorResId
 import com.foss.foss.model.WinDrawLoseUiModel.Companion.getStringResId
 import com.foss.foss.util.MockData
 import java.time.LocalDateTime
@@ -69,22 +73,35 @@ import java.time.temporal.ChronoUnit
 @Composable
 fun RecentMatchRoute(
     onBackPressedClick: () -> Unit,
-    onRefreshClick: () -> Unit
+    recentMatchViewModel: RecentMatchViewModel = hiltViewModel()
 ) {
+    val uiState by recentMatchViewModel.uiState.collectAsStateWithLifecycle()
+    var userName by remember { mutableStateOf("") }
+    var selectedMatchType by remember { mutableStateOf(MatchTypeUiModel.entries.first()) }
+
     RecentMatchScreen(
         onBackPressedClick = onBackPressedClick,
-        onRefreshClick = onRefreshClick
+        onRefreshClick = { recentMatchViewModel.refreshMatches(userName) },
+        onSearch = { recentMatchViewModel.fetchMatches(userName, selectedMatchType) },
+        onValueChange = { userName = it },
+        onSelectionChanged = { selectedMatchType = it },
+        uiState = uiState,
+        userName = userName,
+        selectedMatchType = selectedMatchType
     )
 }
 
 @Composable
 fun RecentMatchScreen(
     onBackPressedClick: () -> Unit = {},
-    onRefreshClick: () -> Unit = {}
+    onRefreshClick: () -> Unit = {},
+    onSearch: () -> Unit = {},
+    onValueChange: (String) -> Unit = {},
+    onSelectionChanged: (MatchTypeUiModel) -> Unit = {},
+    uiState: RecentMatchUiState,
+    userName: String,
+    selectedMatchType: MatchTypeUiModel
 ) {
-    val types = MatchTypeUiModel.entries
-    var selectedMatchType by remember { mutableStateOf(types.first()) }
-    var userName by remember { mutableStateOf("") }
     var isFocused by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -102,54 +119,51 @@ fun RecentMatchScreen(
                 .background(FossTheme.colors.fossBk)
         ) {
             NicknameSearchingTextField(
-                modifier = Modifier.onFocusChanged { focusState ->
-                    isFocused = focusState.isFocused
-                },
-                isFocused = isFocused,
                 value = userName,
                 onValueChange = { searchingName ->
-                    userName = searchingName
+                    onValueChange(searchingName)
+                },
+                onSearch = onSearch,
+                isFocused = isFocused,
+                modifier = Modifier.onFocusChanged { focusState ->
+                    isFocused = focusState.isFocused
                 }
             )
             MatchTypeSpinner(
                 selected = selectedMatchType,
-                matchTypes = types,
-                onSelectionChanged = { matchType ->
-                    selectedMatchType = matchType
-                },
+                matchTypes = MatchTypeUiModel.entries,
+                onSelectionChanged = onSelectionChanged,
                 modifier = Modifier.padding(top = 18.dp, end = 20.dp)
             )
-            MatchColumn(
-                matches = MockData.recentMatch.filter { match ->
-                    selectedMatchType == MatchTypeUiModel.ALL || match.matchType == selectedMatchType
-                }
-            )
+            MatchColumn(uiState = uiState)
         }
     }
 }
 
 @Composable
 fun MatchColumn(
-    modifier: Modifier = Modifier,
-    matches: List<MatchUiModel>
+    uiState: RecentMatchUiState,
+    modifier: Modifier = Modifier
 ) {
-    LazyColumn(modifier = modifier.fillMaxSize()) {
-        items(matches) { matchUiModel ->
-            MatchItem(
-                match = matchUiModel,
-                matchMvp = R.drawable.ic_player_example,
-                opponentTier = R.drawable.ic_tier_semi2
-            )
+    when (uiState) {
+        is RecentMatchUiState.RecentMatch -> {
+            LazyColumn(modifier = modifier.fillMaxSize()) {
+                items(uiState.matches) { matchUiModel ->
+                    MatchItem(match = matchUiModel)
+                }
+            }
+        }
+
+        else -> {
+            EmptyMatchText(modifier = modifier.fillMaxSize())
         }
     }
 }
 
 @Composable
 fun MatchItem(
-    modifier: Modifier = Modifier,
     match: MatchUiModel,
-    matchMvp: Int,
-    opponentTier: Int
+    modifier: Modifier = Modifier
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -170,10 +184,11 @@ fun MatchItem(
                 otherPoint = match.otherPoint
             ).toUiModel()
         )
-        MatchMvp(image = matchMvp)
+        MatchMvp(manOfTheMatch = match.manOfTheMatch)
         MatchDetailResult(
             opponentName = match.opponentName,
-            opponentTier = opponentTier,
+            // TODO: 티어 받아오기
+            opponentTier = R.drawable.ic_tier_challenger2,
             point = match.point,
             otherPoint = match.otherPoint
         )
@@ -198,14 +213,14 @@ fun MatchItem(
 
 @Composable
 fun MatchResult(
-    modifier: Modifier = Modifier,
-    winDrawLoseUiModel: WinDrawLoseUiModel
+    winDrawLoseUiModel: WinDrawLoseUiModel,
+    modifier: Modifier = Modifier
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .background(
-                color = colorResource(id = winDrawLoseUiModel.getColorResId()),
+                color = getWinDrawLoseColor(winDrawLoseUiModel),
                 shape = RoundedCornerShape(
                     topStart = CornerSize(5.dp),
                     topEnd = CornerSize(0.dp),
@@ -222,7 +237,7 @@ fun MatchResult(
         )
         Divider(
             thickness = 1.dp,
-            color = colorResource(id = R.color.foss_wt),
+            color = FossTheme.colors.fossWt,
             modifier = Modifier
                 .padding(top = 4.dp)
                 .width(12.dp)
@@ -239,7 +254,8 @@ fun MatchResult(
 
 @Composable
 fun MatchMvp(
-    @DrawableRes image: Int
+    manOfTheMatch: Int?,
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = Modifier.padding(
@@ -252,25 +268,26 @@ fun MatchMvp(
             painter = painterResource(id = R.drawable.ic_mvp),
             contentDescription = null
         )
-        Image(
+        AsyncImage(
             modifier = Modifier
                 .width(52.dp)
                 .height(52.dp),
-            painter = painterResource(id = image),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            alignment = Alignment.Center
+            model = ImageRequest.Builder(LocalContext.current)
+                .data("https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/players/p$manOfTheMatch.png")
+                .crossfade(true)
+                .build(),
+            contentDescription = null
         )
     }
 }
 
 @Composable
 fun MatchDetailResult(
-    modifier: Modifier = Modifier,
     opponentName: String,
     @DrawableRes opponentTier: Int,
     point: Int,
-    otherPoint: Int
+    otherPoint: Int,
+    modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
         Text(
@@ -317,9 +334,9 @@ fun MatchDetailResult(
 
 @Composable
 fun MatchType(
-    modifier: Modifier = Modifier,
     matchType: MatchTypeUiModel,
-    matchTime: LocalDateTime
+    matchTime: LocalDateTime,
+    modifier: Modifier = Modifier
 ) {
     Column(
         verticalArrangement = Arrangement.Top,
@@ -357,10 +374,10 @@ private fun LocalDateTime.toTimeDiff(): String {
 
 @Composable
 fun MatchTypeSpinner(
-    modifier: Modifier = Modifier,
     selected: MatchTypeUiModel,
     matchTypes: List<MatchTypeUiModel>,
-    onSelectionChanged: (selection: MatchTypeUiModel) -> Unit
+    onSelectionChanged: (selection: MatchTypeUiModel) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
     var matchTypesButtonSize by remember { mutableStateOf(Size.Zero) }
@@ -371,21 +388,21 @@ fun MatchTypeSpinner(
     ) {
         Box {
             Button(
+                colors = ButtonDefaults.buttonColors(FossTheme.colors.fossGray700),
+                contentPadding = PaddingValues(0.dp),
+                shape = RoundedCornerShape(corner = CornerSize(5.dp)),
+                onClick = { expanded = !expanded },
                 modifier = Modifier
                     .wrapContentWidth()
                     .padding(bottom = 6.dp)
                     .height(26.dp)
                     .onGloballyPositioned { coordinates ->
                         matchTypesButtonSize = coordinates.size.toSize()
-                    },
-                colors = ButtonDefaults.buttonColors(FossTheme.colors.fossGray700),
-                contentPadding = PaddingValues(0.dp),
-                shape = RoundedCornerShape(corner = CornerSize(5.dp)),
-                onClick = { expanded = !expanded }
+                    }
             ) {
                 Row(
-                    modifier = Modifier.padding(start = 21.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(start = 21.dp)
                 ) {
                     Text(
                         textAlign = TextAlign.Center,
@@ -394,12 +411,12 @@ fun MatchTypeSpinner(
                         color = Color.White
                     )
                     Icon(
+                        painter = painterResource(id = R.drawable.ic_drop_down_arrow),
+                        contentDescription = null,
                         modifier = Modifier
                             .padding(start = 16.dp, end = 10.dp)
                             .width(14.dp)
-                            .height(14.dp),
-                        painter = painterResource(id = R.drawable.ic_drop_down_arrow),
-                        contentDescription = null
+                            .height(14.dp)
                     )
                 }
             }
@@ -418,12 +435,12 @@ fun MatchTypeSpinner(
 
 @Composable
 fun MatchTypeDropDownMenu(
-    modifier: Modifier = Modifier,
     expanded: Boolean,
     onDismiss: (Boolean) -> Unit,
     matchTypeWidth: Dp,
     matchTypes: List<MatchTypeUiModel>,
-    onSelectionChanged: (selection: MatchTypeUiModel) -> Unit
+    onSelectionChanged: (selection: MatchTypeUiModel) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     MaterialTheme(
         colorScheme = MaterialTheme.colorScheme.copy(surface = FossTheme.colors.fossGray700),
@@ -437,7 +454,6 @@ fun MatchTypeDropDownMenu(
         ) {
             matchTypes.forEach { entry ->
                 DropdownMenuItem(
-                    modifier = modifier.height(26.dp),
                     onClick = {
                         onDismiss(false)
                         onSelectionChanged(entry)
@@ -449,15 +465,35 @@ fun MatchTypeDropDownMenu(
                             style = FossTheme.typography.body04,
                             modifier = Modifier.align(Alignment.Start)
                         )
-                    }
+                    },
+                    modifier = modifier.height(26.dp)
                 )
             }
         }
     }
 }
 
+@Composable
+fun getWinDrawLoseColor(winDrawLoseUiModel: WinDrawLoseUiModel): Color {
+    return when (winDrawLoseUiModel) {
+        WinDrawLoseUiModel.WIN -> FossTheme.colors.fossBlue
+        WinDrawLoseUiModel.LOSE -> FossTheme.colors.fossRed
+        WinDrawLoseUiModel.DRAW -> FossTheme.colors.fossGray700
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MatchColumnPreview() {
+    MatchColumn(uiState = RecentMatchUiState.RecentMatch(MockData.recentMatch))
+}
+
 @Preview(showBackground = true)
 @Composable
 fun RecentMatchScreenPreview() {
-    RecentMatchScreen()
+    RecentMatchScreen(
+        uiState = RecentMatchUiState.Default,
+        userName = "",
+        selectedMatchType = MatchTypeUiModel.ALL
+    )
 }

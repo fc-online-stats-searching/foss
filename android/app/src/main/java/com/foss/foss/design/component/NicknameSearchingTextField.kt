@@ -19,27 +19,35 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.foss.foss.R
 import com.foss.foss.design.FossTheme
 
 @Composable
 fun NicknameSearchingTextField(
-    modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
+    onSearch: () -> Unit,
+    modifier: Modifier = Modifier,
     isFocused: Boolean = false,
     placeHolderString: String = stringResource(id = R.string.common_request_searching_nickname)
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     BasicTextField(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier,
         cursorBrush = SolidColor(FossTheme.colors.fossWt),
         textStyle = FossTheme.typography.body01.copy(color = FossTheme.colors.fossWt),
-        keyboardOptions = KeyboardOptions.Default,
-        keyboardActions = KeyboardActions.Default,
+        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
+        keyboardActions = KeyboardActions {
+            onSearch()
+            keyboardController?.hide()
+        },
         decorationBox = { innerTextField ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -53,7 +61,8 @@ fun NicknameSearchingTextField(
                     .fillMaxWidth()
             ) {
                 Icon(
-                    modifier = Modifier.padding(start = 10.dp),
+                    modifier = Modifier
+                        .padding(start = 10.dp),
                     tint = FossTheme.colors.fossGray300,
                     imageVector = Icons.Default.Search,
                     contentDescription = null

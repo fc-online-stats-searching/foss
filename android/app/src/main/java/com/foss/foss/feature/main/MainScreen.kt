@@ -44,13 +44,11 @@ fun MainScreen(navigator: NavHostController = rememberNavController()) {
 
             relativeMatchNavGraph(
                 onRelativeMatchClick = {},
-                onBackPressedClick = { navigator.popBackStack() },
-                onRefreshClick = {}
+                onBackPressedClick = { navigator.popBackStack() }
             )
 
             recentMatchNavGraph(
-                onBackPressedClick = { navigator.popBackStack() },
-                onRefreshClick = {}
+                onBackPressedClick = { navigator.popBackStack() }
             )
         }
         padding
