@@ -6,5 +6,5 @@ interface RelativeMatchRepository {
 
     suspend fun requestRefresh(nickname: String)
 
-    suspend fun fetchRelativeMatches(nickname: String): Result<List<RelativeMatch>>
+    suspend fun fetchRelativeMatches(nickname: String): List<RelativeMatch>
 }

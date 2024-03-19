@@ -1,4 +1,4 @@
-package com.foss.foss.feature.home.navigation
+package com.foss.foss.feature.matchsearching.relativematch.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
