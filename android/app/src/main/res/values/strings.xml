@@ -60,4 +60,5 @@
     <string name="item_relative_match_minute_after_latest_match">최근 경기 15분 전</string>
     <string name="item_relative_match_total_result">%d전 %d승 %d무 %d패</string>
     <string name="item_relative_match_total_gain_loss">득 %d / 실 %d</string>
+    <string name="item_recent_match_date_format">yyyy년 MM월 dd일</string>
 </resources>

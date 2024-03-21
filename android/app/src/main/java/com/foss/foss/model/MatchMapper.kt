@@ -1,6 +1,31 @@
 package com.foss.foss.model
 
+import java.time.LocalDate
+
 object MatchMapper {
+
+    /**
+     * Match를 날짜 별로 정리해 MatchesUiModel로 mapping한다.
+     * RecentScreen을 위한 mapping 함수
+     */
+    fun List<Match>.toUiModel(): List<MatchesUiModel> {
+        val matches: MutableMap<LocalDate, ArrayList<Match>> = mutableMapOf()
+
+        forEach { match ->
+            if (!matches.containsKey(match.date.toLocalDate())) matches[match.date.toLocalDate()] = arrayListOf()
+            matches[match.date.toLocalDate()]?.add(match)
+        }
+        return matches.map {
+            MatchesUiModel(
+                date = it.key,
+                value = it.value.map { match ->
+                    match.toUiModel()
+                }
+            )
+        }.sortedByDescending { matchesUiModel ->
+            matchesUiModel.date
+        }
+    }
 
     fun Match.toUiModel() = MatchUiModel(
         date = date,
