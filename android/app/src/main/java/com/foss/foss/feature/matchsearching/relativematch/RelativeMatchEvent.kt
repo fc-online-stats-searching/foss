@@ -2,7 +2,7 @@ package com.foss.foss.feature.matchsearching.relativematch
 
 sealed interface RelativeMatchEvent {
 
-    object None: RelativeMatchEvent
+    object None : RelativeMatchEvent
 
     object Failed : RelativeMatchEvent
 
