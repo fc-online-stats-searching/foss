@@ -18,7 +18,6 @@ import com.foss.foss.feature.matchsearching.relativematch.navigation.navigateToR
 import com.foss.foss.feature.matchsearching.relativematch.navigation.relativeMatchNavGraph
 import kotlinx.coroutines.launch
 
-
 @Composable
 fun MainScreen(navigator: NavHostController = rememberNavController()) {
     val coroutineScope = rememberCoroutineScope()
