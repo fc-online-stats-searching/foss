@@ -61,4 +61,6 @@
     <string name="item_relative_match_total_result">%d전 %d승 %d무 %d패</string>
     <string name="item_relative_match_total_gain_loss">득 %d / 실 %d</string>
     <string name="item_recent_match_date_format">yyyy년 MM월 dd일</string>
+    <string name="common_operation_failed_message">닉네임 혹은 네트워크 상태를 확인해주세요.</string>
+    <string name="common_refresh_succeed">갱신에 성공했습니다! 전적을 검색해보세요.</string>
 </resources>

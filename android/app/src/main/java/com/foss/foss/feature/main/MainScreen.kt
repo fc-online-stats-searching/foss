@@ -18,6 +18,7 @@ import com.foss.foss.feature.matchsearching.relativematch.navigation.navigateToR
 import com.foss.foss.feature.matchsearching.relativematch.navigation.relativeMatchNavGraph
 import kotlinx.coroutines.launch
 
+
 @Composable
 fun MainScreen(navigator: NavHostController = rememberNavController()) {
     val coroutineScope = rememberCoroutineScope()
@@ -44,11 +45,13 @@ fun MainScreen(navigator: NavHostController = rememberNavController()) {
 
             relativeMatchNavGraph(
                 onRelativeMatchClick = {},
-                onBackPressedClick = { navigator.popBackStack() }
+                onBackPressedClick = { navigator.popBackStack() },
+                onShowSnackBar = onShowSnackBar
             )
 
             recentMatchNavGraph(
-                onBackPressedClick = { navigator.popBackStack() }
+                onBackPressedClick = { navigator.popBackStack() },
+                onShowSnackBar = onShowSnackBar
             )
         }
         padding

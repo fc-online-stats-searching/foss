@@ -23,6 +23,7 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -31,6 +32,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -57,6 +59,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.foss.foss.R
+import com.foss.foss.design.FossProgressBar
 import com.foss.foss.design.FossTheme
 import com.foss.foss.design.component.EmptyMatchText
 import com.foss.foss.design.component.FossTopBar
@@ -77,12 +80,29 @@ import java.time.temporal.ChronoUnit
 @Composable
 fun RecentMatchRoute(
     onBackPressedClick: () -> Unit,
+    onShowSnackBar: (message: String) -> Unit,
     recentMatchViewModel: RecentMatchViewModel = hiltViewModel()
 ) {
     val uiState by recentMatchViewModel.uiState.collectAsStateWithLifecycle()
     var userName by remember { mutableStateOf("") }
     var selectedMatchType by remember { mutableStateOf(MatchTypeUiModel.entries.first()) }
+    val context = LocalContext.current
 
+    LaunchedEffect(key1 = null) {
+        recentMatchViewModel.event.collect { uiEvent ->
+            when (uiEvent) {
+                is RecentMatchEvent.RefreshFailed -> {
+                    onShowSnackBar(context.getString(R.string.common_refresh_failed_message))
+                }
+
+                is RecentMatchEvent.RefreshSucceed -> {
+                    onShowSnackBar(context.getString(R.string.common_refresh_succeed_message))
+                }
+
+                else -> {}
+            }
+        }
+    }
     RecentMatchScreen(
         onBackPressedClick = onBackPressedClick,
         onRefreshClick = { recentMatchViewModel.refreshMatches(userName) },
@@ -158,9 +178,9 @@ fun MatchColumn(
             }
         }
 
-        else -> {
-            EmptyMatchText(modifier = modifier.fillMaxSize())
-        }
+        is RecentMatchUiState.Loading -> FossProgressBar()
+
+        else -> EmptyMatchText(modifier = modifier.fillMaxSize())
     }
 }
 
@@ -530,5 +550,15 @@ fun RecentMatchScreenPreview() {
         userName = "",
         selectedMatchType = MatchTypeUiModel.ALL
 
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun RecentMatchScreenLoadingPreview() {
+    RecentMatchScreen(
+        uiState = RecentMatchUiState.Loading,
+        userName = "",
+        selectedMatchType = MatchTypeUiModel.ALL
     )
 }
