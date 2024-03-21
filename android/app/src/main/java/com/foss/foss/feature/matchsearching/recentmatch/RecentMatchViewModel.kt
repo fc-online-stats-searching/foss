@@ -1,5 +1,6 @@
 package com.foss.foss.feature.matchsearching.recentmatch
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.foss.foss.model.MatchMapper.toDomainModel
@@ -66,10 +67,12 @@ class RecentMatchViewModel @Inject constructor(
             }.onStart {
                 _uiState.value = RecentMatchUiState.Loading
             }.catch {
+                Log.d("woogi", "refreshMatches: $it")
                 _event.emit(RecentMatchEvent.RefreshFailed)
             }.onCompletion {
                 _uiState.value = RecentMatchUiState.Default
             }.collect {
+                Log.d("woogi", "refreshMatches: 성공")
                 _event.emit(RecentMatchEvent.RefreshSucceed)
             }
         }
