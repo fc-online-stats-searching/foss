@@ -1,6 +1,6 @@
 package com.foss.foss.feature.matchsearching.recentmatch
 
-import com.foss.foss.model.MatchUiModel
+import com.foss.foss.model.MatchesUiModel
 
 sealed interface RecentMatchUiState {
 
@@ -10,5 +10,5 @@ sealed interface RecentMatchUiState {
 
     object Loading : RecentMatchUiState
 
-    data class RecentMatch(val matches: List<MatchUiModel>) : RecentMatchUiState
+    data class RecentMatch(val matches: List<MatchesUiModel>) : RecentMatchUiState
 }

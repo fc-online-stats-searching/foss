@@ -23,6 +23,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -40,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.foss.foss.R
+import com.foss.foss.design.FossProgressBar
 import com.foss.foss.design.FossTheme
 import com.foss.foss.design.component.EmptyMatchText
 import com.foss.foss.design.component.FossTopBar
@@ -51,12 +54,29 @@ import com.foss.foss.util.MockRelativeMatchData
 fun RelativeMatchRoute(
     onRelativeMatchClick: (relativeMatch: RelativeMatchUiModel) -> Unit,
     onBackPressedClick: () -> Unit,
+    onShowSnackBar: (message: String) -> Unit,
     modifier: Modifier = Modifier,
     relativeMatchViewModel: RelativeMatchViewModel = hiltViewModel()
 ) {
     val uiState by relativeMatchViewModel.uiState.collectAsStateWithLifecycle()
     var userName by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
+    LaunchedEffect(key1 = null) {
+        relativeMatchViewModel.event.collect { uiEvent ->
+            when (uiEvent) {
+                is RelativeMatchEvent.RefreshFailed -> {
+                    onShowSnackBar(context.getString(R.string.common_refresh_failed_message))
+                }
+
+                is RelativeMatchEvent.RefreshSucceed -> {
+                    onShowSnackBar(context.getString(R.string.common_refresh_succeed_message))
+                }
+
+                else -> {}
+            }
+        }
+    }
     RelativeMatchScreen(
         uiState = uiState,
         userName = userName,
@@ -148,9 +168,10 @@ fun RelativeMatchColumn(
                 }
             }
         }
-        else -> {
-            EmptyMatchText(modifier = modifier.fillMaxSize())
-        }
+
+        is RelativeMatchUiState.Loading -> FossProgressBar()
+
+        else -> EmptyMatchText(modifier = modifier.fillMaxSize())
     }
 }
 

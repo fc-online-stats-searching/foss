@@ -15,11 +15,13 @@ fun NavController.navigateToRelativeMatch(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.relativeMatchNavGraph(
     onRelativeMatchClick: (RelativeMatchUiModel) -> Unit,
+    onShowSnackBar: (message: String) -> Unit,
     onBackPressedClick: () -> Unit
 ) {
     composable(route = RELATIVEMATCH_ROUTE) {
         RelativeMatchRoute(
             onRelativeMatchClick = onRelativeMatchClick,
+            onShowSnackBar = onShowSnackBar,
             onBackPressedClick = onBackPressedClick
         )
     }

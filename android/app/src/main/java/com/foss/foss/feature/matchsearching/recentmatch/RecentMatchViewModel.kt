@@ -49,7 +49,7 @@ class RecentMatchViewModel @Inject constructor(
                 _uiState.value = RecentMatchUiState.Default
             }.map { matches ->
                 if (matches.isNotEmpty()) {
-                    RecentMatchUiState.RecentMatch(matches.map { it.toUiModel() })
+                    RecentMatchUiState.RecentMatch(matches.toUiModel())
                 } else {
                     RecentMatchUiState.Empty
                 }

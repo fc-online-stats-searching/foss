@@ -5,12 +5,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RefreshDto(
-    @SerialName("success")
-    val success: Boolean,
-    @SerialName("code")
-    val code: Int,
-    @SerialName("msg")
-    val msg: String,
-    @SerialName("data")
-    val memberInfo: MemberInfoDto
+    @SerialName("nickname")
+    val nickname: String,
+    @SerialName("level")
+    val level: Int,
+    @SerialName("renewal")
+    val renewal: String,
+    @SerialName("ouid")
+    val ouid: String
 )

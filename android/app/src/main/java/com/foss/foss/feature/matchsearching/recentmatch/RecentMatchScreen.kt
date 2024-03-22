@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,6 +31,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -56,6 +58,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.foss.foss.R
+import com.foss.foss.design.FossProgressBar
 import com.foss.foss.design.FossTheme
 import com.foss.foss.design.component.EmptyMatchText
 import com.foss.foss.design.component.FossTopBar
@@ -63,22 +66,42 @@ import com.foss.foss.design.component.NicknameSearchingTextField
 import com.foss.foss.model.MatchMapper.toUiModel
 import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.model.MatchUiModel
+import com.foss.foss.model.MatchesUiModel
 import com.foss.foss.model.WinDrawLose
 import com.foss.foss.model.WinDrawLoseUiModel
 import com.foss.foss.model.WinDrawLoseUiModel.Companion.getStringResId
 import com.foss.foss.util.MockData
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
 @Composable
 fun RecentMatchRoute(
     onBackPressedClick: () -> Unit,
+    onShowSnackBar: (message: String) -> Unit,
     recentMatchViewModel: RecentMatchViewModel = hiltViewModel()
 ) {
     val uiState by recentMatchViewModel.uiState.collectAsStateWithLifecycle()
     var userName by remember { mutableStateOf("") }
     var selectedMatchType by remember { mutableStateOf(MatchTypeUiModel.entries.first()) }
+    val context = LocalContext.current
 
+    LaunchedEffect(key1 = null) {
+        recentMatchViewModel.event.collect { uiEvent ->
+            when (uiEvent) {
+                is RecentMatchEvent.RefreshFailed -> {
+                    onShowSnackBar(context.getString(R.string.common_refresh_failed_message))
+                }
+
+                is RecentMatchEvent.RefreshSucceed -> {
+                    onShowSnackBar(context.getString(R.string.common_refresh_succeed_message))
+                }
+
+                else -> {}
+            }
+        }
+    }
     RecentMatchScreen(
         onBackPressedClick = onBackPressedClick,
         onRefreshClick = { recentMatchViewModel.refreshMatches(userName) },
@@ -148,15 +171,30 @@ fun MatchColumn(
     when (uiState) {
         is RecentMatchUiState.RecentMatch -> {
             LazyColumn(modifier = modifier.fillMaxSize()) {
-                items(uiState.matches) { matchUiModel ->
-                    MatchItem(match = matchUiModel)
+                uiState.matches.forEach { matchesUiModel ->
+                    MatchesItem(matches = matchesUiModel)
                 }
             }
         }
 
-        else -> {
-            EmptyMatchText(modifier = modifier.fillMaxSize())
-        }
+        is RecentMatchUiState.Loading -> FossProgressBar()
+
+        else -> EmptyMatchText(modifier = modifier.fillMaxSize())
+    }
+}
+
+fun LazyListScope.MatchesItem(
+    matches: MatchesUiModel,
+    modifier: Modifier = Modifier
+) {
+    item {
+        MatchDateText(
+            date = matches.date,
+            modifier = Modifier
+        )
+    }
+    items(matches.value) { matchUiModel ->
+        MatchItem(match = matchUiModel)
     }
 }
 
@@ -209,6 +247,27 @@ fun MatchItem(
             )
         }
     }
+}
+
+@Composable
+fun MatchDateText(
+    date: LocalDate,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        style = FossTheme.typography.body02,
+        color = FossTheme.colors.fossWt,
+        text = date.format(
+            DateTimeFormatter.ofPattern(
+                stringResource(R.string.item_recent_match_date_format)
+            )
+        ),
+        modifier = modifier.padding(
+            start = FossTheme.padding.BasicHorizontalPadding,
+            end = FossTheme.padding.BasicHorizontalPadding,
+            top = 8.dp
+        )
+    )
 }
 
 @Composable
@@ -484,15 +543,20 @@ fun getWinDrawLoseColor(winDrawLoseUiModel: WinDrawLoseUiModel): Color {
 
 @Preview(showBackground = true)
 @Composable
-fun MatchColumnPreview() {
-    MatchColumn(uiState = RecentMatchUiState.RecentMatch(MockData.recentMatch))
+fun RecentMatchScreenPreview() {
+    RecentMatchScreen(
+        uiState = RecentMatchUiState.RecentMatch(MockData.recentMatch),
+        userName = "",
+        selectedMatchType = MatchTypeUiModel.ALL
+
+    )
 }
 
 @Preview(showBackground = true)
 @Composable
-fun RecentMatchScreenPreview() {
+fun RecentMatchScreenLoadingPreview() {
     RecentMatchScreen(
-        uiState = RecentMatchUiState.Default,
+        uiState = RecentMatchUiState.Loading,
         userName = "",
         selectedMatchType = MatchTypeUiModel.ALL
     )

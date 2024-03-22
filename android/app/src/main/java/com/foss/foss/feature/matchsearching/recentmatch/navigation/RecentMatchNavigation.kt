@@ -13,9 +13,13 @@ fun NavController.navigateToRecentMatch(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.recentMatchNavGraph(
-    onBackPressedClick: () -> Unit
+    onBackPressedClick: () -> Unit,
+    onShowSnackBar: (message: String) -> Unit
 ) {
     composable(route = RECENTMATCH_ROUTE) {
-        RecentMatchRoute(onBackPressedClick = onBackPressedClick)
+        RecentMatchRoute(
+            onBackPressedClick = onBackPressedClick,
+            onShowSnackBar = onShowSnackBar
+        )
     }
 }
