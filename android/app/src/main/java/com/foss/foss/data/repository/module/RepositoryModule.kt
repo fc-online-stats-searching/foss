@@ -1,7 +1,9 @@
 package com.foss.foss.data.repository.module
 
+import com.foss.foss.data.repository.DefaultEventRepository
 import com.foss.foss.data.repository.DefaultMatchRepository
 import com.foss.foss.data.repository.DefaultRelativeMatchRepository
+import com.foss.foss.repository.EventRepository
 import com.foss.foss.repository.MatchRepository
 import com.foss.foss.repository.RelativeMatchRepository
 import dagger.Binds
@@ -21,4 +23,8 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindsRelativeMatchRepository(relativeMatchRepository: DefaultRelativeMatchRepository): RelativeMatchRepository
+
+    @Binds
+    @Singleton
+    fun bindsEventMatchRepository(eventRepository: DefaultEventRepository): EventRepository
 }

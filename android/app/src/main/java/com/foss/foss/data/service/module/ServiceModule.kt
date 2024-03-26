@@ -1,6 +1,7 @@
 package com.foss.foss.data.service.module
 
 import com.foss.foss.BuildConfig
+import com.foss.foss.data.service.EventService
 import com.foss.foss.data.service.RecentMatchService
 import com.foss.foss.data.service.RelativeMatchService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -51,4 +52,9 @@ object ServiceModule {
     @Singleton
     fun providesRelativeMatchService(retrofit: Retrofit): RelativeMatchService =
         retrofit.create(RelativeMatchService::class.java)
+
+    @Provides
+    @Singleton
+    fun providesEventService(retrofit: Retrofit): EventService =
+        retrofit.create(EventService::class.java)
 }
