@@ -25,7 +25,7 @@ object RelativeMatchesFixture {
             ),
             totalScore = Score(point = 31, otherPoint = 23),
             matchDetails = listOf(),
-            opponentDivision = Division.SUPER_CHALLENGER,
+            opponentDivision = Division.SUPER_CHALLENGER
         ),
         RelativeMatch(
             "신공학관캣대디",
@@ -43,7 +43,7 @@ object RelativeMatchesFixture {
             ),
             totalScore = Score(point = 31, otherPoint = 23),
             matchDetails = listOf(),
-            opponentDivision = Division.SUPER_CHALLENGER,
+            opponentDivision = Division.SUPER_CHALLENGER
         ),
         RelativeMatch(
             "신공학관캣맘",
@@ -61,7 +61,7 @@ object RelativeMatchesFixture {
             ),
             totalScore = Score(point = 31, otherPoint = 23),
             matchDetails = listOf(),
-            opponentDivision = Division.SUPER_CHALLENGER,
+            opponentDivision = Division.SUPER_CHALLENGER
         )
     )
 }
