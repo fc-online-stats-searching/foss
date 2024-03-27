@@ -7,24 +7,34 @@ import com.foss.foss.model.RelativeMatch
 import com.foss.foss.model.Score
 import com.foss.foss.model.WinDrawLose
 import com.foss.foss.model.WinDrawLoses
+import java.time.DateTimeException
 
 object RelativeMatchDtoMapper {
 
     private val commonDtoMapper = CommonDtoMapper()
 
     fun RelativeMatchDTO.toDomainModel(nickname: String): RelativeMatch {
+        val opponentName = opponentNickname
+        val recentMatchDate = try {
+            commonDtoMapper.mapToDate(lastDate)
+        } catch (e: DateTimeException) {
+            null
+        }
         val divisionValue = matchResponse.firstOrNull()
             ?.opponentDivision
             ?.division
             ?: 0
+        val winDrawLoses = WinDrawLoses(mapToWinDrawLoses(win, tie, lose))
+        val totalScore = Score(gain, loss)
+        val matchDetails = matchResponse.map { it.toDomainModel(nickname) }
 
         return RelativeMatch(
-            opponentName = opponentNickname,
+            opponentName = opponentName,
             opponentDivision = Division.instanceOf(divisionValue),
-            recentMatchDate = commonDtoMapper.mapToDate(lastDate),
-            winDrawLoses = WinDrawLoses(mapToWinDrawLoses(win, tie, lose)),
-            totalScore = Score(gain, loss),
-            matchDetails = matchResponse.map { it.toDomainModel(nickname) }
+            recentMatchDate = recentMatchDate,
+            winDrawLoses = winDrawLoses,
+            totalScore = totalScore,
+            matchDetails = matchDetails
         )
     }
 

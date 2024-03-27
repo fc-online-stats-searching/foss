@@ -2,6 +2,7 @@ package com.foss.foss.model
 
 import com.foss.foss.model.DivisionMapper.toUiModel
 import com.foss.foss.model.MatchMapper.toUiModel
+import java.time.LocalDate
 
 object RelativeMatchMapper {
 
@@ -17,4 +18,22 @@ object RelativeMatchMapper {
         divisionUiModel = opponentDivision.toUiModel(),
         matchDetails = matchDetails.map { it.toUiModel() }
     )
+
+    fun List<MatchUiModel>.toMatchesUiModel(): List<MatchesUiModel> {
+        val matches: MutableMap<LocalDate, ArrayList<MatchUiModel>> = mutableMapOf()
+
+        forEach { match ->
+            if (!matches.containsKey(match.date.toLocalDate())) matches[match.date.toLocalDate()] = arrayListOf()
+            matches[match.date.toLocalDate()]?.add(match)
+        }
+
+        return matches.map {
+            MatchesUiModel(
+                date = it.key,
+                value = it.value
+            )
+        }.sortedByDescending { matchesUiModel ->
+            matchesUiModel.date
+        }
+    }
 }
