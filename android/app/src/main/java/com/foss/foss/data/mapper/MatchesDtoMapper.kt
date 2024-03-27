@@ -2,6 +2,7 @@ package com.foss.foss.data.mapper
 
 import com.foss.foss.data.dto.MatchDto
 import com.foss.foss.data.dto.MatchesDto
+import com.foss.foss.model.Division
 import com.foss.foss.model.Match
 import com.foss.foss.model.Score
 
@@ -19,6 +20,7 @@ object MatchesDtoMapper {
             manOfTheMatch = commonDtoMapper.mapToManOfTheMatch(matchDetail.squads),
             matchType = commonDtoMapper.mapToMatchType(matchType),
             opponentName = opponentNickname,
+            opponentDivision = Division.instanceOf(opponentDivision.division),
             winDrawLose = commonDtoMapper.mapToWinDrawLose(result),
             score = Score(goals[nickname]!!, goals[opponentNickname]!!)
         )

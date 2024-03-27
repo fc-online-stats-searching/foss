@@ -1,5 +1,6 @@
 package com.foss.foss.model
 
+import com.foss.foss.model.DivisionMapper.toUiModel
 import com.foss.foss.model.MatchMapper.toUiModel
 
 object RelativeMatchMapper {
@@ -13,6 +14,7 @@ object RelativeMatchMapper {
         recentMatchDate = recentMatchDate,
         goal = totalScore.point,
         conceded = totalScore.otherPoint,
+        divisionUiModel = opponentDivision.toUiModel(),
         matchDetails = matchDetails.map { it.toUiModel() }
     )
 }

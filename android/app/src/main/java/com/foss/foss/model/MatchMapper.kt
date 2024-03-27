@@ -1,5 +1,6 @@
 package com.foss.foss.model
 
+import com.foss.foss.model.DivisionMapper.toUiModel
 import java.time.LocalDate
 
 object MatchMapper {
@@ -12,7 +13,10 @@ object MatchMapper {
         val matches: MutableMap<LocalDate, ArrayList<Match>> = mutableMapOf()
 
         forEach { match ->
-            if (!matches.containsKey(match.date.toLocalDate())) matches[match.date.toLocalDate()] = arrayListOf()
+            if (!matches.containsKey(match.date.toLocalDate())) {
+                matches[match.date.toLocalDate()] =
+                    arrayListOf()
+            }
             matches[match.date.toLocalDate()]?.add(match)
         }
         return matches.map {
@@ -32,6 +36,7 @@ object MatchMapper {
         manOfTheMatch = manOfTheMatch,
         matchType = matchType.toUiModel(),
         opponentName = opponentName,
+        opponentDivision = opponentDivision.toUiModel(),
         winDrawLose = winDrawLose.toUiModel(),
         point = score.point,
         otherPoint = score.otherPoint
