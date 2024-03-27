@@ -1,6 +1,5 @@
 package com.foss.foss.feature.matchsearching.relativematch
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.foss.foss.model.RelativeMatchMapper.toUiModel
@@ -40,11 +39,9 @@ class RelativeMatchViewModel @Inject constructor(
             }.onStart {
                 _uiState.value = RelativeMatchUiState.Loading
             }.catch {
-                Log.d("woogi", "fetchRelativeMatches: $it")
                 _event.emit(RelativeMatchEvent.Failed)
                 _uiState.value = RelativeMatchUiState.Default
             }.collect { relativeMatches ->
-                Log.d("woogi", "fetchRelativeMatches: $relativeMatches")
                 _uiState.value = if (relativeMatches.isEmpty()) {
                     RelativeMatchUiState.Empty
                 } else {

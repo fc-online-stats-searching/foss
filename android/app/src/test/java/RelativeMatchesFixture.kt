@@ -1,4 +1,5 @@
 
+import com.foss.foss.model.Division
 import com.foss.foss.model.RelativeMatch
 import com.foss.foss.model.Score
 import com.foss.foss.model.WinDrawLose
@@ -23,7 +24,8 @@ object RelativeMatchesFixture {
                 )
             ),
             totalScore = Score(point = 31, otherPoint = 23),
-            matchDetails = listOf()
+            matchDetails = listOf(),
+            opponentDivision = Division.SUPER_CHALLENGER,
         ),
         RelativeMatch(
             "신공학관캣대디",
@@ -40,7 +42,8 @@ object RelativeMatchesFixture {
                 )
             ),
             totalScore = Score(point = 31, otherPoint = 23),
-            matchDetails = listOf()
+            matchDetails = listOf(),
+            opponentDivision = Division.SUPER_CHALLENGER,
         ),
         RelativeMatch(
             "신공학관캣맘",
@@ -57,7 +60,8 @@ object RelativeMatchesFixture {
                 )
             ),
             totalScore = Score(point = 31, otherPoint = 23),
-            matchDetails = listOf()
+            matchDetails = listOf(),
+            opponentDivision = Division.SUPER_CHALLENGER,
         )
     )
 }
