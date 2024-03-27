@@ -26,8 +26,8 @@ android {
         applicationId = "com.foss.foss"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 3
+        versionName = "2.0.0"
 
         val properties = Properties()
         properties.load(rootProject.file("local.properties").inputStream())
