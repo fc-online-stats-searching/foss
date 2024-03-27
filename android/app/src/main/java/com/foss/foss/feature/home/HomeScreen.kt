@@ -1,5 +1,8 @@
 package com.foss.foss.feature.home
 
+import android.content.Intent
+import android.net.Uri
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,14 +16,28 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -28,12 +45,37 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.toSize
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
 import com.foss.foss.R
 import com.foss.foss.design.FossTheme
+import com.foss.foss.model.FcEventUiModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
+@Composable
+fun HomeRoute(
+    homeViewModel: HomeViewModel = hiltViewModel(),
+    onShowSnackBar: (message: String) -> Unit = {},
+    onRelativeStatButtonClick: () -> Unit = {},
+    onRecentStatButtonClick: () -> Unit = {}
+) {
+    val events by homeViewModel.fcEvents.collectAsStateWithLifecycle()
+
+    HomeScreen(
+        events = events,
+        onShowSnackBar = onShowSnackBar,
+        onRelativeStatButtonClick = onRelativeStatButtonClick,
+        onRecentStatButtonClick = onRecentStatButtonClick
+    )
+}
 
 @Composable
 fun HomeScreen(
+    events: List<FcEventUiModel> = listOf(),
     onShowSnackBar: (message: String) -> Unit = {},
     onRelativeStatButtonClick: () -> Unit = {},
     onRecentStatButtonClick: () -> Unit = {}
@@ -45,7 +87,7 @@ fun HomeScreen(
     ) {
         HomeFossLogo()
         HomeFossSlogan()
-        HomeEventBanner()
+        HomeEventBanner(fcEvents = events)
         HomeStatSearchingMenu(
             onRecentStatButtonClick = onRecentStatButtonClick,
             onRelativeStatButtonClick = onRelativeStatButtonClick
@@ -131,18 +173,80 @@ fun HomeFossSlogan(modifier: Modifier = Modifier) {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeEventBanner(modifier: Modifier = Modifier) {
-    Image(
+fun HomeEventBanner(
+    modifier: Modifier = Modifier,
+    fcEvents: List<FcEventUiModel>
+) {
+    val coroutineScope = rememberCoroutineScope()
+    var eventIndex by remember { mutableIntStateOf(0) }
+    var eventBannerSize by remember { mutableStateOf(Size.Zero) }
+    val pagerState = rememberPagerState(pageCount = {
+        fcEvents.size
+    })
+
+    if (fcEvents.isNotEmpty()) {
+        LaunchedEffect(null) {
+            coroutineScope.launch {
+                while (true) {
+                    delay(2000)
+                    eventIndex = (eventIndex + 1) % fcEvents.size
+                    pagerState.animateScrollToPage(eventIndex)
+                }
+            }
+        }
+    }
+    HorizontalPager(
         modifier = modifier
-            .fillMaxWidth()
             .padding(
                 start = 20.dp,
                 end = 20.dp,
                 top = 24.dp
-            ),
-        contentScale = ContentScale.Crop,
-        painter = painterResource(id = R.drawable.ic_example_event_banner),
+            )
+            .fillMaxWidth()
+            .onGloballyPositioned { coordinates ->
+                eventBannerSize = coordinates.size.toSize()
+            },
+        state = pagerState
+    ) { pageIndex ->
+        HomeEventImage(
+            fcEvent = fcEvents[pageIndex],
+            modifier = Modifier
+                .width(
+                    with(LocalDensity.current) {
+                        eventBannerSize.width.toDp()
+                    }
+                )
+                .height(
+                    with(LocalDensity.current) {
+                        (eventBannerSize.width * 0.25f).toDp()
+                    }
+                )
+        )
+    }
+}
+
+@Composable
+fun HomeEventImage(
+    fcEvent: FcEventUiModel,
+    modifier: Modifier = Modifier
+) {
+    val context = LocalContext.current
+
+    AsyncImage(
+        modifier = modifier
+            .clip(
+                shape = RoundedCornerShape(8.dp)
+            )
+            .clickable {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(fcEvent.nexonURL))
+
+                context.startActivity(intent)
+            },
+        contentScale = ContentScale.FillWidth,
+        model = fcEvent.imageURL,
+        placeholder = painterResource(id = R.drawable.ic_event_placeholder),
         contentDescription = "image of event banner"
     )
 }

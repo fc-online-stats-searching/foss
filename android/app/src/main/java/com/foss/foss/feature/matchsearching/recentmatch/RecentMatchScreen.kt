@@ -1,6 +1,5 @@
 package com.foss.foss.feature.matchsearching.recentmatch
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -63,6 +62,7 @@ import com.foss.foss.design.FossTheme
 import com.foss.foss.design.component.EmptyMatchText
 import com.foss.foss.design.component.FossTopBar
 import com.foss.foss.design.component.NicknameSearchingTextField
+import com.foss.foss.model.DivisionUiModel
 import com.foss.foss.model.MatchMapper.toUiModel
 import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.model.MatchUiModel
@@ -226,7 +226,7 @@ fun MatchItem(
         MatchDetailResult(
             opponentName = match.opponentName,
             // TODO: 티어 받아오기
-            opponentTier = R.drawable.ic_tier_challenger2,
+            opponentDivision = match.opponentDivision,
             point = match.point,
             otherPoint = match.otherPoint
         )
@@ -343,7 +343,7 @@ fun MatchMvp(
 @Composable
 fun MatchDetailResult(
     opponentName: String,
-    @DrawableRes opponentTier: Int,
+    opponentDivision: DivisionUiModel,
     point: Int,
     otherPoint: Int,
     modifier: Modifier = Modifier
@@ -357,7 +357,7 @@ fun MatchDetailResult(
         Spacer(modifier = modifier.padding(vertical = 2.dp))
         Row {
             Image(
-                painter = painterResource(id = R.drawable.ic_tier_semi2),
+                painter = painterResource(id = opponentDivision.symbol),
                 contentScale = ContentScale.Crop,
                 contentDescription = null,
                 modifier = Modifier

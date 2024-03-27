@@ -32,7 +32,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -189,7 +188,6 @@ fun RelativeMatchItem(
 ) {
     val winRate = getWinRate(relativeMatch)
     val backgroundColor = getBackgroundColor(relativeMatch)
-    val tierImgResource = getTierImageRes(relativeMatch)
 
     Box(
         modifier = Modifier
@@ -214,8 +212,7 @@ fun RelativeMatchItem(
             )
             Spacer(Modifier.width(15.dp))
             Image(
-                // TODO : 티어를 받아오는 방법을 의논해야 함
-                painter = tierImgResource,
+                painter = painterResource(id = relativeMatch.divisionUiModel.symbol),
                 contentDescription = "Rank",
                 modifier = Modifier
                     .size(60.dp)
@@ -241,21 +238,6 @@ fun getWinRate(relativeMatch: RelativeMatchUiModel): Float {
     } else {
         0f
     }
-}
-
-@Composable
-fun getTierImageRes(relativeMatch: RelativeMatchUiModel): Painter {
-    val tierImageRes = if (relativeMatch.opponentName == "똥질긴형") {
-        R.drawable.ic_tier_champions
-    } else if (relativeMatch.opponentName == "신공학관캣대디") {
-        R.drawable.ic_tier_challenger1
-    } else if (relativeMatch.opponentName == "신공학관캣맘") {
-        R.drawable.ic_tier_pro1
-    } else {
-        R.drawable.ic_tier_semi2
-    }
-
-    return painterResource(id = tierImageRes)
 }
 
 @Composable

@@ -11,5 +11,6 @@ data class RelativeMatchUiModel(
     val recentMatchDate: LocalDate?,
     val goal: Int,
     val conceded: Int,
+    val divisionUiModel: DivisionUiModel,
     val matchDetails: List<MatchUiModel>
 )

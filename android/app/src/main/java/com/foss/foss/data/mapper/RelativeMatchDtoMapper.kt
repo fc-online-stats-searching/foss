@@ -2,6 +2,7 @@ package com.foss.foss.data.mapper
 
 import com.foss.foss.data.dto.RelativeMatchDTO
 import com.foss.foss.data.mapper.MatchesDtoMapper.toDomainModel
+import com.foss.foss.model.Division
 import com.foss.foss.model.RelativeMatch
 import com.foss.foss.model.Score
 import com.foss.foss.model.WinDrawLose
@@ -19,12 +20,17 @@ object RelativeMatchDtoMapper {
         } catch (e: DateTimeException) {
             null
         }
+        val divisionValue = matchResponse.firstOrNull()
+            ?.opponentDivision
+            ?.division
+            ?: 0
         val winDrawLoses = WinDrawLoses(mapToWinDrawLoses(win, tie, lose))
         val totalScore = Score(gain, loss)
         val matchDetails = matchResponse.map { it.toDomainModel(nickname) }
 
         return RelativeMatch(
             opponentName = opponentName,
+            opponentDivision = Division.instanceOf(divisionValue),
             recentMatchDate = recentMatchDate,
             winDrawLoses = winDrawLoses,
             totalScore = totalScore,
