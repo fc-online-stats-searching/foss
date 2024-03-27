@@ -1,5 +1,6 @@
 package com.foss.foss.util
 
+import com.foss.foss.model.Division
 import com.foss.foss.model.Match
 import com.foss.foss.model.MatchMapper.toUiModel
 import com.foss.foss.model.MatchType
@@ -23,6 +24,7 @@ object MockData {
             matchType = MatchType.OFFICIAL,
             manOfTheMatch = null,
             opponentName = "신공학관캣맘",
+            opponentDivision = Division.SUPER_CHALLENGER,
             winDrawLose = WinDrawLose.WIN,
             Score(
                 point = 1,
@@ -34,6 +36,7 @@ object MockData {
             matchType = MatchType.OFFICIAL,
             manOfTheMatch = null,
             opponentName = "신공학관캣맘",
+            opponentDivision = Division.SUPER_CHALLENGER,
             winDrawLose = WinDrawLose.WIN,
             Score(
                 point = 1,
@@ -45,6 +48,7 @@ object MockData {
             matchType = MatchType.OFFICIAL,
             manOfTheMatch = null,
             opponentName = "똥찔긴형",
+            opponentDivision = Division.SUPER_CHALLENGER,
             winDrawLose = WinDrawLose.LOSE,
             Score(
                 point = 0,
@@ -56,6 +60,7 @@ object MockData {
             matchType = MatchType.OFFICIAL,
             manOfTheMatch = null,
             opponentName = "신공학관캣맘",
+            opponentDivision = Division.SUPER_CHALLENGER,
             winDrawLose = WinDrawLose.WIN,
             Score(
                 point = 1,
@@ -67,6 +72,7 @@ object MockData {
             matchType = MatchType.CLASSIC_ONE_TO_ONE,
             manOfTheMatch = null,
             opponentName = "똥찔긴형",
+            opponentDivision = Division.SUPER_CHALLENGER,
             winDrawLose = WinDrawLose.LOSE,
             Score(
                 point = 0,
@@ -78,6 +84,7 @@ object MockData {
             matchType = MatchType.CLASSIC_ONE_TO_ONE,
             manOfTheMatch = null,
             opponentName = "똥찔긴형",
+            opponentDivision = Division.SUPER_CHALLENGER,
             winDrawLose = WinDrawLose.LOSE,
             Score(
                 point = 0,
@@ -89,6 +96,7 @@ object MockData {
             matchType = MatchType.CLASSIC_ONE_TO_ONE,
             manOfTheMatch = null,
             opponentName = "똥찔긴형",
+            opponentDivision = Division.SUPER_CHALLENGER,
             winDrawLose = WinDrawLose.LOSE,
             Score(
                 point = 0,
