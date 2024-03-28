@@ -43,13 +43,10 @@ fun DetailRelativeMatchScreen(
     onSelectionChanged: (MatchTypeUiModel) -> Unit = {},
     selectedMatchType: MatchTypeUiModel
 ) {
-    val title =
-        if (matchesUiModels.isNotEmpty()) matchesUiModels[0].value[0].opponentName else "뒤로가기"
-
     Scaffold(
         topBar = {
             FossTopBar(
-                title = title,
+                title = matchesUiModels[0].value[0].opponentName,
                 onBackPressedClick = onBackPressedClick,
                 onRefreshClick = onRefreshClick
             )
