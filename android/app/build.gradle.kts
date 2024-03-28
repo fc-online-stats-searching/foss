@@ -133,4 +133,7 @@ dependencies {
 
     // coil
     implementation("io.coil-kt:coil-compose:2.6.0")
+
+    // Gson
+    implementation("com.google.code.gson:gson:2.8.6")
 }

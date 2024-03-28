@@ -1,5 +1,6 @@
 package com.foss.foss.feature.matchsearching.relativematch.detail
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,17 +21,29 @@ import com.foss.foss.feature.matchsearching.recentmatch.MatchesItem
 import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.model.MatchesUiModel
 
+//@Composable
+//fun DetailRelativeMatchRoute(
+//    matchesUiModels: List<MatchesUiModel>,
+//    onBackPressedClick: () -> Unit
+//) {
+//    Log.d("detail", "DetailRelativeMatchRoute: ")
+//}
 @Composable
 fun DetailRelativeMatchRoute(
     matchesUiModels: List<MatchesUiModel>,
-    onBackPressedClick: () -> Unit = {}
+    onBackPressedClick: () -> Unit
 ) {
     var selectedMatchType by remember { mutableStateOf(MatchTypeUiModel.entries.first()) }
 
+    Log.d("detail", "DetailRelativeMatchScreen: ")
     DetailRelativeMatchScreen(
         matchesUiModels = matchesUiModels,
         onBackPressedClick = onBackPressedClick,
-        onSelectionChanged = { selectedMatchType = it },
+        onSelectionChanged = {
+            if (selectedMatchType != it) {
+                selectedMatchType = it
+            }
+        },
         selectedMatchType = selectedMatchType
     )
 }
