@@ -1,6 +1,5 @@
 package com.foss.foss.feature.matchsearching.relativematch.detail
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,29 +20,17 @@ import com.foss.foss.feature.matchsearching.recentmatch.MatchesItem
 import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.model.MatchesUiModel
 
-//@Composable
-//fun DetailRelativeMatchRoute(
-//    matchesUiModels: List<MatchesUiModel>,
-//    onBackPressedClick: () -> Unit
-//) {
-//    Log.d("detail", "DetailRelativeMatchRoute: ")
-//}
 @Composable
 fun DetailRelativeMatchRoute(
     matchesUiModels: List<MatchesUiModel>,
-    onBackPressedClick: () -> Unit
+    onBackPressedClick: () -> Unit = {}
 ) {
     var selectedMatchType by remember { mutableStateOf(MatchTypeUiModel.entries.first()) }
 
-    Log.d("detail", "DetailRelativeMatchScreen: ")
     DetailRelativeMatchScreen(
         matchesUiModels = matchesUiModels,
         onBackPressedClick = onBackPressedClick,
-        onSelectionChanged = {
-            if (selectedMatchType != it) {
-                selectedMatchType = it
-            }
-        },
+        onSelectionChanged = { selectedMatchType = it },
         selectedMatchType = selectedMatchType
     )
 }
@@ -56,13 +43,10 @@ fun DetailRelativeMatchScreen(
     onSelectionChanged: (MatchTypeUiModel) -> Unit = {},
     selectedMatchType: MatchTypeUiModel
 ) {
-    val title =
-        if (matchesUiModels.isNotEmpty()) matchesUiModels[0].value[0].opponentName else "뒤로가기"
-
     Scaffold(
         topBar = {
             FossTopBar(
-                title = title,
+                title = matchesUiModels[0].value[0].opponentName,
                 onBackPressedClick = onBackPressedClick,
                 onRefreshClick = onRefreshClick
             )
