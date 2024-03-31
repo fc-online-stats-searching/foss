@@ -3,10 +3,8 @@ package com.foss.server.api;
 import com.foss.server.api.dto.match.MatchDto;
 import com.foss.server.api.dto.match.OuIdResponseDto;
 import com.foss.server.api.dto.user.UserApiResponseDto;
-import com.foss.server.exception.ManyRequestException;
-import com.foss.server.exception.MatchIdNotFoundException;
-import com.foss.server.exception.MemberNotFoundException;
-import com.foss.server.exception.NicknameNotFoundException;
+import com.foss.server.api.dto.user.UserDivisionDto;
+import com.foss.server.exception.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +17,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
+
+import static com.foss.server.domain.metadata.MatchTypeData.OFFICIAL;
 
 @RequiredArgsConstructor
 @Service
@@ -29,7 +30,7 @@ public class NexonApiClient {
     @Value("${api-key}")
     private String API_KEY;
     private final static int maxRetries = 10;
-    private final static int requestWait = 1000;
+    private final static int requestWait = 20000;
     private final static String API_HEADER = "x-nxopen-api-key";
 
     public String requestUserOuid(String nickname) {
@@ -83,6 +84,23 @@ public class NexonApiClient {
         return completableFuture;
     }
 
+    @Async
+    public CompletableFuture<UserDivisionDto> requestUserDivisionAsync(String ouid) {
+        final String url = "https://open.api.nexon.com/fconline/v1/user/maxdivision?ouid={ouid}";
+        CompletableFuture<UserDivisionDto> completableFuture = CompletableFuture.supplyAsync(() -> {
+            try {
+                UserDivisionDto[] body = restTemplate.exchange(url, HttpMethod.GET, getHttpEntity(), UserDivisionDto[].class, ouid).getBody();
+                return Arrays.stream(body)
+                        .filter(o -> o.getMatchType() == OFFICIAL.getNumber())
+                        .findAny()
+                        .orElse(new UserDivisionDto());
+            } catch (Exception e) {
+                throw new DivisionNotFoundException();
+            }
+        });
+
+        return completableFuture;
+    }
 
     private MatchDto performRequestWithRetry(String url, String matchId) {
         for (int currentRetry = 0; currentRetry < maxRetries; currentRetry++) {
@@ -94,6 +112,11 @@ public class NexonApiClient {
         }
         throw new ManyRequestException();
     }
+
+//    @Retryable(value = { HttpClientErrorException.class }, maxAttempts = 3, backoff = @Backoff(delay = 3000))
+//    public MatchDto performRequestWithRetry(String url, String matchId) throws HttpClientErrorException {
+//        return restTemplate.exchange(url, HttpMethod.GET, getHttpEntity(), MatchDto.class, matchId).getBody();
+//    }
 
     private void handleHttpClientErrorException(HttpClientErrorException e) {
         if (e.getStatusCode() == HttpStatus.TOO_MANY_REQUESTS) {

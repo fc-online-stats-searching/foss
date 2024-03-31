@@ -53,5 +53,13 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
                 .body(new ExceptionResponse(NOT_FOUND_MEMBER_NICKNAME.getCode(), NOT_FOUND_MEMBER_NICKNAME.getMessage()));
     }
 
+    @ExceptionHandler(DivisionNotFoundException.class)
+    protected ResponseEntity<ExceptionResponse> divisionNotFoundException(HttpServletRequest request, Exception e) {
+        return ResponseEntity.badRequest()
+                .body(new ExceptionResponse(NOT_FOUND_MEMBER_DIVISION.getCode(), NOT_FOUND_MEMBER_DIVISION.getMessage()));
+    }
+
+
+
 }
 

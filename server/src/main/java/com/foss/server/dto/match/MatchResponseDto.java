@@ -1,5 +1,6 @@
 package com.foss.server.dto.match;
 
+import com.foss.server.api.dto.user.UserDivisionDto;
 import com.foss.server.domain.match.Match;
 import com.foss.server.domain.match.MatchDetail;
 import lombok.*;
@@ -19,6 +20,7 @@ public class MatchResponseDto{
     private Map<String, Integer> goals; // 유저 별 득점 횟수
     private String nickName;
     private String opponentNickname; // 상대 유저 닉네임
+    private UserDivisionDto opponentDivision; // 상대 유저 탑티어
     private MatchDetail matchDetail; // 해당 유저 매치상세
 
     public static MatchResponseDto of(String ouid, String nickname, Match match) {
@@ -38,6 +40,7 @@ public class MatchResponseDto{
                 .goals(nicknameScoreMapOf(match))
                 .nickName(nickname)
                 .opponentNickname(match.getNickname().get(opponentOuid))
+                .opponentDivision(match.getDivision().get(opponentOuid))
                 .matchDetail(match.getMatchDetails().get(ouid))
                 .build();
     }
@@ -50,6 +53,7 @@ public class MatchResponseDto{
                 .goals(nicknameScoreMapOf(match))
                 .nickName(ninckname)
                 .opponentNickname(match.getNickname().get(opponentOuid))
+                .opponentDivision(match.getDivision().get(opponentOuid))
                 .matchDetail(match.getMatchDetails().get(ouid))
                 .build();
     }

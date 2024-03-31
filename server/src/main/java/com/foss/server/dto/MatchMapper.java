@@ -81,7 +81,6 @@ public class MatchMapper {
     }
 
     public static RelativeMatchResponseDto getRelativeMatchResponseDto(String ouid, String opponentOuid, String nickname, List<Match> matches) {
-
         int totalWin = 0;
         int totalLose = 0;
         int totalGain = 0;
