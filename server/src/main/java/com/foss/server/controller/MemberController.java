@@ -1,6 +1,8 @@
 package com.foss.server.controller;
 
 import com.foss.server.api.NexonApiClient;
+import com.foss.server.domain.event.Event;
+import com.foss.server.service.EventService;
 import com.foss.server.service.MatchService;
 import com.foss.server.service.MemberService;
 import com.foss.server.dto.member.MemberInfoResponseDto;
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Tag(name = "FOSS Controller", description = "FOSS 컨트롤러")
@@ -23,6 +26,7 @@ public class MemberController {
     private final MemberService memberService;
     private final MatchService matchService;
     private final NexonApiClient nexonApiClient;
+    private final EventService eventService;
 
     @PostMapping("/refresh")
     public ResponseEntity<MemberInfoResponseDto> refresh(
@@ -52,6 +56,11 @@ public class MemberController {
     @GetMapping("/matches/relative")
     public ResponseEntity<RelativeMatchDto> getRelativeMatches(@RequestParam String nickname) {
         return ResponseEntity.ok(matchService.getRelativeMatch(nickname));
+    }
+
+    @GetMapping("/events")
+    public ResponseEntity<List<Event>> getEventList(@RequestParam(name = "limitPage", defaultValue = "3", required = false) int limitPage) {
+        return ResponseEntity.ok(eventService.getEvents(limitPage));
     }
 
 }
