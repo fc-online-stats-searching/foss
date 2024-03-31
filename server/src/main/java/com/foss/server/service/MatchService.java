@@ -1,6 +1,7 @@
 package com.foss.server.service;
 
 import com.foss.server.api.NexonApiClient;
+import com.foss.server.api.dto.user.UserDivisionDto;
 import com.foss.server.dao.MatchRepository;
 import com.foss.server.dao.MemberRepository;
 import com.foss.server.domain.match.Match;
@@ -80,7 +81,7 @@ public class MatchService {
         Member member = memberRepository.findByAccessId(ouid).orElseThrow(MemberNotFoundException::new);
 
         List<Integer> matchTypes = determineMatchTypes(CLASSIC_1ON1.getNumber());
-        Page<Match> matches = findMatches(matchTypes, ouid, 30, 10);
+        Page<Match> matches = findMatches(matchTypes, ouid, 0, 30);
 
         OpponentMatches opponentMatches = new OpponentMatches(ouid, matches.getContent());
         List<RelativeMatchResponseDto> relativeMatchResponses = opponentMatches.getRelativeMatchResponses(ouid, nickname);
