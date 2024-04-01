@@ -75,6 +75,7 @@ public class MatchMapper {
                 .team1(team1)
                 .team2(team2)
                 .matchDetails(matchDetails)
+                .division(new HashMap<>())
                 .build();
 
         return match;

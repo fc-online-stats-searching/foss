@@ -48,7 +48,7 @@ public class Match {
     this.division = division;
   }
 
-  public void addDivision(Map<String, UserDivisionDto> division) {
-    this.division = division;
+  public void addDivision(String nickname,UserDivisionDto division) {
+    this.division.put(nickname, division);
   }
 }
