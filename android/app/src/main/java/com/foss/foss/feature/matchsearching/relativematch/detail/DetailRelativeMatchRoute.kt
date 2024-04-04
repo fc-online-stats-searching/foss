@@ -13,22 +13,29 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.foss.foss.design.FossTheme
 import com.foss.foss.design.component.FossTopBar
 import com.foss.foss.feature.matchsearching.recentmatch.MatchTypeSpinner
 import com.foss.foss.feature.matchsearching.recentmatch.MatchesItem
+import com.foss.foss.feature.matchsearching.relativematch.RelativeMatchUiState
+import com.foss.foss.feature.matchsearching.relativematch.RelativeMatchViewModel
 import com.foss.foss.model.MatchTypeUiModel
 import com.foss.foss.model.MatchesUiModel
 
 @Composable
 fun DetailRelativeMatchRoute(
-    matchesUiModels: List<MatchesUiModel>,
+    relativeMatchViewModel: RelativeMatchViewModel,
     onBackPressedClick: () -> Unit = {}
 ) {
+    /**
+     * todo: 상세화면에서는 matchType 필요없음
+     */
     var selectedMatchType by remember { mutableStateOf(MatchTypeUiModel.entries.first()) }
+    val uiState by relativeMatchViewModel.uiState.collectAsStateWithLifecycle()
 
     DetailRelativeMatchScreen(
-        matchesUiModels = matchesUiModels,
+        uiState = uiState,
         onBackPressedClick = onBackPressedClick,
         onSelectionChanged = { selectedMatchType = it },
         selectedMatchType = selectedMatchType
@@ -37,47 +44,50 @@ fun DetailRelativeMatchRoute(
 
 @Composable
 fun DetailRelativeMatchScreen(
-    matchesUiModels: List<MatchesUiModel>,
+    uiState: RelativeMatchUiState,
     onBackPressedClick: () -> Unit = {},
     onRefreshClick: () -> Unit = {},
     onSelectionChanged: (MatchTypeUiModel) -> Unit = {},
     selectedMatchType: MatchTypeUiModel
 ) {
-    val title =
-        if (matchesUiModels.isNotEmpty()) matchesUiModels[0].value[0].opponentName else "뒤로가기"
+    when (uiState) {
+        is RelativeMatchUiState.RelativeMatches -> {
+            Scaffold(
+                topBar = {
+                    FossTopBar(
+                        title = uiState.opponentName,
+                        onBackPressedClick = onBackPressedClick,
+                        onRefreshClick = onRefreshClick
+                    )
+                }
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(it)
+                        .background(FossTheme.colors.fossBk)
+                ) {
+                    MatchTypeSpinner(
+                        selected = selectedMatchType,
+                        matchTypes = MatchTypeUiModel.entries,
+                        onSelectionChanged = onSelectionChanged,
+                        modifier = Modifier.padding(top = 18.dp, end = 20.dp)
+                    )
+                    DetailMatchColumn(matchesUiModel = uiState.showingMatchDetails)
+                }
+            }
+        }
 
-    Scaffold(
-        topBar = {
-            FossTopBar(
-                title = title,
-                onBackPressedClick = onBackPressedClick,
-                onRefreshClick = onRefreshClick
-            )
-        }
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(it)
-                .background(FossTheme.colors.fossBk)
-        ) {
-            MatchTypeSpinner(
-                selected = selectedMatchType,
-                matchTypes = MatchTypeUiModel.entries,
-                onSelectionChanged = onSelectionChanged,
-                modifier = Modifier.padding(top = 18.dp, end = 20.dp)
-            )
-            DetailMatchColumn(matchesUiModels = matchesUiModels)
-        }
+        else -> onBackPressedClick()
     }
 }
 
 @Composable
 fun DetailMatchColumn(
-    matchesUiModels: List<MatchesUiModel>,
+    matchesUiModel: List<MatchesUiModel>,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier.fillMaxSize()) {
-        matchesUiModels.forEach { matchesUiModel ->
+        matchesUiModel.forEach { matchesUiModel ->
             MatchesItem(matches = matchesUiModel)
         }
     }

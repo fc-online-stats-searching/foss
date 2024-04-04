@@ -21,7 +21,7 @@ import com.foss.foss.feature.matchsearching.relativematch.navigation.relativeMat
 import kotlinx.coroutines.launch
 
 @Composable
-fun MainScreen(navigator: NavHostController = rememberNavController()) {
+fun MainScreen(navController: NavHostController = rememberNavController()) {
     val coroutineScope = rememberCoroutineScope()
     val snackBarHostState: SnackbarHostState = remember { SnackbarHostState() }
     val onShowSnackBar: (message: String) -> Unit = { message ->
@@ -35,31 +35,29 @@ fun MainScreen(navigator: NavHostController = rememberNavController()) {
         snackbarHost = { SnackbarHost(snackBarHostState) }
     ) { padding ->
         NavHost(
-            navController = navigator,
+            navController = navController,
             startDestination = HOME_ROUTE
         ) {
             homeNavGraph(
-                onRelativeStatButtonClick = { navigator.navigateToRelativeMatch() },
-                onRecentStatButtonClick = { navigator.navigateToRecentMatch() },
+                onRelativeStatButtonClick = { navController.navigateToRelativeMatch() },
+                onRecentStatButtonClick = { navController.navigateToRecentMatch() },
                 onShowSnackBar = onShowSnackBar
             )
 
             relativeMatchNavGraph(
-                onRelativeMatchClick = { relativeMatch ->
-                    navigator.navigateToDetailRelativeMatch(relativeMatch)
-                },
-                onBackPressedClick = { navigator.popBackStack() },
+                onRelativeMatchClick = { navController.navigateToDetailRelativeMatch() },
+                onBackPressedClick = { navController.popBackStack() },
                 onShowSnackBar = onShowSnackBar
             )
 
             recentMatchNavGraph(
-                onBackPressedClick = { navigator.popBackStack() },
+                onBackPressedClick = { navController.popBackStack() },
                 onShowSnackBar = onShowSnackBar
             )
 
             detailRelativeMatchNavGraph(
-                navController = navigator,
-                onBackPressedClick = { navigator.popBackStack() }
+                navController = navController,
+                onBackPressedClick = { navController.popBackStack() }
             )
         }
         padding
