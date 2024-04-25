@@ -13,7 +13,7 @@ public class NexonClientUtil {
     @Value("${api-key}")
     private String API_KEY;
     private final static String API_HEADER = "x-nxopen-api-key";
-    @Value("${nexon-api-url")
+    @Value("${nexon-api-url}")
     private String API_BASE_URL;
 
     public WebClient createNexonWebClient() {
