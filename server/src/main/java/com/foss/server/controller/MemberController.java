@@ -1,6 +1,7 @@
 package com.foss.server.controller;
 
 import com.foss.server.api.NexonApiClient;
+import com.foss.server.api.dto.user.UserApiResponseDto;
 import com.foss.server.domain.event.Event;
 import com.foss.server.service.EventService;
 import com.foss.server.service.MatchService;
@@ -9,6 +10,7 @@ import com.foss.server.dto.member.MemberInfoResponseDto;
 import com.foss.server.dto.match.RecentMatchDto;
 import com.foss.server.dto.RefreshDto;
 import com.foss.server.dto.match.RelativeMatchDto;
+import com.foss.server.service.SyncMatchTestService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,15 @@ public class MemberController {
     public ResponseEntity<MemberInfoResponseDto> refresh(
             @RequestBody RefreshDto refreshDto
     ) {
+        UserApiResponseDto userApiResponseDto = matchService.refreshMatchListWebClient(refreshDto.getNickname());
+        MemberInfoResponseDto memberInfoResponseDto = memberService.refreshMemberByUserApiResponse(userApiResponseDto);
+        return ResponseEntity.ok(memberInfoResponseDto);
+    }
+
+    @PostMapping("/refresh/sync")
+    public ResponseEntity<MemberInfoResponseDto> refreshSync(
+            @RequestBody RefreshDto refreshDto
+    ) {
         String ouid = nexonApiClient.requestUserOuid(refreshDto.getNickname());
 
         CompletableFuture<MemberInfoResponseDto> memberInfoFuture = CompletableFuture.supplyAsync(() ->
@@ -49,7 +60,7 @@ public class MemberController {
     }
 
     @GetMapping("/matches")
-    public ResponseEntity<RecentMatchDto> getRecentMatches(@RequestParam int page, @RequestParam String nickname,@RequestParam int matchType) {
+    public ResponseEntity<RecentMatchDto> getRecentMatches(@RequestParam int page, @RequestParam String nickname, @RequestParam int matchType) {
         return ResponseEntity.ok(matchService.getRecentMatch(nickname, page, matchType));
     }
 
