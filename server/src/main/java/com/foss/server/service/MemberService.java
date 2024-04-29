@@ -52,4 +52,34 @@ public class MemberService {
         return MemberInfoResponseDto.from(updateMember);
     }
 
+    @Transactional
+    public MemberInfoResponseDto refreshMemberByUserApiResponse(UserApiResponseDto userApiResponseDto) {
+        Optional<Member> member = memberRepository.findByAccessId(userApiResponseDto.getOuid());
+
+        //새로운 유저인 경우
+        if (!member.isPresent()) {
+            Member newMember = Member.builder()
+                    .accessId(userApiResponseDto.getOuid())
+                    .level(userApiResponseDto.getLevel())
+                    .username(userApiResponseDto.getNickname())
+                    .renewal(LocalDateTime.now())
+                    .build();
+
+            Member saveMember = memberRepository.save(newMember);
+            return MemberInfoResponseDto.from(saveMember);
+        }
+
+        //기존 유저인 경우
+        Member currentMember = member.get();
+
+        currentMember.updateMember(
+                userApiResponseDto.getNickname(),
+                userApiResponseDto.getLevel(),
+                LocalDateTime.now()
+        );
+
+        Member updateMember = memberRepository.save(currentMember);
+        return MemberInfoResponseDto.from(updateMember);
+    }
+
 }
