@@ -1,11 +1,15 @@
 package com.foss.server.service;
 
 import com.foss.server.api.NexonApiClient;
+import com.foss.server.api.NexonApiWebClient;
+import com.foss.server.api.dto.match.MatchDto;
+import com.foss.server.api.dto.user.UserApiResponseDto;
 import com.foss.server.api.dto.user.UserDivisionDto;
 import com.foss.server.dao.MatchRepository;
 import com.foss.server.dao.MemberRepository;
 import com.foss.server.domain.match.Match;
 import com.foss.server.domain.member.Member;
+import com.foss.server.domain.metadata.MatchTypeData;
 import com.foss.server.dto.MatchMapper;
 import com.foss.server.dto.match.MatchResponseDto;
 import com.foss.server.dto.match.RecentMatchDto;
@@ -22,11 +26,17 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
+import reactor.util.function.Tuple2;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
@@ -42,6 +52,7 @@ public class MatchService {
     private final MatchRepository matchRepository;
     private final AsyncMatchService asyncMatchService;
     private static final String SORT_TIMESTAMP = "timestamp";
+    private final NexonApiWebClient nexonApiWebClient;
 
     @Transactional
     public void refreshMatchList(String ouid) {
@@ -58,6 +69,43 @@ public class MatchService {
         } catch (InterruptedException | ExecutionException e) {
             throw new ManyRequestException();
         }
+    }
+
+
+    @Transactional
+    public UserApiResponseDto refreshMatchListWebClient(String nickname) {
+        String ouid = nexonApiWebClient.requestUserOuid(nickname).block();
+
+        Mono<UserApiResponseDto> userInfo = nexonApiWebClient.requestUserInfo(ouid)
+                .subscribeOn(Schedulers.boundedElastic());
+
+        List<Integer> allMatchTypes = getAllMatchTypes();
+
+        Flux<Match> allMatches = Flux.fromIterable(allMatchTypes)
+                .flatMap(matchType -> nexonApiWebClient.requestMatchList(ouid, matchType)
+                        .flatMapMany(Flux::fromArray)
+                        .publishOn(Schedulers.parallel())
+                        .flatMap(nexonApiWebClient::requestMatchInfo)
+                        .flatMap(this::processMatch))
+                .subscribeOn(Schedulers.parallel());
+
+
+        Mono<List<Match>> savedMatches = allMatches.collectList()
+                .doOnNext(matches -> matchRepository.saveAll(matches));
+
+
+        Tuple2<UserApiResponseDto, List<Match>> tuple2 = Mono.zip(userInfo, savedMatches).block();
+
+        return tuple2.getT1();
+    }
+
+    private Mono<Match> processMatch(MatchDto matchDto) {
+        Match match = MatchMapper.matchToEntity(matchDto);
+
+        return Flux.fromIterable(match.getNickname().keySet())
+                .flatMap(nickname -> nexonApiWebClient.requestUserDivision(nickname)
+                        .doOnNext(divisionDto -> match.addDivision(nickname, divisionDto)))
+                .then(Mono.just(match));
     }
 
     public RecentMatchDto getRecentMatch(String nickname, int page, int typeNumber) {
