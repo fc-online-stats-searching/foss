@@ -46,16 +46,13 @@ import com.foss.foss.design.FossTheme
 import com.foss.foss.design.component.EmptyMatchText
 import com.foss.foss.design.component.FossTopBar
 import com.foss.foss.design.component.NicknameSearchingTextField
-import com.foss.foss.model.MatchesUiModel
-import com.foss.foss.model.RelativeMatchMapper.toMatchesUiModel
 import com.foss.foss.model.RelativeMatchUiModel
 import com.foss.foss.util.MockRelativeMatchData
-import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit
+import com.foss.foss.util.calculateRecentMatchTime
 
 @Composable
 fun RelativeMatchRoute(
-    onRelativeMatchClick: (matchesUiModels: List<MatchesUiModel>) -> Unit,
+    onRelativeMatchClick: () -> Unit,
     onBackPressedClick: () -> Unit,
     onShowSnackBar: (message: String) -> Unit,
     modifier: Modifier = Modifier,
@@ -97,7 +94,7 @@ fun RelativeMatchScreen(
     uiState: RelativeMatchUiState,
     userName: String,
     modifier: Modifier = Modifier,
-    onRelativeMatchClick: (matchesUiModels: List<MatchesUiModel>) -> Unit = {},
+    onRelativeMatchClick: () -> Unit = {},
     onBackPressedClick: () -> Unit = {},
     onRefreshClick: () -> Unit = {},
     onSearch: () -> Unit = {},
@@ -131,9 +128,7 @@ fun RelativeMatchScreen(
             Surface(color = colorResource(id = R.color.foss_bk)) {
                 RelativeMatchColumn(
                     uiState = uiState,
-                    onRelativeMatchClicked = { matches ->
-                        onRelativeMatchClick(matches)
-                    }
+                    onRelativeMatchClicked = onRelativeMatchClick
                 )
             }
         }
@@ -143,7 +138,7 @@ fun RelativeMatchScreen(
 @Composable
 fun RelativeMatchColumn(
     uiState: RelativeMatchUiState,
-    onRelativeMatchClicked: (List<MatchesUiModel>) -> Unit,
+    onRelativeMatchClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     when (uiState) {
@@ -165,8 +160,13 @@ fun RelativeMatchColumn(
                     items(uiState.relativeMatches) { match ->
                         RelativeMatchItem(
                             relativeMatch = match,
-                            matchesUiModels = match.matchDetails.toMatchesUiModel(),
-                            onRelativeMatchClick = onRelativeMatchClicked
+                            onRelativeMatchClick = {
+                                /**
+                                 * uiState를 인지할 수 있는 곳에서 보여줄 matchDetails를 갱신해야하기(updateShowingMatchDetails) 때문에 이곳에 선언했다.
+                                 */
+                                uiState.updateShowingMatchDetails(match.opponentName)
+                                onRelativeMatchClicked()
+                            }
                         )
                     }
                 }
@@ -182,8 +182,7 @@ fun RelativeMatchColumn(
 @Composable
 fun RelativeMatchItem(
     relativeMatch: RelativeMatchUiModel,
-    matchesUiModels: List<MatchesUiModel>,
-    onRelativeMatchClick: (List<MatchesUiModel>) -> Unit,
+    onRelativeMatchClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val winRate = getWinRate(relativeMatch)
@@ -224,7 +223,6 @@ fun RelativeMatchItem(
             )
             RelativeMatchTotalResult(
                 relativeMatch = relativeMatch,
-                matchesUiModels = matchesUiModels,
                 onRelativeMatchClick = onRelativeMatchClick
             )
             Spacer(Modifier.width(8.dp))
@@ -300,34 +298,6 @@ fun RelativeMatchWinRate(
     }
 }
 
-fun calculateRecentMatchTime(relativeMatchUiModel: RelativeMatchUiModel): String? {
-    val matchDetails = relativeMatchUiModel.matchDetails
-    if (matchDetails.isEmpty()) {
-        return null
-    }
-
-    val recentMatchTime = matchDetails.maxByOrNull { it.date }?.date
-    val currentTime = LocalDateTime.now()
-
-    if (recentMatchTime == null) {
-        return null
-    }
-
-    val difference = ChronoUnit.MINUTES.between(recentMatchTime, currentTime)
-
-    val days = difference / (60 * 24)
-    val hours = (difference % (60 * 24)) / 60
-    val minutes = difference % 60
-
-    return when {
-        days > 1 -> "${days}일 ${hours}시간 ${minutes}분 전"
-        days == 1L -> "1일 ${hours}시간 ${minutes}분 전"
-        hours > 1 -> "${hours}시간 ${minutes}분 전"
-        hours == 1L -> "1시간 ${minutes}분 전"
-        else -> "${minutes}분 전"
-    }
-}
-
 @Composable
 fun RelativeMatchOpponentData(
     relativeMatch: RelativeMatchUiModel,
@@ -358,8 +328,7 @@ fun RelativeMatchOpponentData(
 @Composable
 fun RelativeMatchTotalResult(
     relativeMatch: RelativeMatchUiModel,
-    matchesUiModels: List<MatchesUiModel>,
-    onRelativeMatchClick: (matchesUiModels: List<MatchesUiModel>) -> Unit,
+    onRelativeMatchClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(horizontalAlignment = Alignment.End, modifier = Modifier.padding(end = 5.dp)) {
@@ -390,7 +359,7 @@ fun RelativeMatchTotalResult(
             modifier = Modifier
                 .size(16.dp)
                 .clickable {
-                    onRelativeMatchClick(matchesUiModels)
+                    onRelativeMatchClick()
                 }
         )
     }
