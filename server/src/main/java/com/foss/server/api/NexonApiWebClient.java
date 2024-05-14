@@ -15,7 +15,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
+import reactor.util.retry.Retry;
+
+import java.time.Duration;
 
 import static com.foss.server.domain.metadata.MatchTypeData.OFFICIAL;
 
@@ -25,6 +29,8 @@ import static com.foss.server.domain.metadata.MatchTypeData.OFFICIAL;
 public class NexonApiWebClient {
     private final NexonClientUtil nexonClientUtil;
     private WebClient webClient;
+    private final int MAX_RETRY = 5;
+    private final int DELAY = 1;
     @PostConstruct
     public void init() {
         webClient = nexonClientUtil.createNexonWebClient();
@@ -37,6 +43,10 @@ public class NexonApiWebClient {
                 .retrieve()
                 .bodyToMono(OuIdResponseDto.class)
                 .map(OuIdResponseDto::getOuid)
+                .retryWhen(Retry.fixedDelay(MAX_RETRY, Duration.ofSeconds(DELAY))
+                        .doBeforeRetry(retrySignal -> {
+                            log.info("[requestUserOuid] 시도 횟수: " + retrySignal.totalRetries() + ", 예외: " + retrySignal.failure());
+                        }))
                 .onErrorMap(e -> new NicknameNotFoundException());
     }
 
@@ -47,6 +57,10 @@ public class NexonApiWebClient {
                         .build())
                 .retrieve()
                 .bodyToMono(UserApiResponseDto.class)
+                .retryWhen(Retry.fixedDelay(MAX_RETRY, Duration.ofSeconds(DELAY))
+                        .doBeforeRetry(retrySignal -> {
+                            log.info("[requestUserInfo] 시도 횟수: " + retrySignal.totalRetries() + ", 예외: " + retrySignal.failure());
+                        }))
                 .onErrorMap(e -> new MemberNotFoundException());
     }
 
@@ -59,24 +73,37 @@ public class NexonApiWebClient {
                         .queryParam("limit", 100)
                         .build())
                 .retrieve()
-                .bodyToMono(String[].class);
+                .bodyToMono(String[].class)
+                .retryWhen(Retry.fixedDelay(MAX_RETRY, Duration.ofSeconds(DELAY))
+                        .doBeforeRetry(retrySignal -> {
+                            log.info("[requestMatchList] 시도 횟수: " + retrySignal.totalRetries() + ", 예외: " + retrySignal.failure());
+                        }))
+                .onErrorResume(e -> {
+                    log.info("[requestMatchList] : " + "onErrorResume");
+                    return Mono.error(e);
+                });
     }
 
     public Mono<MatchDto> requestMatchInfo(String matchId) {
-        log.info("매치 요청 :" + matchId);
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder.path("/match-detail")
                         .queryParam("matchid", matchId)
                         .build())
                 .retrieve()
                 .bodyToMono(MatchDto.class)
-                .doOnError(HttpClientErrorException.TooManyRequests.class, e -> {
-                    throw new ManyRequestException();
+                .retryWhen(Retry.fixedDelay(MAX_RETRY, Duration.ofSeconds(DELAY))
+                        .doBeforeRetry(retrySignal -> {
+                            log.info("[requestMatchInfo] 시도 횟수: " + retrySignal.totalRetries() + ", 예외: " + retrySignal.failure());
+                        }))
+                .onErrorResume(e -> {
+                    log.info("[requestMatchInfo] : " + "onErrorResume");
+                    return Mono.error(e);
                 });
     }
 
+
+
     public Mono<UserDivisionDto> requestUserDivision(String ouid) {
-        log.info("유저 티어 요청 :" + ouid);
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder.path("/user/maxdivision")
                         .queryParam("ouid", ouid)
@@ -86,8 +113,13 @@ public class NexonApiWebClient {
                 .filter(o -> o.getMatchType() == OFFICIAL.getNumber())
                 .next()
                 .defaultIfEmpty(new UserDivisionDto())
-                .doOnError(e -> {
-                    throw new DivisionNotFoundException();
+                .retryWhen(Retry.fixedDelay(5, Duration.ofSeconds(1))
+                        .doBeforeRetry(retrySignal -> {
+                            log.info("[requestUserDivision] 시도 횟수: " + retrySignal.totalRetries() + ", 예외: " + retrySignal.failure());
+                        }))
+                .onErrorResume(e -> {
+                    log.info("[requestUserDivision] : " + "onErrorResume");
+                    return Mono.error(e);
                 });
     }
 
