@@ -1,12 +1,14 @@
 package com.foss.server.service;
 
 import com.foss.server.domain.event.Event;
+import jakarta.annotation.PostConstruct;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -20,10 +22,27 @@ public class EventService {
     private String nexonBaseUrl;
 
     private final String searchType = "&strSearch=&emSearchType=title&n4ArticleCategorySN=0&n4ArticleCategory2SN=1&_=1711215080855";
-    public List<Event> getEvents(int limitPage) {
-        List<Event> events = new ArrayList<>();
+
+    private List<Event> events;
+    private final int LIMIT_PAGE = 3;
+    @PostConstruct
+    public void init(){
+        updateEvents();
+    }
+
+    @Scheduled(cron = "0 0 0 * * *")
+    public void setEventsOnTime() {
+        updateEvents();
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void updateEvents() {
+        events = new ArrayList<>();
         try {
-            for (int pageNo = 1; pageNo <= limitPage; pageNo++) {
+            for (int pageNo = 1; pageNo <= LIMIT_PAGE; pageNo++) {
                 String url = nexonBaseUrl + pageNo + searchType;
                 Document document = Jsoup.connect(url).get();
                 Elements elements = document.select("div.board_list > div.content.event > div > div > div");
@@ -42,7 +61,5 @@ public class EventService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return events;
     }
 }
