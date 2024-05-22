@@ -44,6 +44,7 @@ public class NexonApiWebClient {
                 .bodyToMono(OuIdResponseDto.class)
                 .map(OuIdResponseDto::getOuid)
                 .retryWhen(Retry.fixedDelay(MAX_RETRY, Duration.ofSeconds(DELAY))
+                        .jitter(0.5)
                         .doBeforeRetry(retrySignal -> {
                             log.info("[requestUserOuid] 시도 횟수: " + retrySignal.totalRetries() + ", 예외: " + retrySignal.failure());
                         }))
@@ -58,6 +59,7 @@ public class NexonApiWebClient {
                 .retrieve()
                 .bodyToMono(UserApiResponseDto.class)
                 .retryWhen(Retry.fixedDelay(MAX_RETRY, Duration.ofSeconds(DELAY))
+                        .jitter(0.5)
                         .doBeforeRetry(retrySignal -> {
                             log.info("[requestUserInfo] 시도 횟수: " + retrySignal.totalRetries() + ", 예외: " + retrySignal.failure());
                         }))
@@ -75,6 +77,7 @@ public class NexonApiWebClient {
                 .retrieve()
                 .bodyToMono(String[].class)
                 .retryWhen(Retry.fixedDelay(MAX_RETRY, Duration.ofSeconds(DELAY))
+                        .jitter(0.5)
                         .doBeforeRetry(retrySignal -> {
                             log.info("[requestMatchList] 시도 횟수: " + retrySignal.totalRetries() + ", 예외: " + retrySignal.failure());
                         }))
@@ -92,6 +95,7 @@ public class NexonApiWebClient {
                 .retrieve()
                 .bodyToMono(MatchDto.class)
                 .retryWhen(Retry.fixedDelay(MAX_RETRY, Duration.ofSeconds(DELAY))
+                        .jitter(0.5)
                         .doBeforeRetry(retrySignal -> {
                             log.info("[requestMatchInfo] 시도 횟수: " + retrySignal.totalRetries() + ", 예외: " + retrySignal.failure());
                         }))
@@ -113,7 +117,8 @@ public class NexonApiWebClient {
                 .filter(o -> o.getMatchType() == OFFICIAL.getNumber())
                 .next()
                 .defaultIfEmpty(new UserDivisionDto())
-                .retryWhen(Retry.fixedDelay(5, Duration.ofSeconds(1))
+                .retryWhen(Retry.backoff(MAX_RETRY, Duration.ofSeconds(DELAY))
+                        .jitter(0.5)
                         .doBeforeRetry(retrySignal -> {
                             log.info("[requestUserDivision] 시도 횟수: " + retrySignal.totalRetries() + ", 예외: " + retrySignal.failure());
                         }))
