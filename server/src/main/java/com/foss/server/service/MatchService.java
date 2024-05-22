@@ -76,19 +76,15 @@ public class MatchService {
     public UserApiResponseDto refreshMatchListWebClient(String nickname) {
         String ouid = nexonApiWebClient.requestUserOuid(nickname).block();
 
-        Mono<UserApiResponseDto> userInfo = nexonApiWebClient.requestUserInfo(ouid)
-                .subscribeOn(Schedulers.boundedElastic());
+        Mono<UserApiResponseDto> userInfo = nexonApiWebClient.requestUserInfo(ouid);
 
         List<Integer> allMatchTypes = getAllMatchTypes();
 
         Flux<Match> allMatches = Flux.fromIterable(allMatchTypes)
                 .flatMap(matchType -> nexonApiWebClient.requestMatchList(ouid, matchType)
                         .flatMapMany(Flux::fromArray)
-                        .publishOn(Schedulers.parallel())
                         .flatMap(nexonApiWebClient::requestMatchInfo)
-                        .flatMap(this::processMatch))
-                .subscribeOn(Schedulers.parallel());
-
+                        .flatMap(this::processMatch));
 
         Mono<List<Match>> savedMatches = allMatches.collectList()
                 .doOnNext(matches -> matchRepository.saveAll(matches));
