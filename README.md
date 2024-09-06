@@ -3,11 +3,17 @@
 
 <p align="center">FC ONLINE의 전적 조회 서비스⚽</p>
 
+<p align="center">
+  
 ![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)
 ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
+
+</p>
+
+# 📲 [플레이 스토어 바로가기](https://play.google.com/store/apps/details?id=com.foss.foss)
 
 # 구현
 
