@@ -9,11 +9,6 @@
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 
-# 기능
-**상대 전적 조회**
-
-**최근 전적 조회**
-
 # 구현
 
 ## [서버](https://github.com/fc-online-stats-searching/foss/tree/server)
