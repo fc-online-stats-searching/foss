@@ -47,3 +47,11 @@
 **테스트**
 - ViewModel Test
 - Domain Test
+
+# 팀원
+
+|                                         Backend                                          |                                         Android                                         |                                       Android                                        |                                        Android                                         |
+| :--------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------: |
+| <img src="https://avatars.githubusercontent.com/u/59868624?v=4" width=250px alt="장동수"> | <img src="https://avatars.githubusercontent.com/u/88770426?v=4" width=250px alt="김진욱"> | <img src="https://avatars.githubusercontent.com/u/90389363?v=4" width=250px alt="조윤혁"> | <img src="https://avatars.githubusercontent.com/u/84285337?v=4" width=250px alt="강석진"> |
+|                          [장동수](https://github.com/ehdtndla123)                           |                         [김진욱](https://github.com/boogi-woogi)                         |                            [조윤혁](https://github.com/yoonhyeokCho)                            |                          [강석진](https://github.com/krrong)   
+
