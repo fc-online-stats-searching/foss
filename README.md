@@ -1,5 +1,7 @@
 <h1 align="center">FOSS</h1>
-<p align="center"><img align="center" width=350 height=300 src="https://github.com/user-attachments/assets/c3cea430-3564-42da-8d98-d8936ce6589e"> </p>
+<p align="center">
+  <img align="center" width=300 height=520 src="https://github.com/user-attachments/assets/8f83d80b-a66b-4b81-8d32-915e0a3abb53">
+</p>
 
 <p align="center">FC ONLINE의 전적 조회 서비스⚽</p>
 
@@ -14,6 +16,15 @@
 </p>
 
 # 📲 [플레이 스토어 바로가기](https://play.google.com/store/apps/details?id=com.foss.foss)
+# 기능
+## 상대전적 조회
+
+<img width=300 height=520 src="https://github.com/user-attachments/assets/602abeda-f1f6-4a78-82c6-8bad8059b1ef">
+
+
+## 최근전적 조회
+
+<img width=300 height=520 src="https://github.com/user-attachments/assets/328954ae-5531-451c-9fbe-10a760d5fb0f">
 
 # 구현
 
