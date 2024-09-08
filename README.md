@@ -33,8 +33,12 @@
 **기술 스택**
 - Spring Boot
 - Spring MVC
-- ORM(Spring Data JPA)
+- Spring Data JPA
+- QueryDSL
+- mognoDB
 - MySQL
+- Prometheus
+- Grafana
 
 ## [안드로이드](https://github.com/fc-online-stats-searching/foss/tree/android)
 
